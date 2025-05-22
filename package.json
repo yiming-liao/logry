@@ -1,0 +1,77 @@
+{
+  "name": "logry",
+  "version": "1.0.0",
+  "description": "A lightweight, environment-agnostic logging library with scoped loggers, customizable output styles, and factory-managed cores. Works seamlessly in Node.js and browser environments.",
+  "author": "Yiming Liao",
+  "license": "MIT",
+  "homepage": "https://github.com/yiming-liao/logry#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yiming-liao/logry.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yiming-liao/logry/issues"
+  },
+  "keywords": [
+    "logger",
+    "logging",
+    "typescript",
+    "nodejs",
+    "browser",
+    "lightweight",
+    "custom logger",
+    "scoped logger",
+    "logger factory",
+    "cross-platform",
+    "console",
+    "log levels",
+    "log style",
+    "isomorphic",
+    "nextjs",
+    "frontend",
+    "backend"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "module": "dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:coverage": "jest --coverage && open coverage/lcov-report/index.html",
+    "prepublishOnly": "yarn build"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@types/jest": "^29.5.14",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.5.3",
+    "ts-jest": "^29.3.2",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
+  }
+}
