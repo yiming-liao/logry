@@ -1,3 +1,2 @@
-export { logry } from "./logry";
+export { getOrCreateLogger } from "./get-or-create-logger";
 export { resetCoreMap } from "./reset-core-map";
-export { getAllCores } from "./get-all-cores";

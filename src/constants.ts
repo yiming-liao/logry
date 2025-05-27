@@ -1,8 +1,11 @@
-import type { LogLevel, Platform } from "./types";
+import type { LogLevel } from "./types";
 
-/* Log levels */
+/** Log levels ordered from lowest to highest verbosity. */
 export const LOG_LEVELS = ["silent", "error", "warn", "info", "debug"] as const;
+/** Supported runtime platforms for logging environments. */
+export const PLATFORM = ["node", "browser"] as const;
 
+/** Uppercase string representation of log levels, useful for console formatting. */
 export const LOG_LEVELS_UPPERCASE = {
   info: "INFO",
   warn: "WARN",
@@ -11,6 +14,7 @@ export const LOG_LEVELS_UPPERCASE = {
   trace: "TRACE",
 };
 
+/** Priority ranking of log levels, higher number means more verbose. */
 export const LOG_LEVEL_PRIORITY: Record<LogLevel, number> = {
   silent: 0,
   error: 1,
@@ -19,6 +23,7 @@ export const LOG_LEVEL_PRIORITY: Record<LogLevel, number> = {
   debug: 4,
 };
 
+/** Node.js terminal color codes for log levels (excluding 'silent'). */
 export const NODE_LEVEL_COLOR_CODE: Record<
   Exclude<LogLevel, "silent">,
   number
@@ -28,33 +33,44 @@ export const NODE_LEVEL_COLOR_CODE: Record<
   info: 34,
   debug: 33,
 };
+
+/** Default color code used in Node.js when no specific color is assigned. */
 export const DEFAULT_NODE_LEVEL_COLOR_CODE: number = 15;
 
+/** Browser CSS color strings for log levels (excluding 'silent'). */
 export const BROWSER_LEVEL_COLOR_STRING: Record<
   Exclude<LogLevel, "silent">,
   string
 > = {
-  error: "rgba(230, 55, 90, 0.75)",
+  error: "rgba(250, 72, 98, 0.75)",
   warn: "rgba(231, 151, 65, 0.75)",
   info: "rgba(76, 186, 123, 0.75)",
-  debug: "rgba(114, 137, 191, 0.93)",
+  debug: "rgba(112, 152, 215, 0.93)",
 };
 
-export const CONTEXT_SEPARATOR = " > ";
-
-/* Default logger values */
+/** Default logger identifier when none is provided. */
 export const DEFAULT_LOGGER_ID: string = "default";
+/** Default log level used if none is specified. */
 export const DEFAULT_LOG_LEVEL: LogLevel = "warn";
 
-/* Platform options */
-export const PLATFORM = ["auto", "node", "browser"] as const;
+/** Default output configuration values for all platforms. */
+export const DEFAULT_HIDE_DATE = false;
+export const DEFAULT_HIDE_ID = false;
+export const DEFAULT_HIDE_CONTEXT = false;
+export const DEFAULT_CONTEXT_SEPARATOR = " > ";
+export const DEFAULT_SHOW_ONLY_LATEST_CONTEXT = false;
+export const DEFAULT_MESSAGE_PREFIX = " • ";
+export const DEFAULT_MESSAGE_LINE_BREAKS = 0;
+export const DEFAULT_META_LINE_BREAKS = 0;
+export const DEFAULT_TOP_LINE_BREAKS = 0;
+export const DEFAULT_BOTTOM_LINE_BREAKS = 0;
+export const DEFAULT_STRINGIFY_META = false;
 
-/* Write config defaults */
-export const DEFAULT_PLATFORM: Platform = "auto";
-export const DEFAULT_HIDE_ID: boolean = false;
-export const DEFAULT_HIDE_CONTEXT: boolean = false;
-export const DEFAULT_SHOW_ONLY_LATEST_CONTEXT: boolean = false;
-export const DEFAULT_HIDE_DATE: boolean = false;
-export const DEFAULT_META_DEPTH: number = 2;
-export const DEFAULT_BORDER_WIDTH: number = 0;
-export const DEFAULT_USE_COLOR: boolean = true;
+/** Node-specific output configuration defaults. */
+export const DEFAULT_META_DEPTH = 2;
+export const DEFAULT_TOP_BORDER = 0;
+export const DEFAULT_BOTTOM_BORDER = 0;
+export const DEFAULT_USE_COLOR = true;
+
+/** Default handler configuration values. */
+export const DEFAULT_FLUSH_TIMEOUT = 5000; // 5 seconds
