@@ -53,7 +53,7 @@ export const DEFAULT_LOGGER_ID: string = "default";
 /** Default log level used if none is specified. */
 export const DEFAULT_LOG_LEVEL: LogLevel = "warn";
 
-/** Default output configuration values for all platforms. */
+// Default output configuration values for all platforms.
 export const DEFAULT_HIDE_DATE = false;
 export const DEFAULT_HIDE_ID = false;
 export const DEFAULT_HIDE_CONTEXT = false;
@@ -66,11 +66,11 @@ export const DEFAULT_TOP_LINE_BREAKS = 0;
 export const DEFAULT_BOTTOM_LINE_BREAKS = 0;
 export const DEFAULT_STRINGIFY_META = false;
 
-/** Node-specific output configuration defaults. */
+// Node-specific output configuration defaults.
 export const DEFAULT_META_DEPTH = 2;
 export const DEFAULT_TOP_BORDER = 0;
 export const DEFAULT_BOTTOM_BORDER = 0;
 export const DEFAULT_USE_COLOR = true;
 
-/** Default handler configuration values. */
+// Default handler configuration values.
 export const DEFAULT_FLUSH_TIMEOUT = 5000; // 5 seconds
