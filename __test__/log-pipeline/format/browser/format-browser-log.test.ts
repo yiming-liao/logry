@@ -1,160 +1,126 @@
-import { formatBrowserLog } from "../../../../src/log-pipeline/format/browser/format-browser-log";
-import { composeLogLine } from "../../../../src/log-pipeline/format/browser/utils/compose-log-line";
-import { composeLogStyles } from "../../../../src/log-pipeline/format/browser/utils/compose-log-styles";
-
-jest.mock("../../../../src/log-pipeline/format/utils/format-timestamp", () => ({
-  formatTimestamp: (hideDate: boolean) =>
-    hideDate ? "" : "2025-01-01 12:00:00",
-}));
-
-jest.mock(
-  "../../../../src/log-pipeline/format/browser/utils/compose-log-line",
-  () => ({
-    composeLogLine: jest.fn(
-      () => "%c2025-01-01 12:00:00%cID123%cINFO %capp%cHello World",
-    ),
-  }),
-);
-
-jest.mock(
-  "../../../../src/log-pipeline/format/browser/utils/compose-log-styles",
-  () => ({
-    composeLogStyles: jest.fn(() => [
-      "style1",
-      "style2",
-      "style3",
-      "style4",
-      "style5",
-    ]),
-  }),
-);
-
-jest.mock("../../../../src/utils/context-encoder", () => ({
-  contextEncoder: {
-    displayContext: (context: string, separator: string) => ({
-      fullContext: context,
-      lastContext: context.split(separator).pop() || "",
-    }),
-  },
-}));
+import { LOG_LEVELS_UPPERCASE } from "../../../../src/constants";
+import { formatBrowserLog } from "../../../../src/log-pipeline/format/browser";
+import * as composeLogLineModule from "../../../../src/log-pipeline/format/browser/utils/compose-log-line";
+import * as composeLogStylesModule from "../../../../src/log-pipeline/format/browser/utils/compose-log-styles";
+import * as formatScopeModule from "../../../../src/log-pipeline/format/utils/format-scope";
+import * as formatTimestampModule from "../../../../src/log-pipeline/format/utils/format-timestamp";
 
 describe("formatBrowserLog", () => {
-  it("should use custom formatter if provided", () => {
-    const formatter = jest.fn(() => ["custom log"]);
-    const result = formatBrowserLog({
-      id: "ID123",
-      level: "info",
-      context: "app>main",
-      message: "Hello",
-      meta: {},
-      formatter,
-      hideDate: false,
-      hideId: false,
-      hideContext: false,
-      contextSeparator: ">",
-      showOnlyLatestContext: false,
-      messagePrefix: "",
-      messageLineBreaks: 0,
-    });
+  const defaultPayload = {
+    id: "abc123",
+    level: "info" as const,
+    scope: ["test"],
+    message: "Hello browser",
+    meta: { foo: "bar" },
+    context: { user: "alice" },
+    hideDate: false,
+    hideId: false,
+    hideScope: false,
+    scopeSeparator: ":",
+    showOnlyLatestScope: false,
+    messagePrefix: ">> ",
+    messageLineBreaks: 1,
+    formatter: undefined,
+  };
 
-    expect(formatter).toHaveBeenCalled();
-    expect(result).toEqual(["custom log"]);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest
+      .spyOn(formatScopeModule, "formatScope")
+      .mockReturnValue({ scopeString: "test", lastScope: "test" });
+
+    jest
+      .spyOn(formatTimestampModule, "formatTimestamp")
+      .mockImplementation(() => "2025-01-01 00:00:00");
+
+    jest
+      .spyOn(composeLogLineModule, "composeLogLine")
+      .mockReturnValue("formatted log");
+
+    jest
+      .spyOn(composeLogStylesModule, "composeLogStyles")
+      .mockReturnValue(["%c style 1", "%c style 2"]);
   });
 
-  it("should return default formatted log line and styles", () => {
-    const result = formatBrowserLog({
-      id: "ID123",
-      level: "info",
-      context: "app>main",
-      message: "Hello World",
-      meta: {},
-      hideDate: false,
-      hideId: false,
-      hideContext: false,
-      contextSeparator: ">",
-      showOnlyLatestContext: false,
-      messagePrefix: "",
-      messageLineBreaks: 0,
+  it("returns formatted string and styles", () => {
+    const result = formatBrowserLog(defaultPayload);
+
+    expect(result[0]).toBe("formatted log");
+    expect(result[1]).toBe("%c style 1");
+    expect(result[2]).toBe("%c style 2");
+
+    expect(composeLogLineModule.composeLogLine).toHaveBeenCalledWith({
+      timestamp: "2025-01-01 00:00:00",
+      id: "abc123",
+      level: LOG_LEVELS_UPPERCASE.info.padEnd(5),
+      scope: "test",
+      message: "Hello browser",
+      messagePrefix: ">> ",
+      linesBeforeMessage: "\n",
     });
 
-    expect(composeLogLine).toHaveBeenCalledWith({
-      timestamp: "2025-01-01 12:00:00",
-      id: "ID123",
-      level: "INFO ",
-      context: "app>main",
-      message: "Hello World",
-      messagePrefix: "",
-      linesBeforeMessage: "",
-    });
-
-    expect(composeLogStyles).toHaveBeenCalledWith({
+    expect(composeLogStylesModule.composeLogStyles).toHaveBeenCalledWith({
       level: "info",
       showId: true,
       showContext: true,
     });
-    expect(result[0]).toBe(
-      "%c2025-01-01 12:00:00%cID123%cINFO %capp%cHello World",
-    );
-    expect(result.slice(1)).toEqual([
-      "style1",
-      "style2",
-      "style3",
-      "style4",
-      "style5",
-    ]);
   });
 
-  it("should hide ID and context when specified", () => {
+  it("omits id and scope if hidden", () => {
     formatBrowserLog({
-      id: "ID123",
-      level: "debug",
-      context: "debug>context",
-      message: "Message",
-      meta: {},
-      hideDate: false,
+      ...defaultPayload,
       hideId: true,
-      hideContext: true,
-      contextSeparator: ">",
-      showOnlyLatestContext: false,
-      messagePrefix: "",
-      messageLineBreaks: 1,
+      hideScope: true,
     });
 
-    expect(composeLogLine).toHaveBeenCalledWith(
+    expect(composeLogLineModule.composeLogLine).toHaveBeenCalledWith(
       expect.objectContaining({
         id: "",
-        messagePrefix: "",
-        linesBeforeMessage: "\n",
+        scope: "",
       }),
     );
-
-    expect(composeLogStyles).toHaveBeenCalledWith({
-      level: "debug",
-      showId: false,
-      showContext: false,
-    });
   });
 
-  it("should use last context only when showOnlyLatestContext is true", () => {
+  it("uses only latest scope if specified", () => {
     formatBrowserLog({
-      id: "ID456",
-      level: "warn",
-      context: "main>sub>inner",
-      message: "Context test",
-      meta: {},
-      hideDate: false,
-      hideId: false,
-      hideContext: false,
-      contextSeparator: ">",
-      showOnlyLatestContext: true,
-      messagePrefix: "",
-      messageLineBreaks: 0,
+      ...defaultPayload,
+      showOnlyLatestScope: true,
     });
 
-    expect(composeLogLine).toHaveBeenCalledWith(
+    expect(formatScopeModule.formatScope).toHaveBeenCalledWith(["test"], ":");
+  });
+
+  it("respects line breaks before message", () => {
+    formatBrowserLog({
+      ...defaultPayload,
+      messageLineBreaks: 3,
+    });
+
+    expect(composeLogLineModule.composeLogLine).toHaveBeenCalledWith(
       expect.objectContaining({
-        context: "inner",
+        linesBeforeMessage: "\n\n\n",
       }),
     );
+  });
+
+  it("uses custom formatter when provided", () => {
+    const mockFormatter = jest.fn().mockReturnValue(["custom result"]);
+    const result = formatBrowserLog({
+      ...defaultPayload,
+      formatter: mockFormatter,
+    });
+
+    expect(mockFormatter).toHaveBeenCalledWith(
+      expect.objectContaining({
+        timestamp: "2025-01-01 00:00:00",
+        id: "abc123",
+        level: "info",
+        scope: "test",
+        message: "Hello browser",
+        meta: { foo: "bar" },
+        context: { user: "alice" },
+      }),
+    );
+    expect(result).toEqual(["custom result"]);
   });
 });

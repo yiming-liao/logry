@@ -1,15 +1,15 @@
 import type { BrowserFormatter } from "../../../../formatter-types";
 import type { BrowserOutputConfig } from "../../../../output-config-types";
 import {
-  DEFAULT_SHOW_ONLY_LATEST_CONTEXT,
-  DEFAULT_HIDE_CONTEXT,
+  DEFAULT_SHOW_ONLY_LATEST_SCOPE,
+  DEFAULT_HIDE_SCOPE,
   DEFAULT_HIDE_ID,
   DEFAULT_HIDE_DATE,
   DEFAULT_MESSAGE_LINE_BREAKS,
   DEFAULT_BOTTOM_LINE_BREAKS,
   DEFAULT_STRINGIFY_META,
   DEFAULT_META_LINE_BREAKS,
-  DEFAULT_CONTEXT_SEPARATOR,
+  DEFAULT_SCOPE_SEPARATOR,
   DEFAULT_MESSAGE_PREFIX,
   DEFAULT_TOP_LINE_BREAKS,
 } from "../../../../constants";
@@ -28,9 +28,9 @@ export const resolveOutputConfig = (
   const {
     hideDate = DEFAULT_HIDE_DATE,
     hideId = DEFAULT_HIDE_ID,
-    hideContext = DEFAULT_HIDE_CONTEXT,
-    contextSeparator = DEFAULT_CONTEXT_SEPARATOR,
-    showOnlyLatestContext = DEFAULT_SHOW_ONLY_LATEST_CONTEXT,
+    hideScope = DEFAULT_HIDE_SCOPE,
+    scopeSeparator = DEFAULT_SCOPE_SEPARATOR,
+    showOnlyLatestScope = DEFAULT_SHOW_ONLY_LATEST_SCOPE,
     messagePrefix = DEFAULT_MESSAGE_PREFIX,
     messageLineBreaks = DEFAULT_MESSAGE_LINE_BREAKS,
     metaLineBreaks = DEFAULT_META_LINE_BREAKS,
@@ -42,9 +42,9 @@ export const resolveOutputConfig = (
   return {
     hideDate,
     hideId,
-    hideContext,
-    contextSeparator,
-    showOnlyLatestContext,
+    hideScope,
+    scopeSeparator,
+    showOnlyLatestScope,
     messagePrefix,
     messageLineBreaks,
     metaLineBreaks,

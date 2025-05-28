@@ -4,7 +4,7 @@ import {
   NODE_LEVEL_COLOR_CODE,
   DEFAULT_NODE_LEVEL_COLOR_CODE,
 } from "../../../constants";
-import { contextEncoder } from "../../../utils/context-encoder";
+import { formatScope } from "../utils/format-scope";
 import { formatTimestamp } from "../utils/format-timestamp";
 import { composeLogLine } from "./utils/compose-log-line";
 
@@ -17,45 +17,45 @@ import { composeLogLine } from "./utils/compose-log-line";
 export const formatNodeLog = ({
   id,
   level,
-  context,
+  scope: scopeArray,
   message,
   meta,
+  context,
   hideDate,
   hideId,
-  hideContext,
-  contextSeparator,
-  showOnlyLatestContext,
+  hideScope,
+  scopeSeparator,
+  showOnlyLatestScope,
   messagePrefix,
   messageLineBreaks,
   useColor,
   formatter,
 }: FormatNodeLogPayload): string => {
-  // Extract full and last context string based on separator
-  const { fullContext, lastContext } = contextEncoder.displayContext(
-    context,
-    contextSeparator,
-  );
+  const timestampRaw = new Date();
+  const timestamp = formatTimestamp(hideDate, undefined, timestampRaw);
 
-  // Decide which context to display
-  context = showOnlyLatestContext ? lastContext : fullContext;
+  const { scopeString, lastScope } = formatScope(scopeArray, scopeSeparator);
+  const scope: string = showOnlyLatestScope ? lastScope : scopeString;
 
   // Use custom formatter if provided
   if (typeof formatter === "function") {
     return formatter({
-      timestamp: formatTimestamp(hideDate),
+      timestampRaw,
+      timestamp,
       id,
       level,
-      context,
+      scope,
       message,
       meta,
+      context,
     });
   }
 
   // Prepare formatted tags
-  const timestampTag = `[${formatTimestamp(hideDate)}] `;
+  const timestampTag = `[${timestamp}] `;
   const idTag = id && !hideId ? `[${id}] ` : "";
   const levelTag = `[${LOG_LEVELS_UPPERCASE[level]}]`.padEnd(8);
-  const contextTag = context && !hideContext ? `(${context}) ` : "";
+  const scopeTag = scope && !hideScope ? `(${scope}) ` : "";
   const messageLine = `${messagePrefix}${message} `;
 
   // Add line breaks before message if needed
@@ -71,7 +71,7 @@ export const formatNodeLog = ({
       timestampTag,
       idTag,
       levelTag,
-      contextTag,
+      scopeTag,
       linesBeforeMessage,
       messageLine,
     },

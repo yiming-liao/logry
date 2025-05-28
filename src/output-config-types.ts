@@ -9,12 +9,12 @@ export type BaseOutputConfig = {
   hideDate?: boolean;
   /** Whether to hide the ID label */
   hideId?: boolean;
-  /** Whether to hide the context label */
-  hideContext?: boolean;
-  /** String used to separate multiple context parts */
-  contextSeparator?: string;
-  /** Only display the latest context item */
-  showOnlyLatestContext?: boolean;
+  /** Whether to hide the scope label */
+  hideScope?: boolean;
+  /** String used to separate multiple scope parts */
+  scopeSeparator?: string;
+  /** Only display the latest scope item */
+  showOnlyLatestScope?: boolean;
   /** String to prefix each log message with */
   messagePrefix?: string;
   /** Number of blank lines before the message content */

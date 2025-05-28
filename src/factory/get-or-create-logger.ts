@@ -6,16 +6,20 @@ import { LoggerCore } from "../core/logger-core";
 import { Logger } from "../logger/logger";
 import { coreMap } from "./core-map";
 
-export const getOrCreateLogger = (options?: {
+export const getOrCreateLogger = <
+  TContext extends Record<string, unknown> = Record<string, unknown>,
+>(options?: {
   id?: string;
   level?: LogLevel;
-  context?: string;
+  scope?: string[];
+  context?: TContext;
   outputConfig?: OutputConfig;
   handlerConfig?: HandlerConfig;
 }): Logger => {
   const {
     id = DEFAULT_LOGGER_ID,
     level = DEFAULT_LOG_LEVEL,
+    scope,
     context,
     outputConfig,
     handlerConfig,
@@ -36,12 +40,8 @@ export const getOrCreateLogger = (options?: {
   }
 
   /**
-   * Updates the logger core's level to reflect the latest configuration.
-   *
-   * This enables dynamic reconfiguration: repeated calls to `getOrCreateLogger`
-   * with the same ID can override the log level at runtime without creating a new instance.
+   * Do not pass `level` here to let Logger fallback to `core.level` by default.
+   * This preserves flexibility for child loggers to override the level if needed.
    */
-  core.setLevel(level);
-
-  return new Logger(core, level, context, outputConfig);
+  return new Logger({ core, level: undefined, scope, context, outputConfig });
 };

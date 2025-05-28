@@ -5,7 +5,7 @@ describe("composeLogLine", () => {
     timestampTag: "[2025-05-25] ",
     idTag: "[abc123] ",
     levelTag: "[INFO]  ",
-    contextTag: "(main) ",
+    scopeTag: "(main) ",
     linesBeforeMessage: "\n\n",
     messageLine: "Hello world! ",
   };

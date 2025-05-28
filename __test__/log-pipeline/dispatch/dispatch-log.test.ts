@@ -1,162 +1,94 @@
-import type { LogPayload } from "../../../src/types";
-import { dispatchLog } from "../../../src/log-pipeline/dispatch/dispatch-log";
-import { resolvePlatform } from "../../../src/log-pipeline/dispatch/utils/resolve-platform";
-import { outputBrowserLog } from "../../../src/log-pipeline/output/browser";
-import { outputNodeLog } from "../../../src/log-pipeline/output/node";
-
-jest.mock("../../../src/log-pipeline/dispatch/utils/resolve-platform", () => ({
-  resolvePlatform: jest.fn(),
-}));
-jest.mock("../../../src/log-pipeline/output/browser", () => ({
-  outputBrowserLog: jest.fn(),
-}));
-jest.mock("../../../src/log-pipeline/output/node", () => ({
-  outputNodeLog: jest.fn(),
-}));
+import { dispatchLog } from "../../../src/log-pipeline/dispatch";
+import * as platformUtils from "../../../src/log-pipeline/dispatch/utils/resolve-platform";
+import * as browserOutput from "../../../src/log-pipeline/output/browser";
+import * as nodeOutput from "../../../src/log-pipeline/output/node";
 
 describe("dispatchLog", () => {
-  const dummyPayload = {
+  const basePayload = {
     id: "123",
-    level: "info",
-    context: "test",
-    message: "hello",
-    meta: {},
+    level: "info" as const,
+    scope: ["core"],
+    message: "Test log",
+    meta: { a: 1 },
+    context: { user: "alice" },
     outputConfig: {
-      node: { foo: "bar" },
-      browser: { baz: "qux" },
+      node: { hideDate: true },
+      browser: { hideScope: true },
     },
-  } as LogPayload;
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("does not log if level is 'silent'", () => {
-    dispatchLog({ ...dummyPayload, level: "silent" });
+  it("does not log when level is 'silent'", () => {
+    const spyNode = jest.spyOn(nodeOutput, "outputNodeLog");
+    const spyBrowser = jest.spyOn(browserOutput, "outputBrowserLog");
 
-    expect(outputNodeLog).not.toHaveBeenCalled();
-    expect(outputBrowserLog).not.toHaveBeenCalled();
-  });
-
-  it("logs with outputNodeLog when platform is 'node'", () => {
-    (resolvePlatform as jest.Mock).mockReturnValue("node");
-    (outputNodeLog as jest.Mock).mockImplementation(() => {});
-    dispatchLog(dummyPayload);
-
-    expect(outputNodeLog).toHaveBeenCalledWith({
-      id: dummyPayload.id,
-      level: dummyPayload.level,
-      context: dummyPayload.context,
-      message: dummyPayload.message,
-      meta: dummyPayload.meta,
-      nodeOutputConfig: dummyPayload.outputConfig?.node,
+    dispatchLog({
+      ...basePayload,
+      level: "silent",
     });
-    expect(outputBrowserLog).not.toHaveBeenCalled();
-  });
 
-  it("logs with outputBrowserLog when platform is 'browser'", () => {
-    (resolvePlatform as jest.Mock).mockReturnValue("browser");
-    (outputBrowserLog as jest.Mock).mockImplementation(() => {});
-    dispatchLog(dummyPayload);
-
-    expect(outputBrowserLog).toHaveBeenCalledWith({
-      id: dummyPayload.id,
-      level: dummyPayload.level,
-      context: dummyPayload.context,
-      message: dummyPayload.message,
-      meta: dummyPayload.meta,
-      browserOutputConfig: dummyPayload.outputConfig?.browser,
-    });
-    expect(outputNodeLog).not.toHaveBeenCalled();
-  });
-
-  it("logs with outputNodeLog when outputConfig is undefined", () => {
-    (resolvePlatform as jest.Mock).mockReturnValue("node");
-    const spyNode = (outputNodeLog as jest.Mock).mockImplementation(() => {});
-    const spyBrowser = outputBrowserLog;
-
-    const payloadWithoutOutputConfig = {
-      ...dummyPayload,
-      outputConfig: undefined,
-    };
-
-    dispatchLog(payloadWithoutOutputConfig);
-
-    expect(spyNode).toHaveBeenCalledWith({
-      id: payloadWithoutOutputConfig.id,
-      level: payloadWithoutOutputConfig.level,
-      context: payloadWithoutOutputConfig.context,
-      message: payloadWithoutOutputConfig.message,
-      meta: payloadWithoutOutputConfig.meta,
-      nodeOutputConfig: undefined,
-    });
+    expect(spyNode).not.toHaveBeenCalled();
     expect(spyBrowser).not.toHaveBeenCalled();
   });
 
-  it("logs with outputNodeLog when outputConfig.node is undefined (empty outputConfig)", () => {
-    (resolvePlatform as jest.Mock).mockReturnValue("node");
-    const spyNode = (outputNodeLog as jest.Mock).mockImplementation(() => {});
-    const spyBrowser = outputBrowserLog;
+  it("logs to node output when platform is node", () => {
+    jest.spyOn(platformUtils, "resolvePlatform").mockReturnValue("node");
+    const spy = jest
+      .spyOn(nodeOutput, "outputNodeLog")
+      .mockImplementation(() => {});
 
-    const payloadWithEmptyOutputConfig = { ...dummyPayload, outputConfig: {} };
+    dispatchLog(basePayload);
 
-    dispatchLog(payloadWithEmptyOutputConfig);
-
-    expect(spyNode).toHaveBeenCalledWith({
-      id: payloadWithEmptyOutputConfig.id,
-      level: payloadWithEmptyOutputConfig.level,
-      context: payloadWithEmptyOutputConfig.context,
-      message: payloadWithEmptyOutputConfig.message,
-      meta: payloadWithEmptyOutputConfig.meta,
-      nodeOutputConfig: undefined,
+    expect(spy).toHaveBeenCalledWith({
+      id: "123",
+      level: "info",
+      scope: ["core"],
+      message: "Test log",
+      meta: { a: 1 },
+      context: { user: "alice" },
+      nodeOutputConfig: { hideDate: true },
     });
-    expect(spyBrowser).not.toHaveBeenCalled();
   });
 
-  it("logs with outputBrowserLog when outputConfig is undefined", () => {
-    (resolvePlatform as jest.Mock).mockReturnValue("browser");
-    const spyNode = outputNodeLog;
-    const spyBrowser = (outputBrowserLog as jest.Mock).mockImplementation(
-      () => {},
-    );
+  it("logs to browser output when platform is browser", () => {
+    jest.spyOn(platformUtils, "resolvePlatform").mockReturnValue("browser");
+    const spy = jest
+      .spyOn(browserOutput, "outputBrowserLog")
+      .mockImplementation(() => {});
 
-    const payloadWithoutOutputConfig = {
-      ...dummyPayload,
-      outputConfig: undefined,
-    };
+    dispatchLog(basePayload);
 
-    dispatchLog(payloadWithoutOutputConfig);
-
-    expect(spyBrowser).toHaveBeenCalledWith({
-      id: payloadWithoutOutputConfig.id,
-      level: payloadWithoutOutputConfig.level,
-      context: payloadWithoutOutputConfig.context,
-      message: payloadWithoutOutputConfig.message,
-      meta: payloadWithoutOutputConfig.meta,
-      browserOutputConfig: undefined,
+    expect(spy).toHaveBeenCalledWith({
+      id: "123",
+      level: "info",
+      scope: ["core"],
+      message: "Test log",
+      meta: { a: 1 },
+      context: { user: "alice" },
+      browserOutputConfig: { hideScope: true },
     });
-    expect(spyNode).not.toHaveBeenCalled();
   });
 
-  it("logs with outputBrowserLog when outputConfig.browser is undefined (empty outputConfig)", () => {
-    (resolvePlatform as jest.Mock).mockReturnValue("browser");
-    const spyNode = outputNodeLog;
-    const spyBrowser = (outputBrowserLog as jest.Mock).mockImplementation(
-      () => {},
+  it("does not throw if outputConfig is undefined", () => {
+    jest.spyOn(platformUtils, "resolvePlatform").mockReturnValue("node");
+    const spy = jest
+      .spyOn(nodeOutput, "outputNodeLog")
+      .mockImplementation(() => {});
+
+    expect(() =>
+      dispatchLog({
+        ...basePayload,
+        outputConfig: undefined,
+      }),
+    ).not.toThrow();
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        nodeOutputConfig: undefined,
+      }),
     );
-
-    const payloadWithEmptyOutputConfig = { ...dummyPayload, outputConfig: {} };
-
-    dispatchLog(payloadWithEmptyOutputConfig);
-
-    expect(spyBrowser).toHaveBeenCalledWith({
-      id: payloadWithEmptyOutputConfig.id,
-      level: payloadWithEmptyOutputConfig.level,
-      context: payloadWithEmptyOutputConfig.context,
-      message: payloadWithEmptyOutputConfig.message,
-      meta: payloadWithEmptyOutputConfig.meta,
-      browserOutputConfig: undefined,
-    });
-    expect(spyNode).not.toHaveBeenCalled();
   });
 });

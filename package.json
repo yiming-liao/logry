@@ -56,7 +56,6 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "dependencies": {},
   "devDependencies": {
     "@eslint/js": "^9.27.0",
     "@types/jest": "^29.5.14",
@@ -72,6 +71,7 @@
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "tsup": "^8.4.0",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1"
   }

@@ -5,7 +5,7 @@
  * @param {string} parts.timestampTag - The timestamp string.
  * @param {string} parts.idTag - The ID string.
  * @param {string} parts.levelTag - The log level string.
- * @param {string} parts.contextTag - The context string.
+ * @param {string} parts.scopeTag - The context string.
  * @param {string} parts.linesBeforeMessage - Newline characters before the message.
  * @param {string} parts.messageLine - The main log message.
  * @param {boolean} useColor - Whether to add ANSI color codes.
@@ -17,7 +17,7 @@ export const composeLogLine = (
     timestampTag: string;
     idTag: string;
     levelTag: string;
-    contextTag: string;
+    scopeTag: string;
     linesBeforeMessage: string;
     messageLine: string;
   },
@@ -30,7 +30,7 @@ export const composeLogLine = (
       parts.timestampTag +
       parts.idTag +
       parts.levelTag +
-      parts.contextTag +
+      parts.scopeTag +
       parts.linesBeforeMessage +
       parts.messageLine
     );
@@ -39,13 +39,13 @@ export const composeLogLine = (
   // Compose string with ANSI color codes
   const coloredTimestamp = `\x1b[38;5;245m${parts.timestampTag}\x1b[0m`;
   const coloredLevel = `\x1b[38;5;${colorCode}m${parts.levelTag}\x1b[0m`;
-  const coloredContext = `\x1b[38;5;245m${parts.contextTag}\x1b[0m`;
+  const coloredScope = `\x1b[38;5;245m${parts.scopeTag}\x1b[0m`;
 
   return (
     coloredTimestamp +
     parts.idTag +
     coloredLevel +
-    coloredContext +
+    coloredScope +
     parts.linesBeforeMessage +
     parts.messageLine
   );

@@ -11,22 +11,28 @@ export type Platform = (typeof PLATFORM)[number];
  *
  * Used internally by logging methods and handlers.
  */
-export type LogPayload = {
+export type LogPayload<TContext extends Context = Context> = {
   id?: string;
   level: LogLevel;
-  context?: string;
+  scope: Scope;
   message: string;
   meta?: unknown;
+  context?: TContext;
   outputConfig?: OutputConfig;
 };
 
 /** Method signature for logging with level */
-export type LogWithLevelMethod = (
-  level: LogLevel,
-  message: string,
-  meta?: unknown,
-  options?: LogOptions,
-) => void;
+export type LogWithLevelMethod = ({
+  level,
+  message,
+  meta,
+  options,
+}: {
+  level: LogLevel;
+  message: string;
+  meta?: unknown;
+  options?: LogOptions;
+}) => void;
 
 /** Method signature for logging */
 export type LogMethod = (
@@ -36,7 +42,11 @@ export type LogMethod = (
 ) => void;
 
 /** Options to customize logging behavior at call time. */
-export type LogOptions = {
-  context?: string;
+export type LogOptions<TContext extends Context = Context> = {
+  scope?: string | string[];
+  context?: TContext;
   outputConfig?: OutputConfig;
 };
+
+export type Context = Record<string, unknown>;
+export type Scope = string[];

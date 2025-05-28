@@ -4,7 +4,7 @@
  * @param timestamp - ISO string of the log time.
  * @param id - Unique log identifier.
  * @param level - Log level (e.g., "info", "error").
- * @param context - Context or source of the log.
+ * @param scope - Scope or source of the log.
  * @param message - Main log message.
  * @param messagePrefix - Optional prefix before the message (e.g., symbols).
  * @param linesBeforeMessage - Number of line breaks before the message.
@@ -14,7 +14,7 @@ export const composeLogLine = ({
   timestamp,
   id,
   level,
-  context,
+  scope,
   message,
   messagePrefix,
   linesBeforeMessage,
@@ -22,7 +22,7 @@ export const composeLogLine = ({
   timestamp: string;
   id: string;
   level: string;
-  context: string;
+  scope: string;
   message: string;
   messagePrefix: string;
   linesBeforeMessage: string;
@@ -31,5 +31,5 @@ export const composeLogLine = ({
   const msg = `${messagePrefix}${message}`;
 
   // Return the formatted string using %c tokens for styling
-  return `%c${timestamp}%c${id}%c${level}%c${context}%c${linesBeforeMessage}${msg}`;
+  return `%c${timestamp}%c${id}%c${level}%c${scope}%c${linesBeforeMessage}${msg}`;
 };

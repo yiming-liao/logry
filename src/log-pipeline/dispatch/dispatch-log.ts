@@ -8,7 +8,7 @@ import { resolvePlatform } from "./utils/resolve-platform";
  *
  * @param id - Unique identifier for the log message, useful for tracking across systems.
  * @param level - Log level (e.g., "info", "warn", "error", "debug", "silent").
- * @param context - Additional context for the log (e.g., module name, user info).
+ * @param scope - Additional scope for the log (e.g., module name, user info).
  * @param message - The main log message to display.
  * @param meta - Optional metadata (e.g., error stack, additional structured data).
  * @param outputConfig - Configuration for platform-specific log output.
@@ -16,9 +16,10 @@ import { resolvePlatform } from "./utils/resolve-platform";
 export const dispatchLog = ({
   id,
   level,
-  context,
+  scope,
   message,
   meta,
+  context,
   outputConfig,
 }: LogPayload): void => {
   // Skip logging if level is "silent"
@@ -34,9 +35,10 @@ export const dispatchLog = ({
     outputNodeLog({
       id,
       level,
-      context,
+      scope,
       message,
       meta,
+      context,
       nodeOutputConfig: outputConfig?.node,
     });
   }
@@ -46,9 +48,10 @@ export const dispatchLog = ({
     outputBrowserLog({
       id,
       level,
-      context,
+      scope,
       message,
       meta,
+      context,
       browserOutputConfig: outputConfig?.browser,
     });
   }

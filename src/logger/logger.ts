@@ -1,21 +1,23 @@
 import type { LoggerCore } from "../core/logger-core";
 import type { HandlerManager } from "../handler/handler-manager";
-import type { HandlerConfig } from "../handler/handler-types";
 import type { OutputConfig } from "../output-config-types";
-import type { LogLevel, LogMethod, LogOptions } from "../types";
+import type { Context, LogLevel, LogMethod, LogOptions, Scope } from "../types";
 import type { LogPayload } from "../types";
 import { dispatchLog } from "../log-pipeline/dispatch";
 import { createForceMethods } from "./utils/create-force-methods";
 import { createLogWithLevel } from "./utils/create-log-with-level";
 import { mergeContexts } from "./utils/merge-contexts";
 import { mergeOutputConfig } from "./utils/merge-output-config";
+import { mergeScopes } from "./utils/merge-scopes";
 
 /**
- * Logger provides log methods with context, level, and output customization.
+ * Logger provides log methods with scope, level, and output customization.
  */
-export class Logger {
+export class Logger<TContext extends Context = Context> {
+  private readonly core: LoggerCore;
   private readonly level: LogLevel;
-  private readonly context: string | undefined;
+  private readonly scope: Scope = [];
+  private readonly context?: TContext;
   private readonly outputConfig?: OutputConfig;
   /** HandlerManager is managed solely by LoggerCore. */
   private readonly handlerManager: HandlerManager;
@@ -29,18 +31,30 @@ export class Logger {
   /** Force log methods (bypass level filtering). */
   public force: Record<Exclude<LogLevel, "silent">, LogMethod>;
 
-  constructor(
-    private readonly core: LoggerCore,
-    level?: LogLevel,
-    context?: string,
-    outputConfig?: OutputConfig,
-  ) {
+  constructor({
+    core,
+    level,
+    scope = [],
+    context,
+    outputConfig,
+  }: {
+    core: LoggerCore;
+    level?: LogLevel;
+    scope?: Scope;
+    context?: TContext;
+    outputConfig?: OutputConfig;
+  }) {
+    this.core = core;
     this.level = level ?? core.level;
+    this.scope = Array.isArray(scope) ? scope : [scope];
     this.context = context;
-    this.outputConfig = outputConfig;
+    this.outputConfig = mergeOutputConfig(this.core.outputConfig, outputConfig);
     this.handlerManager = core.handlerManager;
     // Create log methods
-    this.logWithLevel = createLogWithLevel(this.log.bind(this), this.level);
+    this.logWithLevel = createLogWithLevel(
+      this.log.bind(this),
+      () => level ?? this.core.level,
+    );
     this.error = this.logWithLevel("error");
     this.warn = this.logWithLevel("warn");
     this.info = this.logWithLevel("info");
@@ -53,52 +67,63 @@ export class Logger {
    * Resolve and merge output configuration from multiple levels.
    */
   private resolveOutputConfig(outputConfig?: OutputConfig): OutputConfig {
-    return mergeOutputConfig(
-      this.core.outputConfig, // Core config
-      this.outputConfig, // Instance-level override
-      outputConfig, // Method-level override
-    );
+    return mergeOutputConfig(this.outputConfig, outputConfig);
   }
 
   /**
    * Create a child logger with optional overrides.
    */
-  child({
+  child<TChildContext extends Context = TContext>({
     level = this.level,
+    scope,
     context,
     outputConfig = this.outputConfig,
   }: {
     level?: LogLevel;
-    context?: string;
+    scope?: string | string[];
+    context?: TChildContext;
     outputConfig?: OutputConfig;
-    handlerConfig?: HandlerConfig;
-    handlerManager?: HandlerManager;
   } = {}): Logger {
+    const combinedScope = mergeScopes(this.scope, scope);
     const combinedContext = mergeContexts(this.context, context);
     const mergedOutputConfig = this.resolveOutputConfig(outputConfig);
-    return new Logger(this.core, level, combinedContext, mergedOutputConfig);
+    return new Logger<TChildContext>({
+      core: this.core,
+      level,
+      scope: combinedScope,
+      context: combinedContext,
+      outputConfig: mergedOutputConfig,
+    });
   }
 
   /**
    * Core log method. Used by all level-specific methods.
    */
-  private log(
-    level: LogLevel,
-    message: string,
-    meta?: unknown,
-    options?: LogOptions,
-  ): void {
+  private log({
+    level,
+    message,
+    meta,
+    options,
+  }: {
+    level: LogLevel;
+    message: string;
+    meta?: unknown;
+    options?: LogOptions;
+  }): void {
+    const combinedScope = mergeScopes(this.scope, options?.scope);
+    const combinedContext = mergeContexts(this.context, options?.context);
     const mergedOutputConfig = this.resolveOutputConfig(options?.outputConfig);
     const logPayload: LogPayload = {
       level,
       id: this.core.id,
-      context: options?.context || this.context,
+      scope: combinedScope,
       message,
       meta,
+      context: combinedContext,
       outputConfig: mergedOutputConfig,
     };
 
-    dispatchLog(logPayload); // -> Send to pipeline
+    dispatchLog(logPayload); // -> Send to log-pipeline
     this.handlerManager.runHandlers(logPayload); // -> Run handlers
   }
 

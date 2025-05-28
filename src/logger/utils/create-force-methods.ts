@@ -1,4 +1,4 @@
-import type { LogWithLevelMethod } from "../../types";
+import type { LogLevel, LogMethod, LogWithLevelMethod } from "../../types";
 import { createLogWithLevel } from "./create-log-with-level";
 
 /**
@@ -7,7 +7,9 @@ import { createLogWithLevel } from "./create-log-with-level";
  * @param log - The base log function with level support.
  * @returns An object with force logging methods: error, warn, info, debug.
  */
-export const createForceMethods = (log: LogWithLevelMethod) => {
+export const createForceMethods = (
+  log: LogWithLevelMethod,
+): Record<Exclude<LogLevel, "silent">, LogMethod> => {
   // Create log methods without filtering by config level
   const logWithLevel = createLogWithLevel(log);
 

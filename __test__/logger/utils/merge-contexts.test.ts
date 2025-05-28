@@ -1,49 +1,42 @@
 import { mergeContexts } from "../../../src/logger/utils/merge-contexts";
-import { contextEncoder } from "../../../src/utils/context-encoder";
-
-jest.mock("../../../src/utils/context-encoder", () => ({
-  contextEncoder: {
-    splitContext: jest.fn(),
-    joinContext: jest.fn(),
-  },
-}));
 
 describe("mergeContexts", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  it("returns undefined when both contexts are undefined", () => {
+    const result = mergeContexts(undefined, undefined);
+    expect(result).toBeUndefined();
   });
 
-  it("returns baseContext if additionalContext is undefined", () => {
-    expect(mergeContexts("base")).toBe("base");
-    expect(mergeContexts(undefined)).toBeUndefined();
+  it("returns baseContext when only baseContext is provided", () => {
+    const base = { user: "Alice" };
+    const result = mergeContexts(base, undefined);
+    expect(result).toEqual(base);
   });
 
-  it("calls splitContext and joinContext correctly when additionalContext is given", () => {
-    (contextEncoder.splitContext as jest.Mock).mockReturnValue([
-      "part1",
-      "part2",
-    ]);
-    (contextEncoder.joinContext as jest.Mock).mockReturnValue("merged-context");
-
-    const result = mergeContexts("base-context", "extra");
-
-    expect(contextEncoder.splitContext).toHaveBeenCalledWith("base-context");
-    expect(contextEncoder.joinContext).toHaveBeenCalledWith([
-      "part1",
-      "part2",
-      "extra",
-    ]);
-    expect(result).toBe("merged-context");
+  it("returns additionalContext when only additionalContext is provided", () => {
+    const additional = { requestId: "abc123" };
+    const result = mergeContexts(undefined, additional);
+    expect(result).toEqual(additional);
   });
 
-  it("handles undefined baseContext correctly", () => {
-    (contextEncoder.splitContext as jest.Mock).mockReturnValue([]);
-    (contextEncoder.joinContext as jest.Mock).mockReturnValue("extra-only");
+  it("merges both contexts correctly", () => {
+    const base = { user: "Alice", role: "admin" };
+    const additional = { requestId: "abc123", debug: true };
+    const result = mergeContexts(base, additional);
+    expect(result).toEqual({
+      user: "Alice",
+      role: "admin",
+      requestId: "abc123",
+      debug: true,
+    });
+  });
 
-    const result = mergeContexts(undefined, "extra");
-
-    expect(contextEncoder.splitContext).toHaveBeenCalledWith(undefined);
-    expect(contextEncoder.joinContext).toHaveBeenCalledWith(["extra"]);
-    expect(result).toBe("extra-only");
+  it("additionalContext overrides baseContext on key conflict", () => {
+    const base = { user: "Alice", debug: false };
+    const additional = { debug: true };
+    const result = mergeContexts(base, additional);
+    expect(result).toEqual({
+      user: "Alice",
+      debug: true,
+    });
   });
 });

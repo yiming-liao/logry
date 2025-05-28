@@ -38,17 +38,6 @@ describe("getOrCreateLogger", () => {
     expect(logger1["core"]).toBe(logger2["core"]);
   });
 
-  it("should update log level if a new level is provided", () => {
-    const logger = getOrCreateLogger({ id: "level-test", level: "error" });
-    expect(logger["core"].level).toBe("error");
-
-    const updatedLogger = getOrCreateLogger({
-      id: "level-test",
-      level: "warn",
-    });
-    expect(updatedLogger["core"].level).toBe("warn");
-  });
-
   it("should create a new logger if the logger core cannot be found", () => {
     const logger = getOrCreateLogger({ id: "non-existing-logger" });
     expect(logger).toBeInstanceOf(Logger);
@@ -62,7 +51,7 @@ describe("getOrCreateLogger", () => {
   });
 
   it("should use default values when partial options are provided", () => {
-    const logger = getOrCreateLogger({ context: "ctx" });
+    const logger = getOrCreateLogger({ scope: ["ctx"] });
     expect(logger).toBeInstanceOf(Logger);
     expect(logger["core"].id).toBe(DEFAULT_LOGGER_ID);
     expect(logger["core"].level).toBe(DEFAULT_LOG_LEVEL);

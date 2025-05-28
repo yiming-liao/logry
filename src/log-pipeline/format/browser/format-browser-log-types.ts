@@ -1,17 +1,18 @@
 import type { BrowserFormatter } from "../../../formatter-types";
-import type { LogLevel } from "../../../types";
+import type { Context, LogLevel, Scope } from "../../../types";
 
-export type FormatBrowserLogPayload = {
+export type FormatBrowserLogPayload<TContext extends Context = Context> = {
   id?: string;
   level: Exclude<LogLevel, "silent">;
-  context?: string;
+  scope: Scope;
   message: string;
   meta?: unknown;
+  context?: TContext;
   hideDate: boolean;
   hideId: boolean;
-  hideContext: boolean;
-  contextSeparator: string;
-  showOnlyLatestContext: boolean;
+  hideScope: boolean;
+  scopeSeparator: string;
+  showOnlyLatestScope: boolean;
   messagePrefix: string;
   messageLineBreaks: number;
   formatter?: BrowserFormatter;

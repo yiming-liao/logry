@@ -1,26 +1,14 @@
-import { contextEncoder } from "../../utils/context-encoder";
+import type { Context } from "../../types";
 
-/**
- * Merge base context with an additional context string.
- *
- * If no additional context is provided, returns the base context as is.
- * Otherwise, splits the base context and appends the additional context,
- * then joins them back into a single context string.
- *
- * @param baseContext - The original context string.
- * @param additionalContext - The context string to append.
- * @returns The merged context string, or undefined if baseContext is undefined and no additionalContext.
- */
-export const mergeContexts = (
-  baseContext?: string,
-  additionalContext?: string,
-): string | undefined => {
-  if (additionalContext === undefined) {
-    // No additional context, return base as-is
-    return baseContext;
+export const mergeContexts = <A extends Context, B extends Context>(
+  baseContext?: A,
+  additionalContext?: B,
+): (A & B) | undefined => {
+  if (!baseContext && !additionalContext) {
+    return undefined;
   }
-
-  // Split base context into parts, append additional context, then join
-  const baseParts = contextEncoder.splitContext(baseContext);
-  return contextEncoder.joinContext([...baseParts, additionalContext]);
+  return {
+    ...(baseContext ?? {}),
+    ...(additionalContext ?? {}),
+  } as A & B;
 };

@@ -1,9 +1,9 @@
 import {
   DEFAULT_HIDE_DATE,
   DEFAULT_HIDE_ID,
-  DEFAULT_HIDE_CONTEXT,
-  DEFAULT_CONTEXT_SEPARATOR,
-  DEFAULT_SHOW_ONLY_LATEST_CONTEXT,
+  DEFAULT_HIDE_SCOPE,
+  DEFAULT_SCOPE_SEPARATOR,
+  DEFAULT_SHOW_ONLY_LATEST_SCOPE,
   DEFAULT_MESSAGE_PREFIX,
   DEFAULT_MESSAGE_LINE_BREAKS,
   DEFAULT_META_LINE_BREAKS,
@@ -20,9 +20,9 @@ describe("resolveOutputConfig", () => {
     expect(config).toEqual({
       hideDate: DEFAULT_HIDE_DATE,
       hideId: DEFAULT_HIDE_ID,
-      hideContext: DEFAULT_HIDE_CONTEXT,
-      contextSeparator: DEFAULT_CONTEXT_SEPARATOR,
-      showOnlyLatestContext: DEFAULT_SHOW_ONLY_LATEST_CONTEXT,
+      hideScope: DEFAULT_HIDE_SCOPE,
+      scopeSeparator: DEFAULT_SCOPE_SEPARATOR,
+      showOnlyLatestScope: DEFAULT_SHOW_ONLY_LATEST_SCOPE,
       messagePrefix: DEFAULT_MESSAGE_PREFIX,
       messageLineBreaks: DEFAULT_MESSAGE_LINE_BREAKS,
       metaLineBreaks: DEFAULT_META_LINE_BREAKS,
@@ -38,7 +38,7 @@ describe("resolveOutputConfig", () => {
     const config = resolveOutputConfig({
       hideId: true,
       hideDate: false,
-      contextSeparator: " > ",
+      scopeSeparator: " > ",
       messageLineBreaks: 2,
       formatter,
     });
@@ -46,7 +46,7 @@ describe("resolveOutputConfig", () => {
     expect(config).toMatchObject({
       hideId: true,
       hideDate: false,
-      contextSeparator: " > ",
+      scopeSeparator: " > ",
       messageLineBreaks: 2,
       formatter,
     });

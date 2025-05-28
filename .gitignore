@@ -42,3 +42,9 @@ next-env.d.ts
 
 # dist
 /dist
+
+### CUSTOM
+/examples
+/index.html
+/index.js
+/benchmark.js

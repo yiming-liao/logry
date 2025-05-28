@@ -56,9 +56,9 @@ export const DEFAULT_LOG_LEVEL: LogLevel = "warn";
 // Default output configuration values for all platforms.
 export const DEFAULT_HIDE_DATE = false;
 export const DEFAULT_HIDE_ID = false;
-export const DEFAULT_HIDE_CONTEXT = false;
-export const DEFAULT_CONTEXT_SEPARATOR = " > ";
-export const DEFAULT_SHOW_ONLY_LATEST_CONTEXT = false;
+export const DEFAULT_HIDE_SCOPE = false;
+export const DEFAULT_SCOPE_SEPARATOR = " > ";
+export const DEFAULT_SHOW_ONLY_LATEST_SCOPE = false;
 export const DEFAULT_MESSAGE_PREFIX = " • ";
 export const DEFAULT_MESSAGE_LINE_BREAKS = 0;
 export const DEFAULT_META_LINE_BREAKS = 0;
