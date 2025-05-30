@@ -45,6 +45,5 @@ next-env.d.ts
 
 ### CUSTOM
 /examples
-/index.html
-/index.js
-/benchmark.js
+/benchmarks
+/notes.md

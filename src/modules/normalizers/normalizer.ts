@@ -1,0 +1,67 @@
+import type { RawPayload } from "@/core/logger/types";
+import type { BaseNormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
+import type { NormalizedPayload } from "@/modules/normalizers/types";
+import type { Platform } from "@/shared/types";
+import { normalizeContext } from "@/modules/normalizers/parts/context";
+import { normalizeId } from "@/modules/normalizers/parts/id";
+import { normalizeLevel } from "@/modules/normalizers/parts/level";
+import { normalizeMessage } from "@/modules/normalizers/parts/message";
+import { normalizeMeta } from "@/modules/normalizers/parts/meta";
+import { normalizeScope } from "@/modules/normalizers/parts/scope";
+import { normalizeTimestamp } from "@/modules/normalizers/parts/timestamp";
+
+export class Normalizer {
+  /**
+   * Normalize raw log payload according to platform config.
+   * Returns a standardized log object for further processing.
+   * @param platform Platform type, e.g. "node" or "browser"
+   * @param payload Raw log payload with all possible fields
+   * @returns Normalized log payload
+   */
+  normalize(
+    platform: Platform,
+    {
+      timestamp,
+      id,
+      level,
+      scope,
+      message,
+      meta,
+      context,
+      normalizerConfig,
+      formatterConfig,
+      raw,
+    }: RawPayload,
+  ): NormalizedPayload {
+    let config: BaseNormalizerConfig = {};
+
+    if (platform === "node") {
+      config = normalizerConfig.node || {};
+    } else if (platform === "browser") {
+      config = normalizerConfig.browser || {};
+    }
+
+    const {
+      timestamp: timestampOptions,
+      id: idOptions,
+      level: levelOptions,
+      scope: scopeOptions,
+      message: messageOptions,
+      meta: metaOptions,
+      context: contextOptions,
+    } = config;
+
+    return {
+      timestamp: normalizeTimestamp(timestamp, timestampOptions),
+      id: normalizeId(id, idOptions),
+      level: normalizeLevel(level, levelOptions),
+      scope: normalizeScope(scope, scopeOptions),
+      message: normalizeMessage(message, messageOptions),
+      meta: normalizeMeta(meta, metaOptions),
+      context: normalizeContext(context, contextOptions),
+      normalizerConfig,
+      formatterConfig,
+      raw,
+    };
+  }
+}

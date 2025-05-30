@@ -1,12 +1,15 @@
 <p align="center">
   <!-- <img src="logry-logo.png" alt="logry Logo" width="150"  /> -->
 </p>
+
 <h1 align="center">Logry</h1>
 
 <div align="center">
 
-**Logry** is a lightweight, environment-agnostic **logging library for Node.js and modern browsers**.  
-It supports scoped loggers, customizable output styles, and factory-managed cores, and is written entirely in **TypeScript**.
+**Logry** is a lightweight, environment-agnostic logging library,  
+built for both Node.js and modern browsers, written entirely in TypeScript.  
+It offers scoped loggers, fully customizable output styles,  
+and a factory-managed core for flexible setups.
 
 </div>
 
@@ -21,14 +24,17 @@ It supports scoped loggers, customizable output styles, and factory-managed core
 
 ---
 
-## Features
+<h2>
+    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="25" height="25" /> Features at a Glance 
+</h2>
 
-- ⚡ **Lightweight & Type-Safe** – Built with TypeScript, no runtime dependencies
-- 🌍 **Universal Output** – Works in both Node.js and browser environments
-- 🎨 **Customizable Styles** – Flexible log formatting per platform
-- 🧱 **Factory-Controlled Cores** – Shared or isolated logger cores with unique IDs
-- 🌿 **Scoped Logging** – Create context-aware child loggers
-- 🧪 **Test-Friendly** – Easily resettable state for isolated test environments
+- ⚡ **Lightweight & Type-Safe** — Written in TypeScript with zero runtime dependencies for safety and speed
+- 🌍 **Universal Output** — Runs flawlessly in both Node.js and browser environments
+- 🎨 Customizable Styles — Start with the default look and fully customize your own formatting
+- 🧱 **Clean & Intuitive API** — Familiar methods (debug, info, warn, error) with zero learning curve
+- 🌿 **Scoped Logging** — Organize logs with modular, hierarchical scopes
+- 🧠 **Contextual Logs** — Pass and trace context (e.g., userId, requestId) across your app
+- 🔁 **Global or Isolated Cores** — Use a shared core or spin up isolated ones per need
 
 ---
 
@@ -65,42 +71,43 @@ yarn add logry
 
 ---
 
-## Quick Start
+<h2> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" />  Quick Start </h2>
 
 #### Using the Default Logger
 
-The simplest way to use **logry** is by using the default logger instance, which has the ID 'default'.
+The simplest way to use **logry** is by importing the default logging methods directly, which internally use a shared logger instance.
 
 ```typescript
 import { debug, info, warn, error } from "logry";
 
-info("☀️ Application started");
+// Simple debug message without extra data
+debug("Fetching user profile from cache");
 
-// Output:
-//  [2025-05-21 21:55:59] [default] [INFO]
-//   • ☀️ Application started
+// Info message with additional metadata
+info("User logged in", { userId: "user_123" });
 
-//      message,       meta,                 LogOptions
-debug("Checking...", { user: "John doe" }, { context: "dashboard" });
+// Skip meta by passing undefined, but track the current scope
+warn("User session is about to expire", undefined, { scope: "qweqweqwe" });
 
-// Output:
-//  [2025-05-21 21:55:59] [default] [DEBUG] (dashboard)
-//   • Checking...
-//  { user: 'John doe' }
+// Log an error object directly
+error("Unexpected error occurred", new Error("Something went wrong"));
 ```
 
 #### Creating a Custom Logger
 
-You can also create a custom logger instance with logry().  
-By default, the log level will be set to 'warn'.
+If you prefer a dedicated logger, you can create one with logry.
+By default, the log level is set to 'warn'.
 
 ```typescript
 import { logry } from "logry";
 
-const logger = logry({ id: "my-app" }); // Creates a new logger instance with ID 'my-app'
+const logger = logry();
 
-logger.warn("Low disk space");
-logger.info("Application started"); // Will not print if level is 'warn' (Default)
+// ❌ Won't show up because the default level is 'warn', so 'info' is too low.
+logger.info("User logged in");
+
+// ✅ This one will appear since 'warn' is the default minimum level.
+logger.warn("User login warning");
 ```
 
 ---
@@ -119,14 +126,16 @@ logger.info("Application started"); // Will not print if level is 'warn' (Defaul
 The logger will only output messages at or above the current level.  
 For example, if the level is set to 'warn', only warn and error messages will be printed.
 
-#### You can set the level globally or per instance:
+#### You can specify the desired log level when creating a logger instance:
+
+but this only affects the initial configuration and does not override the core’s log level.
 
 ```typescript
-// Set log level when creating a logger
+// Initialize a logger with a preferred level (for initial filtering)
 const logger = logry({ id: "my-app", level: "debug" });
 ```
 
-#### Or override it in a child logger:
+#### Or create a child logger with customized configuration:
 
 ```typescript
 const debugLogger = logger.child({ level: "debug" });
@@ -138,23 +147,23 @@ const debugLogger = logger.child({ level: "debug" });
 
 #### Child Logger Instances
 
-You can create scoped loggers using the .child() method.
-This helps organize logs by module, feature, or context.
+The .child() method creates a new logger instance that inherits all settings from its parent.  
+You can pass options like scope, context, or outputConfig, which will be merged with the parent’s configuration.
+
+Scopes in logry stack themselves up automatically — like breadcrumbs leading you through `auth > test` and beyond.  
+Oh, and if you don’t like the `>` separator, you can totally customize that too!
 
 ```typescript
-const authLogger = logger.child({ context: "auth" });
+const authLogger = logger.child({ scope: "auth" });
 
 authLogger.debug("Login attempt");
 //  [21:37:53] [DEBUG] (auth)
 //  • Login attempt
 
-authLogger.child({ context: "test" }).error("Token expired");
+authLogger.child({ scope: "test" }).error("Token expired");
 //  [21:49:41] [ERROR] (auth > test)
 //  • Token expired
 ```
-
-The child logger will inherit the parent logger’s configuration (such as log level),  
-but will prepend its scope to all log messages for better traceability.
 
 ---
 
