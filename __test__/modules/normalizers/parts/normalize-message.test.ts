@@ -1,4 +1,4 @@
-import { normalizeMessage } from "@/modules/normalizers/parts/message";
+import { normalizeMessage } from "@/modules/normalizers/parts";
 
 describe("normalizeMessage", () => {
   it("should return customized message if customNormalizer is provided", () => {

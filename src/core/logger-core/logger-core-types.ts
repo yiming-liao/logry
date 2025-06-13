@@ -10,3 +10,5 @@ export interface LoggerCoreOptions {
   normalizerConfig?: NormalizerConfig;
   handlerConfig?: HandlerConfig;
 }
+
+export type LevelChangeCallback = (newLevel: Level) => void;

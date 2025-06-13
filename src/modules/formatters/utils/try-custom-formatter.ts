@@ -1,9 +1,9 @@
 import { internalError } from "@/internal";
 
-type TryCustomFormatterOptions<TInput, TResult> = {
+type TryCustomFormatterOptions<Input, Result> = {
   label: string;
-  input: TInput;
-  customFormatter: ((input: TInput) => TResult) | undefined;
+  input: Input;
+  customFormatter: ((input: Input) => Result) | undefined;
 };
 
 /**
@@ -14,11 +14,11 @@ type TryCustomFormatterOptions<TInput, TResult> = {
  * @param customFormatter - Optional custom formatter function.
  * @returns Result of the custom formatter or undefined on failure.
  */
-export function tryCustomFormatter<TInput, TResult>({
+export function tryCustomFormatter<Input, Result>({
   label,
   input,
   customFormatter,
-}: TryCustomFormatterOptions<TInput, TResult>): TResult | undefined {
+}: TryCustomFormatterOptions<Input, Result>): Result | undefined {
   if (typeof customFormatter === "function") {
     try {
       return customFormatter(input);

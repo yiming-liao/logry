@@ -3,13 +3,14 @@ import type { FormatterConfig } from "@/modules/formatters/formatter-config-type
 import type { NormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
 
 export type NormalizedStructuredPart = Record<string, unknown> | undefined;
+export type NormalizedStringPart = string;
 
 // Normalized log data types
 export type NormalizedTimestamp = string | number;
-export type NormalizedId = string;
-export type NormalizedLevel = string;
-export type NormalizedScope = string;
-export type NormalizedMessage = string;
+export type NormalizedId = NormalizedStringPart;
+export type NormalizedLevel = NormalizedStringPart;
+export type NormalizedScope = NormalizedStringPart;
+export type NormalizedMessage = NormalizedStringPart;
 export type NormalizedMeta = NormalizedStructuredPart;
 export type NormalizedContext = NormalizedStructuredPart;
 

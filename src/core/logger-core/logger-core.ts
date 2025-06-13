@@ -1,8 +1,12 @@
-import type { LoggerCoreOptions } from "@/core/logger-core/logger-core-types";
+import type {
+  LevelChangeCallback,
+  LoggerCoreOptions,
+} from "@/core/logger-core/logger-core-types";
 import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
 import type { HandlerConfig } from "@/modules/handler-manager";
 import type { NormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
 import type { Level } from "@/shared/types";
+import { internalLog } from "@/internal";
 import { HandlerManager } from "@/modules/handler-manager";
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
@@ -28,6 +32,8 @@ export class LoggerCore {
   private readonly handlerConfig?: HandlerConfig;
   /** Manages all log handlers */
   public readonly handlerManager: HandlerManager;
+  // A set to keep all registered callbacks which listen to level changes.
+  private levelChangeCallbacks: Set<LevelChangeCallback> = new Set();
 
   /**
    * Constructs a new LoggerCore instance.
@@ -62,18 +68,52 @@ export class LoggerCore {
 
   /**
    * Dynamically update the current log level.
-   * @param level - The new log level to set.
-   * @throws Will throw an error if the level is invalid.
+   * This will trigger notification to all registered listeners.
    */
   setLevel(level: Level) {
     assertValidLevel(level);
     this.level = level;
+    this.notifyLevelChange(level);
   }
 
   /**
    * Resets the log level to its original value defined during construction.
+   * Triggers notification to all registered listeners.
    */
   resetLevel() {
     this.level = this.initialLevel;
+    this.notifyLevelChange(this.level);
+  }
+
+  /**
+   * Notify all registered callbacks of the current log level change.
+   */
+  private notifyLevelChange(level: Level) {
+    for (const callback of this.levelChangeCallbacks) {
+      try {
+        callback(level);
+      } catch (error) {
+        internalLog({
+          type: "error",
+          tag: "Logger Core",
+          message: "levelChange callback error.",
+          error,
+        });
+      }
+    }
+  }
+
+  /**
+   * Register a callback function that will be invoked whenever the log level changes.
+   */
+  onLevelChange(callback: LevelChangeCallback) {
+    this.levelChangeCallbacks.add(callback);
+  }
+
+  /**
+   * Unregister a previously registered level change callback.
+   */
+  offLevelChange(callback: LevelChangeCallback) {
+    this.levelChangeCallbacks.delete(callback);
   }
 }

@@ -1,5 +1,5 @@
-import type { FormattedContext } from "@/modules/formatters/types";
 import type { FormatStructuredPartOptions } from "@/modules/formatters/node/shared/format-structured-parts";
+import type { FormattedContext } from "@/modules/formatters/types";
 import type { NormalizedContext } from "@/modules/normalizers";
 import {
   DEFAULT_CONTEXT_HIDE,

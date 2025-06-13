@@ -1,6 +1,6 @@
 import type { RawHostname } from "@/core/logger/types";
-import type { FormattedPid } from "@/modules/formatters/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type { FormattedPid } from "@/modules/formatters/types";
 import {
   DEFAULT_HOSTNAME_ANSI_COLOR,
   DEFAULT_HOSTNAME_HIDE,

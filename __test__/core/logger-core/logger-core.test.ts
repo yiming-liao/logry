@@ -1,7 +1,12 @@
 import type { Level } from "@/shared/types";
 import { LoggerCore } from "@/core/logger-core/logger-core";
+import { internalLog } from "@/internal";
 import { HandlerManager } from "@/modules/handler-manager";
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
+
+jest.mock("@/internal", () => ({
+  internalLog: jest.fn(),
+}));
 
 describe("LoggerCore", () => {
   let spySetConfig: jest.SpyInstance;
@@ -65,5 +70,57 @@ describe("LoggerCore", () => {
     new LoggerCore({ handlerConfig });
     expect(spySetConfig).toHaveBeenCalled();
     expect(spySetConfig).toHaveBeenCalledWith(handlerConfig);
+  });
+
+  // 新增部分：測試 levelChangeCallbacks 的功能
+
+  it("should call registered callbacks when level changes", () => {
+    const logger = new LoggerCore({});
+    const callback = jest.fn();
+
+    logger.onLevelChange(callback);
+    logger.setLevel("error");
+
+    expect(callback).toHaveBeenCalledWith("error");
+  });
+
+  it("should call registered callbacks when level resets", () => {
+    const logger = new LoggerCore({ level: "warn" });
+    const callback = jest.fn();
+
+    logger.onLevelChange(callback);
+    logger.setLevel("error");
+    logger.resetLevel();
+
+    expect(callback).toHaveBeenCalledWith("warn");
+  });
+
+  it("should not call callback after it has been removed", () => {
+    const logger = new LoggerCore({});
+    const callback = jest.fn();
+
+    logger.onLevelChange(callback);
+    logger.offLevelChange(callback);
+    logger.setLevel("error");
+
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  it("should catch errors thrown by callbacks and continue notifying others", () => {
+    const logger = new LoggerCore({});
+
+    // 這裡已被 jest.mock 自動 mock，直接拿來用
+    const callback1 = () => {
+      throw new Error("callback error");
+    };
+    const callback2 = jest.fn();
+
+    logger.onLevelChange(callback1);
+    logger.onLevelChange(callback2);
+
+    logger.setLevel("info");
+
+    expect(callback2).toHaveBeenCalled();
+    expect(internalLog).toHaveBeenCalled();
   });
 });

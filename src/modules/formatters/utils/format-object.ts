@@ -1,4 +1,4 @@
-import type { StringifyFormat } from "@/modules/formatters/types";
+import type { StringifyFormat } from "@/modules/formatters";
 import { internalLog } from "@/internal";
 
 /**

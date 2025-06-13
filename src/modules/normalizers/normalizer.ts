@@ -2,13 +2,15 @@ import type { RawPayload } from "@/core/logger/types";
 import type { BaseNormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
 import type { NormalizedPayload } from "@/modules/normalizers/types";
 import type { Platform } from "@/shared/types";
-import { normalizeContext } from "@/modules/normalizers/parts/context";
-import { normalizeId } from "@/modules/normalizers/parts/id";
-import { normalizeLevel } from "@/modules/normalizers/parts/level";
-import { normalizeMessage } from "@/modules/normalizers/parts/message";
-import { normalizeMeta } from "@/modules/normalizers/parts/meta";
-import { normalizeScope } from "@/modules/normalizers/parts/scope";
-import { normalizeTimestamp } from "@/modules/normalizers/parts/timestamp";
+import {
+  normalizeTimestamp,
+  normalizeId,
+  normalizeLevel,
+  normalizeScope,
+  normalizeMessage,
+  normalizeMeta,
+  normalizeContext,
+} from "@/modules/normalizers/parts";
 
 export class Normalizer {
   /**

@@ -1,13 +1,10 @@
 import { internalLog } from "@/internal";
-import { normalizeTimestamp } from "@/modules/normalizers/parts/timestamp";
-import { buildTimestampString } from "@/modules/normalizers/parts/timestamp/utils/build-timestamp-string";
+import { normalizeTimestamp } from "@/modules/normalizers/parts";
+import { buildTimestampString } from "@/modules/normalizers/utils/build-timestamp-string";
 
-jest.mock(
-  "@/modules/normalizers/parts/timestamp/utils/build-timestamp-string",
-  () => ({
-    buildTimestampString: jest.fn(() => "mocked-pretty-string"),
-  }),
-);
+jest.mock("@/modules/normalizers/utils/build-timestamp-string", () => ({
+  buildTimestampString: jest.fn(() => "mocked-pretty-string"),
+}));
 
 jest.mock("@/internal/internal-log", () => ({
   internalLog: jest.fn(),

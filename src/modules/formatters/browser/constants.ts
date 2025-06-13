@@ -1,4 +1,4 @@
-import type { StringifyFormat } from "@/modules/formatters/types";
+import type { StringifyFormat } from "@/modules/formatters";
 
 export const BROWSER_FONT_STYLE =
   "font-family: 'Menlo', 'Consolas', 'Courier New', monospace;";

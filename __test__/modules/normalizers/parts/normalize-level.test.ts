@@ -1,6 +1,6 @@
 import { internalLog } from "@/internal";
 import { DEFAULT_LEVEL_STYLE } from "@/modules/normalizers/constants";
-import { normalizeLevel } from "@/modules/normalizers/parts/level";
+import { normalizeLevel } from "@/modules/normalizers/parts";
 
 // mock internalLog
 jest.mock("@/internal/internal-log", () => ({

@@ -28,6 +28,14 @@ describe("Logger", () => {
       expect(logger["normalizer"]).toBeDefined();
       expect(logger["nodeFormatter"]).toBeDefined();
     });
+
+    it("should sync level with core and update when core level changes", () => {
+      expect(logger["level"]).toBe("debug");
+      core.setLevel("error");
+      expect(logger["level"]).toBe("error");
+      core.resetLevel();
+      expect(logger["level"]).toBe(core.level);
+    });
   });
 
   describe("getCore", () => {

@@ -2,7 +2,7 @@ import type {
   TimestampStyle,
   ScopeSeparator,
   LevelStyle,
-} from "@/modules/normalizers/types";
+} from "@/modules/normalizers";
 import type { Level } from "@/shared/types";
 
 // Timestamp

@@ -1,5 +1,8 @@
 import type { RawLevel } from "@/core/logger/types";
-import type { NormalizedLevelOptions } from "@/modules/normalizers/parts/level/normalize-level-types";
+import type {
+  NormalizeLevelExtraOptions,
+  NormalizePartOptions,
+} from "@/modules/normalizers/normalize-part-types";
 import type { NormalizedLevel } from "@/modules/normalizers/types";
 import { internalLog } from "@/internal";
 import {
@@ -11,14 +14,18 @@ import { tryCustomNormalizer } from "@/modules/normalizers/utils/try-custom-norm
 
 export const normalizeLevel = (
   level: RawLevel,
-  options: NormalizedLevelOptions = {},
+  options: NormalizePartOptions<
+    RawLevel,
+    NormalizedLevel,
+    NormalizeLevelExtraOptions
+  > = {},
 ): NormalizedLevel => {
   const { style = DEFAULT_LEVEL_STYLE, customNormalizer } = options;
 
   // Use custom normalizer if provided
   const customized = tryCustomNormalizer({
     label: "level",
-    input: level,
+    input: { part: level },
     customNormalizer,
   });
   if (customized) {

@@ -1,6 +1,6 @@
 import type { RawId } from "@/core/logger/types";
-import type { FormattedId } from "@/modules/formatters/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type { FormattedId } from "@/modules/formatters/types";
 import type { NormalizedId } from "@/modules/normalizers";
 import {
   DEFAULT_ID_ANSI_COLOR,

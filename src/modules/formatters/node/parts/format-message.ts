@@ -1,6 +1,6 @@
 import type { RawMessage } from "@/core/logger/types";
-import type { FormattedMessage } from "@/modules/formatters/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type { FormattedMessage } from "@/modules/formatters/types";
 import type { NormalizedMessage } from "@/modules/normalizers";
 import {
   DEFAULT_MESSAGE_ANSI_COLOR,

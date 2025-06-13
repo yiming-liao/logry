@@ -1,9 +1,9 @@
 import { internalError } from "@/internal";
 
-type TryCustomNormalizerOptions<TInput, TResult> = {
+type TryCustomNormalizerOptions<Input, Result> = {
   label: string;
-  input: TInput;
-  customNormalizer?: (input: TInput) => TResult;
+  input: Input;
+  customNormalizer?: (input: Input) => Result;
 };
 
 /**
@@ -14,11 +14,11 @@ type TryCustomNormalizerOptions<TInput, TResult> = {
  * @param customNormalizer - Optional custom normalizer function.
  * @returns Result of the custom normalizer or undefined on failure.
  */
-export const tryCustomNormalizer = <TInput, TResult>({
+export const tryCustomNormalizer = <Input, Result>({
   label,
   input,
   customNormalizer,
-}: TryCustomNormalizerOptions<TInput, TResult>): TResult | undefined => {
+}: TryCustomNormalizerOptions<Input, Result>): Result | undefined => {
   if (typeof customNormalizer === "function") {
     try {
       return customNormalizer(input);

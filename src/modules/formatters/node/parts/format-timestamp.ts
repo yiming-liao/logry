@@ -1,6 +1,6 @@
 import type { RawTimestamp } from "@/core/logger/types";
-import type { FormattedTimestamp } from "@/modules/formatters/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type { FormattedTimestamp } from "@/modules/formatters/types";
 import type { NormalizedTimestamp } from "@/modules/normalizers";
 import {
   DEFAULT_TIMESTAMP_PREFIX,

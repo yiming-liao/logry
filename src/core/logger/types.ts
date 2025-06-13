@@ -13,7 +13,7 @@ export type RawLevel = Level;
 export type RawScope = string[];
 export type RawMessage = string;
 export type RawMeta = unknown;
-export type RawContext = Record<string, unknown>;
+export type RawContext = Record<string, unknown> | undefined;
 /** Only used in Node.js environment (NodeConsoleTransporter) */
 export type RawPid = number;
 export type RawHostname = string;

@@ -1,5 +1,5 @@
-import type { FormattedMeta } from "@/modules/formatters/types";
 import type { FormatStructuredPartOptions } from "@/modules/formatters/node/shared/format-structured-parts";
+import type { FormattedMeta } from "@/modules/formatters/types";
 import type { NormalizedMeta } from "@/modules/normalizers";
 import {
   DEFAULT_META_HIDE,

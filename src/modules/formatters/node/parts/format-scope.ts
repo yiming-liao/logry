@@ -1,6 +1,6 @@
 import type { RawScope } from "@/core/logger/types";
-import type { FormattedScope } from "@/modules/formatters/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type { FormattedScope } from "@/modules/formatters/types";
 import type { NormalizedScope } from "@/modules/normalizers";
 import {
   DEFAULT_SCOPE_HIDE,

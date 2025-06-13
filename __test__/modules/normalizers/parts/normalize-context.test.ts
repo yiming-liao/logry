@@ -1,4 +1,4 @@
-import { normalizeContext } from "@/modules/normalizers/parts/context";
+import { normalizeContext } from "@/modules/normalizers/parts";
 
 describe("normalizeContext", () => {
   it("should return customized context if customNormalizer is provided", () => {

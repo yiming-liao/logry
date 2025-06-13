@@ -1,6 +1,6 @@
 import type { RawLevel } from "@/core/logger/types";
-import type { FormattedLevel } from "@/modules/formatters/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type { FormattedLevel } from "@/modules/formatters/types";
 import type { NormalizedLevel } from "@/modules/normalizers";
 import {
   DEFAULT_LEVEL_HIDE,

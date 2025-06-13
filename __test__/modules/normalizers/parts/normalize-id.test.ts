@@ -1,4 +1,4 @@
-import { normalizeId } from "@/modules/normalizers/parts/id";
+import { normalizeId } from "@/modules/normalizers/parts";
 
 describe("normalizeId", () => {
   it("should return customized id if customNormalizer is provided", () => {

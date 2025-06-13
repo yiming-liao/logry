@@ -3,10 +3,20 @@
 import { isNode } from "@/shared/utils/platform";
 
 /**
- * Detect if current runtime is in development mode.
- * In Node.js, checks NODE_ENV; in browser, checks __LOGRY_DEV__ global.
+ * Detects if the current runtime environment is in development mode.
  *
- * @returns true if in development mode, false otherwise
+ * In Node.js, it checks the NODE_ENV environment variable:
+ * - If NODE_ENV is set, returns true unless it's 'production'.
+ * - If NODE_ENV is undefined, defaults to development mode (true).
+ *
+ * In browsers, it checks the global `__LOGRY_DEV__` flag:
+ * - Returns true if `__LOGRY_DEV__` is explicitly set to a truthy value.
+ * - Defaults to production mode (false) if the flag is undefined.
+ *
+ * This design assumes Node defaults to development for ease of local testing,
+ * while browsers default to production to avoid unnecessary debug logs.
+ *
+ * @returns boolean indicating if running in development mode
  */
 export const isDevMode = (): boolean => {
   if (isNode()) {

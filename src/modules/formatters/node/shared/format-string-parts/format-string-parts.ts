@@ -5,8 +5,8 @@ import type {
   RawScope,
   RawTimestamp,
 } from "@/core/logger/types";
-import type { FormattedStringPart } from "@/modules/formatters/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type { FormattedStringPart } from "@/modules/formatters/types";
 import { addAnsiColor } from "@/modules/formatters/utils/add-ansi-color";
 import { addLineBreakPrefix } from "@/modules/formatters/utils/add-line-break-prefix";
 import { addPrefixAndSuffix } from "@/modules/formatters/utils/add-prefix-and-suffix";

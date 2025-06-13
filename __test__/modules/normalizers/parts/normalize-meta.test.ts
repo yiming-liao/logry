@@ -1,4 +1,4 @@
-import { normalizeMeta } from "@/modules/normalizers/parts/meta";
+import { normalizeMeta } from "@/modules/normalizers/parts";
 import { serializeMeta } from "@/modules/normalizers/utils/serialize-meta";
 
 jest.mock("@/modules/normalizers/utils/serialize-meta", () => ({

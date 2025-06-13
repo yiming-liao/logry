@@ -1,5 +1,5 @@
-import type { FormattedStructuredPart } from "@/modules/formatters/types";
 import type { FormatStructuredPartOptions } from "@/modules/formatters/node/shared/format-structured-parts/format-structured-parts-types";
+import type { FormattedStructuredPart } from "@/modules/formatters/types";
 import type { NormalizedStructuredPart } from "@/modules/normalizers/types";
 import { addAnsiColor } from "@/modules/formatters/utils/add-ansi-color";
 import { addLineBreakPrefix } from "@/modules/formatters/utils/add-line-break-prefix";

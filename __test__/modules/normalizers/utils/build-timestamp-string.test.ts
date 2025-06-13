@@ -1,4 +1,4 @@
-import { buildTimestampString } from "@/modules/normalizers/parts/timestamp/utils/build-timestamp-string";
+import { buildTimestampString } from "@/modules/normalizers/utils/build-timestamp-string";
 
 describe("buildTimestampString", () => {
   const baseDate = new Date("2024-06-04T12:30:45Z");

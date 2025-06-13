@@ -1,12 +1,14 @@
 export { Normalizer } from "./normalizer";
 
-export { normalizeTimestamp } from "./parts/timestamp";
-export { normalizeId } from "./parts/id";
-export { normalizeLevel } from "./parts/level";
-export { normalizeScope } from "./parts/scope";
-export { normalizeMessage } from "./parts/message";
-export { normalizeMeta } from "./parts/meta";
-export { normalizeContext } from "./parts/context";
+export {
+  normalizeTimestamp,
+  normalizeId,
+  normalizeLevel,
+  normalizeScope,
+  normalizeMessage,
+  normalizeMeta,
+  normalizeContext,
+} from "./parts";
 
 export type {
   NormalizerConfig,

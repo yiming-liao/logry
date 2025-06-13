@@ -1,10 +1,28 @@
-import type { NormalizedContextOptions } from "@/modules/normalizers/parts/context";
-import type { NormalizedIdOptions } from "@/modules/normalizers/parts/id";
-import type { NormalizedLevelOptions } from "@/modules/normalizers/parts/level";
-import type { NormalizedMessageOptions } from "@/modules/normalizers/parts/message";
-import type { NormalizedMetaOptions } from "@/modules/normalizers/parts/meta";
-import type { NormalizedScopeOptions } from "@/modules/normalizers/parts/scope";
-import type { NormalizedTimestampOptions } from "@/modules/normalizers/parts/timestamp";
+import type {
+  RawTimestamp,
+  RawId,
+  RawLevel,
+  RawScope,
+  RawMessage,
+  RawMeta,
+  RawContext,
+} from "@/core/logger";
+import type {
+  NormalizeLevelExtraOptions,
+  NormalizeMetaExtraOptions,
+  NormalizePartOptions,
+  NormalizeScopeExtraOptions,
+  NormalizeTimestampExtraOptions,
+} from "@/modules/normalizers/normalize-part-types";
+import type {
+  NormalizedTimestamp,
+  NormalizedId,
+  NormalizedLevel,
+  NormalizedScope,
+  NormalizedMessage,
+  NormalizedMeta,
+  NormalizedContext,
+} from "@/modules/normalizers/types";
 
 export type TimestampStyle = "raw" | "pretty" | "iso" | "epoch";
 export type LevelStyle = "upper" | "lower" | "title";
@@ -12,13 +30,29 @@ export type LevelStyle = "upper" | "lower" | "title";
 export type ScopeSeparator = "." | " > " | ">" | ":" | "/" | "_" | "-";
 
 export type BaseNormalizerConfig = {
-  timestamp?: NormalizedTimestampOptions;
-  id?: NormalizedIdOptions;
-  level?: NormalizedLevelOptions;
-  scope?: NormalizedScopeOptions;
-  message?: NormalizedMessageOptions;
-  meta?: NormalizedMetaOptions;
-  context?: NormalizedContextOptions;
+  timestamp?: NormalizePartOptions<
+    RawTimestamp,
+    NormalizedTimestamp,
+    NormalizeTimestampExtraOptions
+  >;
+  id?: NormalizePartOptions<RawId, NormalizedId>;
+  level?: NormalizePartOptions<
+    RawLevel,
+    NormalizedLevel,
+    NormalizeLevelExtraOptions
+  >;
+  scope?: NormalizePartOptions<
+    RawScope,
+    NormalizedScope,
+    NormalizeScopeExtraOptions
+  >;
+  message?: NormalizePartOptions<RawMessage, NormalizedMessage>;
+  meta?: NormalizePartOptions<
+    RawMeta,
+    NormalizedMeta,
+    NormalizeMetaExtraOptions
+  >;
+  context?: NormalizePartOptions<RawContext, NormalizedContext>;
 };
 
 export type NormalizerConfig = {

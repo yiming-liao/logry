@@ -1,5 +1,8 @@
 import type { RawTimestamp } from "@/core/logger/types";
-import type { NormalizedTimestampOptions } from "@/modules/normalizers/parts/timestamp/normalize-timestamp-types";
+import type {
+  NormalizePartOptions,
+  NormalizeTimestampExtraOptions,
+} from "@/modules/normalizers/normalize-part-types";
 import type { NormalizedTimestamp } from "@/modules/normalizers/types";
 import { internalLog } from "@/internal";
 import {
@@ -7,12 +10,16 @@ import {
   DEFAULT_TIMESTAMP_STYLE,
   DEFAULT_USE_UTC,
 } from "@/modules/normalizers/constants";
-import { buildTimestampString } from "@/modules/normalizers/parts/timestamp/utils/build-timestamp-string";
+import { buildTimestampString } from "@/modules/normalizers/utils/build-timestamp-string";
 import { tryCustomNormalizer } from "@/modules/normalizers/utils/try-custom-normalizer";
 
 export const normalizeTimestamp = (
   timestamp: RawTimestamp,
-  options: NormalizedTimestampOptions = {},
+  options: NormalizePartOptions<
+    RawTimestamp,
+    NormalizedTimestamp,
+    NormalizeTimestampExtraOptions
+  > = {},
 ): NormalizedTimestamp => {
   const {
     style = DEFAULT_TIMESTAMP_STYLE,
@@ -24,7 +31,7 @@ export const normalizeTimestamp = (
   // Use custom normalizer if provided
   const customized = tryCustomNormalizer({
     label: "timestamp",
-    input: timestamp,
+    input: { part: timestamp },
     customNormalizer,
   });
   if (customized) {

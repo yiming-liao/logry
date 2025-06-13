@@ -10,13 +10,13 @@ import {
   normalizeContext,
 } from "@/modules/normalizers";
 
-jest.mock("@/modules/normalizers/parts/timestamp");
-jest.mock("@/modules/normalizers/parts/id");
-jest.mock("@/modules/normalizers/parts/level");
-jest.mock("@/modules/normalizers/parts/scope");
-jest.mock("@/modules/normalizers/parts/message");
-jest.mock("@/modules/normalizers/parts/meta");
-jest.mock("@/modules/normalizers/parts/context");
+jest.mock("@/modules/normalizers/parts");
+jest.mock("@/modules/normalizers/parts");
+jest.mock("@/modules/normalizers/parts");
+jest.mock("@/modules/normalizers/parts");
+jest.mock("@/modules/normalizers/parts");
+jest.mock("@/modules/normalizers/parts");
+jest.mock("@/modules/normalizers/parts");
 
 describe("Normalizer", () => {
   let normalizer: Normalizer;

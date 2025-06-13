@@ -1,4 +1,4 @@
-import type { StringifyFormat } from "@/modules/formatters/types";
+import type { StringifyFormat } from "@/modules/formatters";
 
 /** ANSI escape code that resets color formatting */
 export const ANSI_COLOR_RESET = "\x1b[0m";

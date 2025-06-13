@@ -5,8 +5,8 @@ import type {
   RawScope,
   RawTimestamp,
 } from "@/core/logger/types";
-import type { FormattedStringPart } from "@/modules/formatters/types";
 import type { BaseFormatPartOptions } from "@/modules/formatters/formatter-config-types";
+import type { FormattedStringPart } from "@/modules/formatters/types";
 
 export type CustomStringPartFormatter = ({
   part,

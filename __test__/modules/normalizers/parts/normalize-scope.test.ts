@@ -1,5 +1,5 @@
 import { DEFAULT_SCOPE_SEPARATOR } from "@/modules/normalizers/constants";
-import { normalizeScope } from "@/modules/normalizers/parts/scope";
+import { normalizeScope } from "@/modules/normalizers/parts";
 
 describe("normalizeScope", () => {
   it("should return customized scope if customNormalizer is provided", () => {

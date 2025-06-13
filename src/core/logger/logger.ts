@@ -31,7 +31,7 @@ import { assertValidLevel } from "@/shared/utils/assert-valid-level";
  */
 export class Logger {
   private readonly core: LoggerCore;
-  private readonly level: Level;
+  private level: Level;
   private readonly scope: RawScope = [];
   private readonly context?: RawContext;
   // Normalizer
@@ -44,12 +44,12 @@ export class Logger {
   // HandlerManager
   private readonly handlerManager: HandlerManager;
   // Standard log methods
-  public trace: BoundLogMethod;
-  public debug: BoundLogMethod;
-  public info: BoundLogMethod;
-  public warn: BoundLogMethod;
-  public error: BoundLogMethod;
-  public fatal: BoundLogMethod;
+  public trace: BoundLogMethod = () => {};
+  public debug: BoundLogMethod = () => {};
+  public info: BoundLogMethod = () => {};
+  public warn: BoundLogMethod = () => {};
+  public error: BoundLogMethod = () => {};
+  public fatal: BoundLogMethod = () => {};
   // Force log methods (bypass level filtering)
   public force: Record<Exclude<Level, "silent">, BoundLogMethod>;
   // Transporters
@@ -67,6 +67,26 @@ export class Logger {
     this.level = level ?? core.level;
     this.scope = Array.isArray(scope) ? scope : [scope]; // Ensure scope is always an array
     this.context = context;
+    // Bind log method
+    const boundLog = this.log.bind(this);
+    // Update log methods according to level
+    const updateLogMethods = (level: Level) => {
+      this.trace = createBoundLogMethod(boundLog, level, "trace");
+      this.debug = createBoundLogMethod(boundLog, level, "debug");
+      this.info = createBoundLogMethod(boundLog, level, "info");
+      this.warn = createBoundLogMethod(boundLog, level, "warn");
+      this.error = createBoundLogMethod(boundLog, level, "error");
+      this.fatal = createBoundLogMethod(boundLog, level, "fatal");
+    };
+    updateLogMethods(this.level);
+    // Listen to core level changes and update log methods accordingly
+    this.core.onLevelChange((newLevel) => {
+      this.level = newLevel;
+      updateLogMethods(newLevel);
+    });
+    // Initialize force log methods
+    this.force = createForceMethods(boundLog);
+
     // Normalizer
     this.normalizerConfig = normalizerConfig ?? {};
     this.normalizer = new Normalizer();
@@ -76,16 +96,6 @@ export class Logger {
     this.browserFormatter = new BrowserFormatter();
     // HandlerManager
     this.handlerManager = core.handlerManager;
-    // Initialize standard log methods
-    const boundLog = this.log.bind(this);
-    this.trace = createBoundLogMethod(boundLog, this.level, "trace");
-    this.debug = createBoundLogMethod(boundLog, this.level, "debug");
-    this.info = createBoundLogMethod(boundLog, this.level, "info");
-    this.warn = createBoundLogMethod(boundLog, this.level, "warn");
-    this.error = createBoundLogMethod(boundLog, this.level, "error");
-    this.fatal = createBoundLogMethod(boundLog, this.level, "fatal");
-    // Initialize force log methods
-    this.force = createForceMethods(boundLog);
     // Transporters
     this.transporters.push(new NodeConsoleTransporter());
     this.transporters.push(new BrowserConsoleTransporter());
