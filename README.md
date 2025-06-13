@@ -401,6 +401,8 @@ Handled parts include:
 - message
 - meta
 - context
+- pid (_Node.js only_)
+- hostname (_Node.js only_)
 
 Each part has its own formatter. All formatters support optional style customizations and can be overridden with custom logic.
 
