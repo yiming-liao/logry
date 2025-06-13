@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunklogry_doc=self.webpackChunklogry_doc||[]).push([[1903],{1912:o=>{o.exports=JSON.parse('{"blogBasePath":"/logry/blog","blogTitle":"Blog","authorsListPath":"/logry/blog/authors"}')}}]);
