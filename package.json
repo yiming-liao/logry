@@ -1,6 +1,6 @@
 {
   "name": "logry",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight, environment-agnostic logging library with scoped loggers, customizable output styles, and factory-managed cores. Works seamlessly in Node.js and browser environments.",
   "author": "Yiming Liao",
   "license": "MIT",
@@ -41,7 +41,9 @@
   "module": "dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "type": "module",
   "scripts": {
