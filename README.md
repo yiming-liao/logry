@@ -6,10 +6,8 @@
 
 <div align="center">
 
-**Logry** is a lightweight, environment-agnostic logging library,  
-built for both Node.js and modern browsers, written entirely in TypeScript.  
-It offers scoped loggers, fully customizable output styles,  
-and a factory-managed core for flexible setups.
+A clean, lightweight, cross-platform logger that just works — on both Node.js and modern browsers.  
+Fully typed, deeply customizable, and built for the monorepo era.
 
 </div>
 
@@ -22,34 +20,60 @@ and a factory-managed core for flexible setups.
 
 </div>
 
----
+> Logging in fullstack apps is messy.  
+> You jump between server and browser, but most loggers don’t.  
+> **Logry** was built for the monorepo era — a single, fully-typed logger that works identically across platforms.
 
-<h2>
-    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="25" height="25" /> Features at a Glance 
-</h2>
-
-- ⚡ **Lightweight & Type-Safe** — Written in TypeScript with zero runtime dependencies for safety and speed
-- 🌍 **Universal Output** — Runs flawlessly in both Node.js and browser environments
-- 🎨 Customizable Styles — Start with the default look and fully customize your own formatting
-- 🧱 **Clean & Intuitive API** — Familiar methods (debug, info, warn, error) with zero learning curve
-- 🌿 **Scoped Logging** — Organize logs with modular, hierarchical scopes
-- 🧠 **Contextual Logs** — Pass and trace context (e.g., userId, requestId) across your app
-- 🔁 **Global or Isolated Cores** — Use a shared core or spin up isolated ones per need
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Box%20with%20Check.png" alt="Check Box with Check" width="13" height="13" /> Use the same logger in SSR, API routes, and client-side code  
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Box%20with%20Check.png" alt="Check Box with Check" width="13" height="13" /> Modular architecture: customize each part (normalize, format, transport)  
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Box%20with%20Check.png" alt="Check Box with Check" width="13" height="13" /> Fully typed, no runtime deps, scoped logging, plugin-ready
 
 ---
 
-## Output Preview
+## 📚 Outline
 
-The following example shows how logs appear in different environments:
+- [😎 Features at a Glance](#features-at-a-glance)
+- [🌟 Output Preview](#output-preview)
+- [🚩 Installation](#installation)
+- [🚀 Quick Start](#quick-start)
+- [🌌 Presets](#presets)
+- [☄️ Core Concepts](#core-concepts)
+  - [✨ Log Level](#✨-log-level)
+  - [✨ Child Loggers](#✨-child-loggers)
+  - [✨ Logger Core](#✨-logger-core)
+  - [✨ Logger Handlers and Tasks](#✨-logger-handlers-and-tasks)
+- [🔀 Normalizer](#normalizer)
+- [🎨 Formatter](#formatter)
+- [🛫 Transporter](#transporter)
+- [🛠️ Devtools](#devtools)
+- [🔌 Development Mode Detection](#development-mode-detection)
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="25" height="25" /> Features at a Glance
+
+- **⚡ Zero-dependency & Type-safe — Written in TypeScript with no runtime bloat**
+- **🌍 Environment Agnostic — Use the same logger in SSR, API routes, and the browser**
+- **🎨 Customizable Output — Control every part of the log format — or write your own**
+- **🧠 Context Support — Inject trace data like requestId, userId and pass it down**
+- **🪵 Scoped Loggers — Organize output with nested scopes like auth > login > error**
+- **🧩 Composable Architecture — Swap in custom normalizers, formatters, and transporters**
+- **🛠 Plugin-ready Core — Register your own handlers via a flexible hook system**
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /> Output Preview
+
+Here’s how logs look in Node.js vs. the browser:
 
 <table width="100%">
   <tr>
     <td align="center" width="50%">
-      <img src="logry-node.png" alt="logry node" width="95%" /><br/>
+      <img src="logry-node.png" alt="Logry node" width="95%" /><br/>
       <em>Console output in Node.js</em>
     </td>
     <td align="center" width="50%">
-      <img src="logry-browser.png" alt="logry browser" width="95%" /><br/>
+      <img src="logry-browser.png" alt="Logry browser" width="95%" /><br/>
       <em>Console output in Browser</em>
     </td>
   </tr>
@@ -57,7 +81,7 @@ The following example shows how logs appear in different environments:
 
 ---
 
-## Installation
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Triangular%20Flag.png" alt="Triangular Flag" width="25" height="25" /> Installation
 
 ```bash
 npm install logry
@@ -71,62 +95,148 @@ yarn add logry
 
 ---
 
-<h2> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" />  Quick Start </h2>
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" /> Quick Start
 
-#### Using the Default Logger
+<h3>Using Static Logger Methods</h3>
 
-The simplest way to use **logry** is by importing the default logging methods directly, which internally use a shared logger instance.
+The easiest way to use **Logry** is by calling its static logging methods.  
+They work instantly without a logger instance, ignore level restrictions, and default to the **“pretty”** preset for clean outpu
 
 ```typescript
-import { debug, info, warn, error } from "logry";
+import { trace, debug, info, warn, error, fatal } from "logry";
 
-// Simple debug message without extra data
-debug("Fetching user profile from cache");
+info("👋🏼 Hi there! Welcome to Logry!");
 
-// Info message with additional metadata
-info("User logged in", { userId: "user_123" });
+// 2nd argument is metadata for additional details
+warn("User session is about to expire", { user: "John Doe" });
 
-// Skip meta by passing undefined, but track the current scope
-warn("User session is about to expire", undefined, { scope: "qweqweqwe" });
-
-// Log an error object directly
+// Error with full error object
 error("Unexpected error occurred", new Error("Something went wrong"));
 ```
 
-#### Creating a Custom Logger
+<h3>Creating a Custom Logger Instance</h3>
 
-If you prefer a dedicated logger, you can create one with logry.
-By default, the log level is set to 'warn'.
+You can create a logger by calling **logry()**.  
+By default, the log level is set to **"warn"**, so only logs with levels **"warn"**, **"error"**, and **"fatal"** will be shown.  
+If you don’t specify an ID, the logger will use **"default"** as its identifier automatically.
 
 ```typescript
 import { logry } from "logry";
 
+// Create a custom logger instance (defaults to id: 'default' and level: 'warn')
 const logger = logry();
 
-// ❌ Won't show up because the default level is 'warn', so 'info' is too low.
+// ❌ This won't be shown — 'info' is lower than the default 'warn' level
 logger.info("User logged in");
 
-// ✅ This one will appear since 'warn' is the default minimum level.
+// ✅ This will be shown — 'warn' and above are allowed
 logger.warn("User login warning");
+
+// Inspect internal core (optional)
+console.log(logger.getCore());
+// -> LoggerCore { id: 'default', level: 'warn', ... }
+```
+
+- Basic Logger Setup for Development
+
+```typeScript
+import { logry } from "logry";
+
+const logger = logry({
+  id: "MyLogger",
+  level: "debug", // Will show: debug, info, warn, error, fatal (trace will be hidden)
+});
+```
+
+- Full Custom Logger Setup
+
+```typescript
+import { logry } from "logry";
+
+const logger = logry({
+  id: "🌐 My Logger",
+  level: "info",
+  scope: ["auth", "api"],
+  context: { env: "production", appVersion: "2.5.1" },
+  preset: "verbose", // "json" | "pretty" | "pretty-multi-line" | "minimal" | "verbose"
+  normalizerConfig: {
+    node: {
+      timestamp: { style: "iso" },
+      // ...
+    },
+    browser: {
+      timestamp: { style: "pretty" },
+      // ...
+    },
+  },
+  formatterConfig: {
+    node: {
+      id: { ansiColor: "\x1b[35m" },
+      message: { customFormatter: ({ part }) => "\n" + part.toUpperCase() },
+      // ...
+    },
+    browser: {
+      id: { cssStyle: "color: purple;" },
+      context: { format: "compact" },
+      // ...
+    },
+  },
+  handlerConfig: {
+    onError: (error: unknown, handlerId: string) =>
+      console.log(handlerId, error),
+    // ...
+  },
+});
 ```
 
 ---
 
-## Log Level
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Milky Way" width="25" height="25" /> Presets
 
-#### logry supports 4 standard log levels, in increasing order of verbosity:
+**Logry** offers several built-in logger presets. Each preset is a set of normalizer and formatter settings for different log styles.
 
-| Level   | Description                                                                |
-| ------- | -------------------------------------------------------------------------- |
-| `error` | Logs critical failures. Always recommended to log unexpected conditions    |
-| `warn`  | Logs recoverable issues or potential problems                              |
-| `info`  | Logs general operational information and successful actions                |
-| `debug` | Logs detailed internal information, useful during development or debugging |
+| Level               | Description                            |
+| ------------------- | -------------------------------------- |
+| `json`              | Raw JSON output, good for machines     |
+| `pretty`            | Formatted, easy to read                |
+| `pretty-multi-line` | Multi-line output with line breaks     |
+| `minimal`           | Simple output with essential info only |
+| `verbose`           | Full detail with context and depth     |
 
-The logger will only output messages at or above the current level.  
-For example, if the level is set to 'warn', only warn and error messages will be printed.
+To use a preset, pass it when creating the logger:
 
-#### You can specify the desired log level when creating a logger instance:
+```typeScript
+const logger = logry({ preset: "pretty" })
+```
+
+Presets are fixed for now.  
+🎯 Custom presets may come in future versions.
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Comet.png" alt="Comet" width="25" height="25" /> Core Concepts
+
+**Logry** is built with modularity, precision, and developer experience in mind.  
+Here are the key concepts that define how it works:
+
+### ✨ Log Level
+
+**Logry** supports **seven log levels**, from most critical to most verbose:
+
+| Level    | Description                                                                            |
+| -------- | -------------------------------------------------------------------------------------- |
+| `fatal`  | Logs critical system failures. The application may crash or exit immediately ❗        |
+| `error`  | Logs runtime errors that should be investigated and typically require action ❌        |
+| `warn`   | Logs recoverable issues or unexpected behaviors that don't prevent operation ⚠️        |
+| `info`   | Logs general operational messages, such as successful startups or actions ℹ️           |
+| `debug`  | Logs detailed internal information helpful for debugging 🛠️                            |
+| `trace`  | Logs the most granular details — every step, useful for profiling or deep debugging 🔍 |
+| `silent` | Disables all logging output 🚫                                                         |
+
+> The logger only outputs messages **at or above the current level**.  
+> For example, if the level is set to `warn`, only `warn`, `error`, and `fatal` logs will be printed.
+
+<h4> You can specify the desired log level when creating a logger instance </h4>
 
 but this only affects the initial configuration and does not override the core’s log level.
 
@@ -135,64 +245,305 @@ but this only affects the initial configuration and does not override the core�
 const logger = logry({ id: "my-app", level: "debug" });
 ```
 
-#### Or create a child logger with customized configuration:
+### ✨ Child Loggers
 
-```typescript
-const debugLogger = logger.child({ level: "debug" });
-```
+In **Logry**, every logger instance is lightweight and modular.  
+You can freely create **child loggers** that inherit settings from their parent — while overriding only what you need.
 
----
+<h4> Creating a Child Logger </h4>
 
-## Advanced Features
+You can use the `.child()` method to create a scoped or customized logger:
 
-#### Child Logger Instances
+```ts
+const appLogger = logry({ id: "main-app", level: "info" });
 
-The .child() method creates a new logger instance that inherits all settings from its parent.  
-You can pass options like scope, context, or outputConfig, which will be merged with the parent’s configuration.
-
-Scopes in logry stack themselves up automatically — like breadcrumbs leading you through `auth > test` and beyond.  
-Oh, and if you don’t like the `>` separator, you can totally customize that too!
-
-```typescript
-const authLogger = logger.child({ scope: "auth" });
-
-authLogger.debug("Login attempt");
-//  [21:37:53] [DEBUG] (auth)
-//  • Login attempt
-
-authLogger.child({ scope: "test" }).error("Token expired");
-//  [21:49:41] [ERROR] (auth > test)
-//  • Token expired
-```
-
----
-
-## Logger Output Configuration (writeConfig)
-
-| Option                  | Type                        | Description                                                                   |
-| ----------------------- | --------------------------- | ----------------------------------------------------------------------------- |
-| `platform`              | `"auto", "node", "browser"` | Determines the output format per environment                                  |
-| `hideId`                | `boolean`                   | Hides the logger ID in the output                                             |
-| `hideContext`           | `boolean`                   | Hides context labels                                                          |
-| `showOnlyLatestContext` | `boolean`                   | Show only the last context scope                                              |
-| `hideDate`              | `boolean`                   | Hides the date portion (`YYYY-MM-DD`) and only displays the time (`HH:mm:ss`) |
-| `node.metaDepth`        | `number`                    | Controls the max depth for object inspection                                  |
-| `node.borderWidth`      | `number`                    | Sets the width of border lines                                                |
-| `node.useColor`         | `boolean`                   | Enables or disables color output in Node.js                                   |
-
-```typeScript
-/** Example */
-const logger = logry({
-  id: "my-app",
-  writeConfig: {
-    platform: "node",
-    hideId: true,
-    hideContext: false,
-    showOnlyLatestContext: true,
-    hideDate: true,
-    node: { metaDepth: 20, borderWidth: 90, useColor: false },
-  },
+const authLogger = appLogger.child({
+  level: "debug", // override log level
+  scope: "auth", // add a scope
+  context: { userType: "admin" }, // inject default context
 });
 ```
+
+- Child loggers inherit settings with **shallow merging (first-level only)**:
+  - **scope**: appended  
+    e.g., **["main"] + "auth"** → **["main", "auth"]**
+  - **context**: merged with child overriding  
+    e.g., **{ app: "main", user: "guest" } + { user: "admin" }** → **{ app: "main", user: "admin" }**
+  - **formatterConfig / normalizerConfig**: shallow merged per platform (**node**, **browser**), with child taking precedence
+
+This keeps child loggers flexible and contextual — without needing to re-specify everything.
+
+### ✨ Logger Core
+
+The core engine responsible for managing log levels, shared identity (id), and optional configurations for formatting, normalization, and handlers.
+
+- Multiple logger instances can share a single core by specifying the same id, enabling centralized and synchronized log level management across instances.
+- It supports dynamic runtime control of log verbosity:
+  - `setLevel(level)`: updates the active log level
+  - `resetLevel()`: restore to the initial log level
+
+This allows flexible adjustment of log output without needing to recreate logger instances.
+
+### ✨ Logger Handlers and Tasks
+
+Each Logger instance internally binds to a HandlerManager, inherited from its LoggerCore.
+
+This module orchestrates all registered log handlers, manages asynchronous tasks, and controls error recovery and flush strategies.
+
+- Handlers are responsible for final log delivery, such as writing to the console, server, or external services.
+- You can dynamically attach or remove handlers:
+  - `addHandler(handler, id?)`
+  - `removeHandler(id)`
+- It also ensures all async handlers complete with:
+  - `flush(timeout?)`: waits for pending log operations
+  - `dispose()`: clean up all resources and cancel strategies
+
+Behind the scenes, HandlerManager tracks pending tasks and gracefully handles errors via configurable callbacks and timeout policies.
+
+This flexible system allows reliable logging — even in asynchronous or failure-prone environments.
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Shuffle%20Tracks%20Button.png" alt="Shuffle Tracks Button" width="25" height="25" /> Normalizer
+
+Before any log is formatted or transported, **Logry** runs it through a platform-aware normalizer — ensuring consistent structure, reliable types, and flexible customization
+
+### What it does
+
+The Normalizer transforms a raw log input into a normalized shape, handling core parts like:
+
+- timestamp
+- id
+- level
+- scope
+- message
+- meta
+- context
+
+Each part has a dedicated normalizer, all of which can be overridden via custom logic.
+
+### Customization
+
+Every normalizer supports a customNormalizer function, letting you override default behavior:
+
+```typescript
+customNormalizer?: ({ part }) => NormalizedValue;
+```
+
+You can also fine-tune behavior using extra options per part.
+
+| Part        | Extra Options Available     |
+| ----------- | --------------------------- |
+| `timestamp` | style, useUTC, showTimeOnly |
+| `level`     | style                       |
+| `scope`     | separator                   |
+| `meta`      | errorStackLines             |
+
+### Platform Awareness
+
+Normalization logic can vary between Node and Browser environments, adapting behavior accordingly.
+
+For example:
+
+- Timestamps appear as full ISO 8601 UTC strings in Node, but as simplified human-readable strings in the browser.
+- Error stack traces can be more verbose on the server, while trimmed on the client.
+
+> You can define environment-specific behavior using the normalizerConfig structure.  
+> It can be set globally in **logry(...)**, scoped to a **logger.child(...)**, or **overridden per log method**:
+
+```typeScript
+ normalizerConfig: {
+    node: {
+      timestamp: {
+        style: "iso",
+        useUTC: true,
+      },
+      meta: {
+        errorStackLines: 10,
+      },
+      level: {
+        style: "upper",
+      },
+      id: {
+        customNormalizer: ({ part }) => `node-${part}`,
+      },
+    },
+    browser: {
+      timestamp: {
+        style: "pretty",
+        useUTC: false,
+      },
+      meta: {
+        errorStackLines: 3,
+      },
+      level: {
+        style: "lower",
+      },
+    },
+  },
+```
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Artist%20Palette.png" alt="Artist Palette" width="25" height="25" /> Formatter
+
+The Formatter layer is responsible for converting the normalized parts of a log into final output strings — styled, readable, and optionally color-coded.
+
+### What it does
+
+The Formatter receives normalized data and produces formatted strings (or structured content) ready for display.  
+Handled parts include:
+
+- timestamp
+- id
+- level
+- scope
+- message
+- meta
+- context
+
+Each part has its own formatter. All formatters support optional style customizations and can be overridden with custom logic.
+
+### Customization
+
+Every formatter supports a customFormatter function, letting you override default behavior:
+
+```typescript
+customFormatter?: ({ part, rawPart }) => FormattedValue; // rawPart is not normalized
+```
+
+You can also fine-tune behavior using extra options per part.
+
+| Platform  | Part      | Extra Options Available               |
+| --------- | --------- | ------------------------------------- |
+| `Node.js` | ALL       | ansiColor                             |
+| -         | `scope`   | showOnlyLatest, seperator             |
+| -         | `meta`    | format, depth (for format: **"raw"**) |
+| -         | `context` | format, depth (for format: **"raw"**) |
+| `Browser` | ALL       | cssStyle                              |
+| -         | `scope`   | showOnlyLatest, seperator             |
+| -         | `meta`    | format                                |
+| -         | `context` | format                                |
+
+### Platform Awareness
+
+Formatter adapts to the runtime platform — Node.js or Browser — adjusting output format and styling accordingly.  
+This ensures logs stay readable and well-styled in both environments.
+
+The output behavior varies depending on the platform:
+
+| Platform  | Format output                                 | Styling mechanism      |
+| --------- | --------------------------------------------- | ---------------------- |
+| `Node.js` | Returns a plain string with ANSI codes        | Uses ANSI escape codes |
+| `Browser` | Returns { [label]: string, cssStyle: string } | Uses %c and inline CSS |
+
+In the browser, the final result will be used with console.log("%c...%c...%c...", styleA, styleB, ...), allowing for per-part CSS styling.
+
+For example:
+
+- Node.js prints timestamps as full ISO strings with ANSI colors (e.g., \x1b[33m).
+- Browser styles timestamps with CSS (e.g., orange and bold) and simpler format.
+- Meta shows full depth in Node, but gets a prefix like “META | “ in Browser.
+- Some parts (like level) can be hidden in one platform but shown in another.
+
+> You can define environment-specific behavior using the formatterConfig structure.  
+> It can be set globally in **logry(...)**, scoped to a **logger.child(...)**, or **overridden per log method**:
+
+```typeScript
+formatterConfig: {
+  node: {
+    timestamp: {
+      ansiColor: "\x1b[33m",
+    },
+    meta: {
+      depth: null,
+    },
+    level: {
+      lineBreaks: 1,
+    },
+    id: {
+      customFormatter: ({ part }) => `node-${part}`,
+    },
+  },
+  browser: {
+    timestamp: {
+      cssStyle: "font-weight: bold; color: orange;",
+    },
+    meta: {
+      prefix: "META | ",
+    },
+    level: {
+      hide: true,
+    },
+  },
+},
+```
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane%20Departure.png" alt="Airplane Departure" width="25" height="25" /> Transporter
+
+The Transporter is the final step in the logging pipeline — responsible for delivering the formatted log to its destination.  
+After a log is normalized and formatted, the Transporter takes over and outputs it — whether that’s the terminal in Node.js, or the DevTools console in a browser.
+
+### Built-in Transporters
+
+Logry comes with two built-in transporters, automatically selected based on your runtime environment:
+
+| Platform  | Transporter               | Styling mechanism                                    |
+| --------- | ------------------------- | ---------------------------------------------------- |
+| `Node.js` | NodeConsoleTransporter    | Prints logs to the terminal using ANSI styles        |
+| `Browser` | BrowserConsoleTransporter | Prints logs to the DevTools console using CSS styles |
+
+These built-ins are designed to be minimal yet effective — providing clean and consistent output across platforms.  
+🎯 In future versions, Logry will support custom transporters for advanced use cases like file writing, remote logging, or API-based delivery.
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Hammer%20and%20Wrench.png" alt="Hammer and Wrench" width="25" height="25" /> Devtools
+
+Logry includes small tools to help you debug and inspect logger internals.
+
+#### inspectLoggerCores()
+
+List all registered LoggerCore instances.
+
+```typeScript
+import { inspectLoggerCores } from "logry/devtools";
+
+inspectLoggerCores();
+```
+
+Helps you verify how loggers are created and linked.
+
+#### inspectHandlerConfig(logger)
+
+Show the resolved handler config for a given logger.
+
+```typeScript
+import { inspectHandlerConfig } from "logry/devtools";
+
+inspectHandlerConfig(myLogger);
+```
+
+Good for checking which rules and tasks are active.
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Electric%20Plug.png" alt="Electric Plug" width="25" height="25" /> Development Mode Detection
+
+This function detects whether the runtime is in development mode.  
+ It is primarily used to control internal logging and error reporting within the library, such as internal-log and internal-error messages.
+
+- In `Node.js`, it checks the NODE_ENV environment variable:
+
+  - Returns true if `NODE_ENV` is not set to 'production'.
+  - Defaults to true (development) if `NODE_ENV` is undefined.
+
+- In `Browsers`, it checks the global flag `__LOGRY_DEV__`:
+  - Returns true if the flag is truthy.
+  - Defaults to false (production) if undefined.
+
+This setup assumes Node defaults to development mode for easier local testing, while browsers default to production to avoid unnecessary debug logs.
 
 ---
