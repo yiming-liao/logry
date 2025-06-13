@@ -47,3 +47,4 @@ next-env.d.ts
 /examples
 /benchmarks
 /notes.md
+/.vscode
