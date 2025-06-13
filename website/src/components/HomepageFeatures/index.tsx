@@ -12,32 +12,35 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: "Easy to Use",
+    title: "Cross-Platform Compatibility",
     Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        <code>logry</code> works seamlessly in both Node.js and browser
+        environments. It's perfect for monorepo setups, allowing shared global
+        loggers across multiple packages and platforms.
       </>
     ),
   },
   {
-    title: "Focus on What Matters",
+    title: "Highly Customizable",
     Svg: require("@site/static/img/undraw_docusaurus_tree.svg").default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Build your ideal logging pipeline with <code>customNormalizers</code>,{" "}
+        <code>customFormatters</code>, and even extend it further using the
+        flexible <code>HandlerManager</code> to register your own handlers.
       </>
     ),
   },
   {
-    title: "Powered by React",
+    title: "Built-in Presets",
     Svg: require("@site/static/img/undraw_docusaurus_react.svg").default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        <code>logry</code> comes with built-in presets for formatting and output
+        styles, so you can get started quickly with sensible defaults — and
+        still customize as needed.
       </>
     ),
   },

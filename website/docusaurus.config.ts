@@ -6,8 +6,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
   title: "Logry",
-  tagline:
-    "A powerful and flexible logging library for TypeScript and JavaScript",
+  tagline: `A clean, lightweight, cross-platform logger that just works — on both Node.js and modern browsers.`,
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -16,10 +15,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://yiming-liao.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: "/logry/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -73,16 +72,22 @@ const config: Config = {
     image: "img/docusaurus-social-card.jpg",
     navbar: {
       title: "Logry",
-      logo: {
-        alt: "Logry Logo",
-        src: "img/logo.svg",
-      },
+      // logo: {
+      //   alt: "Logry Logo",
+      //   src: "img/logo.svg",
+      // },
       items: [
         {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
-          position: "left",
+          type: "doc",
+          docId: "introduction/getting-started",
+          position: "right",
           label: "Getting Started",
+        },
+        {
+          type: "doc",
+          docId: "introduction/quick-start",
+          position: "right",
+          label: "Quick Start",
         },
         // { to: "/blog", label: "Blog", position: "left" },
         {

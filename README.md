@@ -20,6 +20,12 @@ Fully typed, deeply customizable, and built for the monorepo era.
 
 </div>
 
+<div align="center">
+
+[📄 Read the documentation](https://yiming-liao.github.io/logry/docs/introduction/getting-started)
+
+</div>
+
 > Logging in fullstack apps is messy.  
 > You jump between server and browser, but most loggers don’t.  
 > **Logry** was built for the monorepo era — a single, fully-typed logger that works identically across platforms.
