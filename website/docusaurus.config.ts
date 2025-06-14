@@ -72,10 +72,10 @@ const config: Config = {
     image: "img/docusaurus-social-card.jpg",
     navbar: {
       title: "Logry",
-      // logo: {
-      //   alt: "Logry Logo",
-      //   src: "img/logo.svg",
-      // },
+      logo: {
+        alt: "Logry Logo",
+        src: "img/logo.png",
+      },
       items: [
         {
           type: "doc",
