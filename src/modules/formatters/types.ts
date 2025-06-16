@@ -1,6 +1,10 @@
-import type { RawLogData } from "@/core/logger/types";
+import type { RawCoreLogData } from "@/core/logger/types";
 import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
-import type { NormalizerConfig } from "@/modules/normalizers";
+import type {
+  NormalizedPayload,
+  NormalizerConfig,
+} from "@/modules/normalizers";
+import type { Platform } from "@/shared/types";
 
 export type FormattedStringPart = string;
 export type FormattedStructuredPart = Record<string, unknown> | string;
@@ -15,6 +19,7 @@ export type FormattedMeta = FormattedStructuredPart;
 export type FormattedContext = FormattedStructuredPart;
 export type FormattedProcessInfo = FormattedStringPart;
 export type FormattedPid = FormattedStringPart;
+export type FormattedHostname = FormattedStringPart;
 
 // Base formatted payload
 export type BaseFormattedPayload = {
@@ -27,10 +32,25 @@ export type BaseFormattedPayload = {
   context: FormattedContext;
   normalizerConfig: NormalizerConfig;
   formatterConfig: FormatterConfig;
-} & { raw: Omit<RawLogData, "meta" | "context"> };
+} & { raw: RawCoreLogData };
 
 // Node formatted payload
-export type NodeFormattedPayload = BaseFormattedPayload;
+export type NodeFormattedPayload = BaseFormattedPayload & {
+  pid: FormattedPid;
+  hostname: FormattedHostname;
+} & {
+  withAnsiColor: {
+    timestamp: FormattedTimestamp;
+    id: FormattedId;
+    level: FormattedLevel;
+    pid: FormattedPid;
+    hostname: FormattedHostname;
+    scope: FormattedScope;
+    message: FormattedMessage;
+    meta: FormattedMeta;
+    context: FormattedContext;
+  };
+};
 
 // Browser formatted payload
 export type BrowserFormattedPayload = BaseFormattedPayload & {
@@ -46,6 +66,16 @@ export type BrowserFormattedPayload = BaseFormattedPayload & {
 };
 
 /**
- * Main output
+ * Represents the final formatted log output,
+ * tailored for either Node.js or browser environments.
  */
 export type FormattedPayload = NodeFormattedPayload | BrowserFormattedPayload;
+
+/**
+ * Formatter interface responsible for converting
+ * a normalized log payload into a platform-specific formatted output.
+ */
+export interface Formatter {
+  platform: Platform;
+  format(payload: NormalizedPayload): FormattedPayload;
+}

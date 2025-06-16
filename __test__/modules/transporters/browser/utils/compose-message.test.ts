@@ -1,7 +1,7 @@
 import type { BrowserFormattedPayload } from "@/modules/formatters";
-import { composeConsoleMessage } from "@/modules/transporters/browser/utils/compose-console-message";
+import { composeMessage } from "@/modules/transporters/browser/utils/compose-message";
 
-describe("composeConsoleMessage", () => {
+describe("composeMessage", () => {
   it("should return base message with meta and context if both are strings", () => {
     const payload: BrowserFormattedPayload = {
       timestamp: "12:00",
@@ -25,7 +25,7 @@ describe("composeConsoleMessage", () => {
       },
     };
 
-    const result = composeConsoleMessage(payload);
+    const result = composeMessage(payload);
     expect(result).toBe("%c12:00%cabc123%cinfo%capp%chello world [meta] [ctx]");
   });
 
@@ -52,7 +52,7 @@ describe("composeConsoleMessage", () => {
       },
     };
 
-    const result = composeConsoleMessage(payload);
+    const result = composeMessage(payload);
     expect(result).toBe("%c12:00%cabc123%cinfo%capp%chello world [ctx]");
   });
 
@@ -79,7 +79,7 @@ describe("composeConsoleMessage", () => {
       },
     };
 
-    const result = composeConsoleMessage(payload);
+    const result = composeMessage(payload);
     expect(result).toBe("%c12:00%cabc123%cinfo%capp%chello world [meta]");
   });
 
@@ -106,7 +106,7 @@ describe("composeConsoleMessage", () => {
       },
     };
 
-    const result = composeConsoleMessage(payload);
+    const result = composeMessage(payload);
     expect(result).toBe("%c12:00%cabc123%cinfo%capp%chello world");
   });
 });

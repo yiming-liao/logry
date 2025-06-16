@@ -1,8 +1,11 @@
 export { HandlerManager } from "./handler-manager";
 
+export type { Handler, HandlerFunction, HandlerClass } from "./types";
+
+export { BaseHandler } from "./base-handler";
+
 export type {
-  Handler,
   HandlerConfig,
   FlushStrategy,
-  ErrorCallback,
-} from "./handler-types";
+  HandlerErrorHandler,
+} from "./handler-config-types";

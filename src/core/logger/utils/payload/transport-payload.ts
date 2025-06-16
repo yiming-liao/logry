@@ -1,10 +1,10 @@
-import type { ReadyPayload } from "@/core/logger/types";
+import type { RawPayload } from "@/core/logger/types";
 import type { Transporter } from "@/modules/transporters/types";
 import { isBrowser, isNode } from "@/shared/utils/platform";
 
 type TransportPayloadOptions = {
   transporters: Transporter[];
-  readyPayload: ReadyPayload;
+  rawPayload: RawPayload;
 };
 
 /**
@@ -12,11 +12,11 @@ type TransportPayloadOptions = {
  * based on the current runtime environment.
  *
  * @param transporters - List of registered transporters.
- * @param readyPayload - The log payload to be sent.
+ * @param rawPayload - The log payload to be sent.
  */
 export const transportPayload = ({
   transporters,
-  readyPayload,
+  rawPayload,
 }: TransportPayloadOptions): void => {
   const platform = isNode() ? "node" : isBrowser() ? "browser" : null;
 
@@ -26,7 +26,7 @@ export const transportPayload = ({
 
   transporters.forEach((t) => {
     if (t.platform === platform) {
-      void t.transport(readyPayload);
+      void t.transport(rawPayload);
     }
   });
 };

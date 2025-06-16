@@ -20,12 +20,13 @@ export const internalLog = ({
   type,
   message,
   tag,
+  error,
 }: InternalLogOptions): void => {
   if (!isDevMode()) {
     return;
   }
 
-  const formatted = formatInternalMessage({ type, message, tag });
+  const formatted = formatInternalMessage({ type, message, tag, error });
 
   if (type === "error") {
     console.error(formatted);

@@ -1,8 +1,6 @@
 import type { LogRuntimeOptions } from "@/core/logger/logger-types";
 import type { Level } from "@/shared/types";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
-import { formatPayload } from "@/core/logger/utils/payload/format-payload";
-import { normalizePayload } from "@/core/logger/utils/payload/normalize-payload";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";
 import { NodeFormatter, BrowserFormatter } from "@/modules/formatters";
 import { Normalizer } from "@/modules/normalizers";
@@ -16,8 +14,8 @@ const normalizer = new Normalizer();
 const nodeFormatter = new NodeFormatter();
 const browserFormatter = new BrowserFormatter();
 const transporters = [
-  new NodeConsoleTransporter(),
-  new BrowserConsoleTransporter(),
+  new NodeConsoleTransporter({ normalizer, formatter: nodeFormatter }),
+  new BrowserConsoleTransporter({ normalizer, formatter: browserFormatter }),
 ];
 
 type StandaloneForceLogOptions = {
@@ -28,13 +26,13 @@ type StandaloneForceLogOptions = {
 };
 
 /**
- * Log a message directly without checking log levels.
- * By default, logs to Node and Browser consoles.
+ * Logs a message immediately, bypassing any log level filtering.
+ * Outputs to both Node and Browser console transporters by default.
  *
- * @param level - Log level of the message.
- * @param message - Log message string.
- * @param meta - Optional metadata.
- * @param options - Optional runtime options.
+ * @param level - The log severity level.
+ * @param message - The main log message string.
+ * @param meta - Optional additional data.
+ * @param options - Optional runtime settings (scope, context, configs).
  */
 export const standaloneForceLog = ({
   level,
@@ -46,7 +44,7 @@ export const standaloneForceLog = ({
   const context = options.context || {};
 
   // Build the initial payload with all necessary fields
-  const logPayload = buildPayload({
+  const rawPayload = buildPayload({
     timestamp: Date.now(),
     id: "",
     level,
@@ -58,17 +56,6 @@ export const standaloneForceLog = ({
     formatterConfig: options.formatterConfig || {},
   });
 
-  // Normalize the payload based on the environment
-  const normalizedPayload = normalizePayload(normalizer.normalize, logPayload);
-
-  // Format the normalized payload (optional)
-  const payloadToSend = formatPayload({
-    normalizedPayload,
-    formatterConfig: normalizedPayload.formatterConfig,
-    nodeFormatter,
-    browserFormatter,
-  });
-
   // Transport the final payload to appropriate destinations
-  transportPayload({ transporters, readyPayload: payloadToSend });
+  transportPayload({ transporters, rawPayload });
 };

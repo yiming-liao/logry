@@ -15,8 +15,8 @@ import { formatStringParts } from "@/modules/formatters/node/shared/format-strin
 export const formatMessage = (
   message: NormalizedMessage,
   rawMessage: RawMessage,
-  options: FormatStringPartOptions = {},
-): FormattedMessage => {
+  options: FormatStringPartOptions<"message"> = {},
+): { message: FormattedMessage; withAnsiColor: FormattedMessage } => {
   const {
     hide = DEFAULT_MESSAGE_HIDE,
     prefix = DEFAULT_MESSAGE_PREFIX,

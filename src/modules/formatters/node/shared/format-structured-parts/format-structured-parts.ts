@@ -1,4 +1,7 @@
-import type { FormatStructuredPartOptions } from "@/modules/formatters/node/shared/format-structured-parts/format-structured-parts-types";
+import type {
+  CustomStructuredPartFormatter,
+  FormatStructuredPartOptions,
+} from "@/modules/formatters/node/shared/format-structured-parts/format-structured-parts-types";
 import type { FormattedStructuredPart } from "@/modules/formatters/types";
 import type { NormalizedStructuredPart } from "@/modules/normalizers/types";
 import { addAnsiColor } from "@/modules/formatters/utils/add-ansi-color";
@@ -11,13 +14,15 @@ import { tryCustomFormatter } from "@/modules/formatters/utils/try-custom-format
 /**
  * Format a structured log part with optional styles and transformations.
  */
-export const formatStructuredParts = ({
+export const formatStructuredParts = <L extends string>({
+  label,
   part,
   options = {},
 }: {
+  label: L;
   part: NormalizedStructuredPart;
   options: FormatStructuredPartOptions;
-}): FormattedStructuredPart => {
+}): { [Key in L]: FormattedStructuredPart } & { withAnsiColor: string } => {
   const {
     hide,
     prefix,
@@ -31,7 +36,9 @@ export const formatStructuredParts = ({
 
   // Return empty string if hide is true or part is undefined
   if (hide || !part) {
-    return "";
+    return { [label]: "", withAnsiColor: "" } as {
+      [Key in L]: FormattedStructuredPart;
+    } & { withAnsiColor: string };
   }
 
   // Use custom formatter if provided
@@ -39,7 +46,7 @@ export const formatStructuredParts = ({
     const customized = tryCustomFormatter({
       label: "timestamp",
       input: { part },
-      customFormatter,
+      customFormatter: customFormatter as CustomStructuredPartFormatter<L>,
     });
     if (customized) {
       return customized;
@@ -52,12 +59,19 @@ export const formatStructuredParts = ({
   // Apply additional stylings if it's a string
   if (typeof formatted === "string") {
     formatted = addPrefixAndSuffix(formatted, prefix, suffix);
-    formatted = addAnsiColor(formatted, ansiColor);
-    formatted = addLineBreakPrefix(formatted, lineBreaks);
-    formatted = addSpaceAfter(formatted, spaceAfter);
+    let withoutAnsiColor = "";
+    withoutAnsiColor = addLineBreakPrefix(formatted, lineBreaks);
+    withoutAnsiColor = addSpaceAfter(withoutAnsiColor, spaceAfter);
+    let withAnsiColor = addAnsiColor(formatted, ansiColor);
+    withAnsiColor = addLineBreakPrefix(withAnsiColor, lineBreaks);
+    withAnsiColor = addSpaceAfter(withAnsiColor, spaceAfter);
 
-    return formatted;
+    return { [label]: withoutAnsiColor, withAnsiColor } as {
+      [Key in L]: FormattedStructuredPart;
+    } & { withAnsiColor: string };
   }
 
-  return formatted;
+  return { [label]: formatted, withAnsiColor: "" } as {
+    [Key in L]: FormattedStructuredPart;
+  } & { withAnsiColor: string };
 };

@@ -1,23 +1,21 @@
 /**
  * Wraps a promise with a timeout. If the promise does not settle within the
  * specified duration, the returned promise is rejected with a timeout error.
- *
- * @param promise - The async operation to monitor.
- * @param ms - Timeout duration in milliseconds.
- * @param onTimeout - Optional callback to run when timeout is triggered.
- * @returns A Promise that either resolves like the original or rejects on timeout.
  */
 export const withTimeout = <T>(
+  handlerId: string,
   promise: Promise<T>,
   ms: number,
   onTimeout?: () => void,
 ): Promise<T> => {
-  let timer: NodeJS.Timeout;
+  let timer: ReturnType<typeof setTimeout>;
 
   const timeoutPromise = new Promise<T>((_, reject) => {
     timer = setTimeout(() => {
       onTimeout?.();
-      reject(new Error("Timeout exceeded"));
+      const error = new Error("Timeout exceeded");
+      (error as Error & { handlerId: string }).handlerId = handlerId;
+      reject(error);
     }, ms);
   });
 

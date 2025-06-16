@@ -11,6 +11,8 @@ import {
   normalizeMeta,
   normalizeContext,
 } from "@/modules/normalizers/parts";
+import { normalizeHostname } from "@/modules/normalizers/parts/normalize-hostname";
+import { normalizePid } from "@/modules/normalizers/parts/normalize-pid";
 
 export class Normalizer {
   /**
@@ -20,12 +22,14 @@ export class Normalizer {
    * @param payload Raw log payload with all possible fields
    * @returns Normalized log payload
    */
-  normalize(
-    platform: Platform,
-    {
+  normalize({
+    platform = "node",
+    rawPayload: {
       timestamp,
       id,
       level,
+      pid,
+      hostname,
       scope,
       message,
       meta,
@@ -33,8 +37,11 @@ export class Normalizer {
       normalizerConfig,
       formatterConfig,
       raw,
-    }: RawPayload,
-  ): NormalizedPayload {
+    },
+  }: {
+    platform?: Platform;
+    rawPayload: RawPayload;
+  }): NormalizedPayload {
     let config: BaseNormalizerConfig = {};
 
     if (platform === "node") {
@@ -47,6 +54,8 @@ export class Normalizer {
       timestamp: timestampOptions,
       id: idOptions,
       level: levelOptions,
+      pid: pidOptions,
+      hostname: hostnameOptions,
       scope: scopeOptions,
       message: messageOptions,
       meta: metaOptions,
@@ -57,6 +66,10 @@ export class Normalizer {
       timestamp: normalizeTimestamp(timestamp, timestampOptions),
       id: normalizeId(id, idOptions),
       level: normalizeLevel(level, levelOptions),
+      ...(pid ? { pid: normalizePid(pid, pidOptions) } : {}),
+      ...(hostname
+        ? { hostname: normalizeHostname(hostname, hostnameOptions) }
+        : {}),
       scope: normalizeScope(scope, scopeOptions),
       message: normalizeMessage(message, messageOptions),
       meta: normalizeMeta(meta, metaOptions),

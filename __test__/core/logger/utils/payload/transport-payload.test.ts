@@ -1,4 +1,4 @@
-import type { ReadyPayload } from "@/core/logger/types";
+import type { RawPayload } from "@/core/logger/types";
 import type { Transporter } from "@/modules/transporters/types";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";
 import { isBrowser, isNode } from "@/shared/utils/platform";
@@ -8,11 +8,11 @@ jest.mock("@/shared/utils/platform", () => ({
   isBrowser: jest.fn(),
 }));
 
-const readyPayload: ReadyPayload = {
+const rawPayload: RawPayload = {
   timestamp: 123456,
   id: "log-id",
   level: "info",
-  scope: "test",
+  scope: ["test"],
   message: "Hello world",
   normalizerConfig: {},
   formatterConfig: {},
@@ -38,9 +38,9 @@ describe("transportPayload", () => {
       { platform: "browser", transport: browserTransport },
     ];
 
-    transportPayload({ transporters, readyPayload });
+    transportPayload({ transporters, rawPayload });
 
-    expect(nodeTransport).toHaveBeenCalledWith(readyPayload);
+    expect(nodeTransport).toHaveBeenCalledWith(rawPayload);
     expect(browserTransport).not.toHaveBeenCalled();
   });
 
@@ -56,9 +56,9 @@ describe("transportPayload", () => {
       { platform: "browser", transport: browserTransport },
     ];
 
-    transportPayload({ transporters, readyPayload });
+    transportPayload({ transporters, rawPayload });
 
-    expect(browserTransport).toHaveBeenCalledWith(readyPayload);
+    expect(browserTransport).toHaveBeenCalledWith(rawPayload);
     expect(nodeTransport).not.toHaveBeenCalled();
   });
 
@@ -73,7 +73,7 @@ describe("transportPayload", () => {
       { platform: "browser", transport },
     ];
 
-    transportPayload({ transporters, readyPayload });
+    transportPayload({ transporters, rawPayload });
 
     expect(transport).not.toHaveBeenCalled();
   });

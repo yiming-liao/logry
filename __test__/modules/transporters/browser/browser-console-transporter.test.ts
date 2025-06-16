@@ -1,102 +1,55 @@
-import type { ReadyPayload } from "@/core/logger/types";
-import type { BrowserFormattedPayload } from "@/modules/formatters";
-import type { NormalizedPayload } from "@/modules/normalizers";
+import type { RawPayload } from "@/core/logger";
+import type { BrowserFormatter } from "@/modules/formatters";
 import { BrowserConsoleTransporter } from "@/modules/transporters";
+import { printLog } from "@/modules/transporters/browser/utils/print-log";
+
+jest.mock("@/modules/transporters/browser/utils/print-log", () => ({
+  printLog: jest.fn(),
+}));
 
 describe("BrowserConsoleTransporter", () => {
-  let transporter: BrowserConsoleTransporter;
-
   beforeEach(() => {
-    transporter = new BrowserConsoleTransporter();
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
   });
 
-  describe("transport", () => {
-    it("should call printUnformattedLog when formatter is disabled", async () => {
-      const spy = jest
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .spyOn(transporter as any, "printUnformattedLog")
-        .mockImplementation(() => undefined);
-      const payload = {
-        formatterConfig: { browser: { disabled: true } },
-      } as ReadyPayload;
+  const mockNormalizer = {
+    normalize: jest.fn().mockImplementation(({ rawPayload }) => ({
+      ...rawPayload,
+      formatterConfig: {},
+    })),
+  };
 
-      await transporter.transport(payload);
+  const mockFormatter = {
+    format: jest.fn().mockImplementation((normalized) => ({
+      ...normalized,
+      formatterConfig: { browser: { disabled: false } },
+    })) as jest.MockedFunction<BrowserFormatter["format"]>,
+  };
 
-      expect(spy).toHaveBeenCalledWith(payload);
-    });
-
-    it("should call printLog when formatter is enabled", async () => {
-      const spy = jest
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .spyOn(transporter as any, "printLog")
-        .mockImplementation(() => undefined);
-      const payload = {
-        formatterConfig: { browser: { disabled: false } },
-      } as ReadyPayload;
-
-      await transporter.transport(payload);
-
-      expect(spy).toHaveBeenCalledWith(payload);
-    });
+  const transporter = new BrowserConsoleTransporter({
+    normalizer: mockNormalizer,
+    formatter: mockFormatter as unknown as BrowserFormatter,
   });
 
-  describe("printLog", () => {
-    it("should call console.log with formatted console arguments", () => {
-      const payload = {
-        meta: {},
-        context: {},
-        cssStyles: [],
-        formatterConfig: {
-          browser: {
-            disabled: false,
-            meta: {},
-            context: {},
-          },
-        },
-      } as unknown as BrowserFormattedPayload;
+  const rawPayload = {
+    level: "info",
+    message: "Test message",
+    timestamp: 123456789,
+    scope: ["test"],
+    context: {},
+    meta: {},
+  } as unknown as RawPayload;
 
-      const consoleLogSpy = jest
-        .spyOn(console, "log")
-        .mockImplementation(() => undefined);
+  it("should use formatter and print formatted log", async () => {
+    await transporter.transport(rawPayload);
 
-      transporter["printLog"](payload);
-
-      expect(consoleLogSpy).toHaveBeenCalled();
+    expect(mockNormalizer.normalize).toHaveBeenCalledWith({
+      platform: "browser",
+      rawPayload,
     });
-  });
 
-  describe("printUnformattedLog", () => {
-    it("should call console.log with unformatted log object", () => {
-      const payload = {
-        timestamp: "2025-06-07T00:00:00Z",
-        id: "abc123",
-        level: "info",
-        scope: "test",
-        message: "test message",
-        meta: { foo: "bar" },
-        context: { baz: "qux" },
-      } as unknown as NormalizedPayload;
+    expect(mockFormatter.format).toHaveBeenCalled();
 
-      const consoleLogSpy = jest
-        .spyOn(console, "log")
-        .mockImplementation(() => undefined);
-
-      transporter["printUnformattedLog"](payload);
-
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        "",
-        {
-          timestamp: "2025-06-07T00:00:00Z",
-          id: "abc123",
-          level: "info",
-          scope: "test",
-          message: "test message",
-          meta: { foo: "bar" },
-          context: { baz: "qux" },
-        },
-        "",
-      );
-    });
+    expect(printLog).toHaveBeenCalled();
   });
 });

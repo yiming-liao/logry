@@ -7,10 +7,10 @@ import { mergeNormalizerConfig } from "@/core/logger/utils/merge/merge-normalize
 import { mergeScopes } from "@/core/logger/utils/merge/merge-scopes";
 
 export type BaseOptions = {
-  scope: RawScope;
+  scope?: RawScope;
   context?: RawContext;
-  normalizerConfig: NormalizerConfig;
-  formatterConfig: FormatterConfig;
+  normalizerConfig?: NormalizerConfig;
+  formatterConfig?: FormatterConfig;
 };
 
 export type AdditionOptions = {

@@ -11,18 +11,18 @@ import type { NodeFormatterConfig } from "@/modules/formatters/node";
  * @returns A merged formatter config object.
  */
 export const mergeFormatterConfig = (
-  baseConfig: FormatterConfig,
+  baseConfig?: FormatterConfig,
   additionalConfig?: FormatterConfig,
 ): FormatterConfig => {
   // Shallow merge node config
   const mergedNode: NodeFormatterConfig = {
-    ...(baseConfig.node ?? {}),
+    ...(baseConfig?.node ?? {}),
     ...(additionalConfig?.node ?? {}),
   };
 
   // Shallow merge browser config
   const mergedBrowser: BrowserFormatterConfig = {
-    ...(baseConfig.browser ?? {}),
+    ...(baseConfig?.browser ?? {}),
     ...(additionalConfig?.browser ?? {}),
   };
 

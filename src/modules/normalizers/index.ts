@@ -23,6 +23,8 @@ export type {
   NormalizedTimestamp,
   NormalizedId,
   NormalizedLevel,
+  NormalizedPid,
+  NormalizedHostname,
   NormalizedScope,
   NormalizedMessage,
   NormalizedMeta,

@@ -43,7 +43,7 @@ export const DEFAULT_SCOPE_SHOW_ONLY_LATEST = false;
 
 // Message
 export const DEFAULT_MESSAGE_HIDE = false;
-export const DEFAULT_MESSAGE_PREFIX = " • ";
+export const DEFAULT_MESSAGE_PREFIX = "• ";
 export const DEFAULT_MESSAGE_SUFFIX = undefined;
 export const DEFAULT_MESSAGE_ANSI_COLOR = undefined;
 export const DEFAULT_MESSAGE_LINE_BREAKS = 0;

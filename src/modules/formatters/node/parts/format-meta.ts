@@ -14,8 +14,8 @@ import { formatStructuredParts } from "@/modules/formatters/node/shared/format-s
 
 export const formatMeta = (
   meta: NormalizedMeta,
-  options: FormatStructuredPartOptions = {},
-): FormattedMeta => {
+  options: FormatStructuredPartOptions<"meta"> = {},
+): { meta: FormattedMeta; withAnsiColor: FormattedMeta } => {
   const {
     hide = DEFAULT_META_HIDE,
     prefix = DEFAULT_META_PREFIX,
@@ -28,6 +28,7 @@ export const formatMeta = (
   } = options;
 
   return formatStructuredParts({
+    label: "meta",
     part: meta,
     options: {
       hide,

@@ -15,8 +15,8 @@ import { formatStringParts } from "@/modules/formatters/node/shared/format-strin
 export const formatTimestamp = (
   timestamp: NormalizedTimestamp,
   rawTimestamp: RawTimestamp,
-  options: FormatStringPartOptions = {},
-): FormattedTimestamp => {
+  options: FormatStringPartOptions<"timestamp"> = {},
+): { timestamp: FormattedTimestamp; withAnsiColor: FormattedTimestamp } => {
   const {
     hide = DEFAULT_TIMESTAMP_HIDE,
     prefix = DEFAULT_TIMESTAMP_PREFIX,

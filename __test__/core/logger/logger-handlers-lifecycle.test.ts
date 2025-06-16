@@ -1,4 +1,3 @@
-import type { Transporter } from "@/modules/transporters";
 import { Logger } from "@/core/logger";
 import { LoggerCore } from "@/core/logger-core";
 
@@ -19,7 +18,7 @@ describe("Logger handler and lifecycle", () => {
 
     logger.addHandler(handler, "test-handler");
 
-    expect(spy).toHaveBeenCalledWith(handler, "test-handler");
+    expect(spy).toHaveBeenCalledWith(handler, "test-handler", undefined);
   });
 
   it("should delegate removeHandler to handlerManager", () => {
@@ -35,16 +34,9 @@ describe("Logger handler and lifecycle", () => {
       .spyOn(core.handlerManager, "flush")
       .mockResolvedValue(undefined);
 
-    // Add custom transporter with a flush method
-    const customFlush = jest.fn().mockResolvedValue(undefined);
-    logger["transporters"].push({
-      flush: customFlush,
-    } as unknown as Transporter);
-
     await logger.flush(1000);
 
     expect(handlerFlush).toHaveBeenCalledWith(1000);
-    expect(customFlush).toHaveBeenCalled();
   });
 
   it("should call dispose on handlerManager", () => {

@@ -6,7 +6,7 @@
  * @returns Combined scope array.
  */
 export const mergeScopes = (
-  baseScope: string[],
+  baseScope: string[] = [],
   additionalScope?: string | string[],
 ): string[] => {
   if (additionalScope === undefined) {

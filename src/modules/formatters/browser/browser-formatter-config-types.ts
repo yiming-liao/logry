@@ -3,8 +3,6 @@ import type { FormatStructuredPartOptions } from "@/modules/formatters/browser/s
 
 /** Browser format config */
 export type BrowserFormatterConfig = {
-  /** Whether to disabled the formatter */
-  disabled?: boolean;
   /** Timestamp formatting options. */
   timestamp?: FormatStringPartOptions<"timestamp">;
   /** ID formatting options. */

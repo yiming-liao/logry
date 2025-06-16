@@ -1,35 +1,13 @@
 import type { LoggerPreset, LoggerPresetConfig } from "@/presets/types";
 
 export const loggerPresets: Record<LoggerPreset, LoggerPresetConfig> = {
-  // json
-  json: {
-    normalizerConfig: {
-      node: {
-        timestamp: { style: "raw" },
-        level: { style: "lower" },
-        scope: { separator: "." },
-      },
-      browser: {
-        timestamp: { style: "raw" },
-        level: { style: "lower" },
-        scope: { separator: "." },
-      },
-    },
-    formatterConfig: {
-      node: { disabled: true },
-      browser: { disabled: true },
-    },
-  },
   // pretty
   pretty: {
     normalizerConfig: {
       node: { timestamp: { showTimeOnly: false } },
       browser: { timestamp: { showTimeOnly: false } },
     },
-    formatterConfig: {
-      node: { disabled: false },
-      browser: { disabled: false },
-    },
+    formatterConfig: {},
   },
   // pretty-multi-line
   "pretty-multi-line": {
@@ -39,14 +17,12 @@ export const loggerPresets: Record<LoggerPreset, LoggerPresetConfig> = {
     },
     formatterConfig: {
       node: {
-        disabled: false,
         message: { lineBreaks: 1 },
         meta: { depth: null },
         context: { depth: null },
         lineBreaksAfter: 1,
       },
       browser: {
-        disabled: false,
         message: { lineBreaks: 2 },
         meta: { lineBreaks: 2 },
         context: { lineBreaks: 2 },
@@ -62,7 +38,6 @@ export const loggerPresets: Record<LoggerPreset, LoggerPresetConfig> = {
     },
     formatterConfig: {
       node: {
-        disabled: false,
         id: { hide: true },
         scope: { showOnlyLatest: true },
         pid: { hide: true },
@@ -71,7 +46,6 @@ export const loggerPresets: Record<LoggerPreset, LoggerPresetConfig> = {
         context: { format: "compact" },
       },
       browser: {
-        disabled: false,
         id: { hide: true },
         scope: { showOnlyLatest: true },
       },
@@ -85,13 +59,11 @@ export const loggerPresets: Record<LoggerPreset, LoggerPresetConfig> = {
     },
     formatterConfig: {
       node: {
-        disabled: false,
         message: { lineBreaks: 1 },
         meta: { depth: null },
         context: { depth: null, hide: false },
       },
       browser: {
-        disabled: false,
         message: { lineBreaks: 2 },
         meta: { lineBreaks: 2 },
         context: { lineBreaks: 2, hide: false },

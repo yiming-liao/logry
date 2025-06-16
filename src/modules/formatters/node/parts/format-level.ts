@@ -15,8 +15,8 @@ import { LEVEL_CONFIG } from "@/shared/constants";
 export const formatLevel = (
   level: NormalizedLevel,
   rawLevel: RawLevel,
-  options: FormatStringPartOptions = {},
-): FormattedLevel => {
+  options: FormatStringPartOptions<"level"> = {},
+): { level: FormattedLevel; withAnsiColor: FormattedLevel } => {
   const {
     hide = DEFAULT_LEVEL_HIDE,
     prefix = DEFAULT_LEVEL_PREFIX,

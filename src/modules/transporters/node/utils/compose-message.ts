@@ -1,4 +1,4 @@
-import type { ReadyPayload } from "@/core/logger/types";
+import type { NodeFormattedPayload } from "@/modules/formatters";
 
 /**
  * Compose a log line by concatenating core payload fields and process info.
@@ -8,15 +8,24 @@ import type { ReadyPayload } from "@/core/logger/types";
  * @param hostname - Formatted hostname.
  * @returns Final console log message with newline.
  */
-export const composeConsoleMessage = (
-  payload: ReadyPayload,
-  pid: string,
-  hostname: string,
+export const composeMessage = (
+  payload: NodeFormattedPayload,
+  withAnsiColor?: boolean,
 ): string => {
-  const { timestamp, id, level, scope, message, meta, context } = payload;
+  const { timestamp, id, level, scope, message, meta, context, pid, hostname } =
+    withAnsiColor ? payload.withAnsiColor : payload;
+
+  const parts = [timestamp, id, level];
+
+  if (payload.raw.pid) {
+    parts.push(pid);
+  }
+  if (payload.raw.hostname) {
+    parts.push(hostname);
+  }
 
   // Compose ordered parts
-  const parts = [timestamp, id, level, pid, hostname, scope, message];
+  parts.push(scope, message);
 
   if (typeof meta === "string") {
     parts.push(meta);

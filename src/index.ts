@@ -21,7 +21,8 @@ export const logry = getOrCreateLogger;
 // ─────────────────────────────────────────────────────────────
 
 // --- 🧹 Normalizers ---
-export {
+export { Normalizer } from "./modules/normalizers";
+export type {
   NormalizedPayload,
   NormalizerConfig,
   TimestampStyle,
@@ -30,8 +31,11 @@ export {
 } from "./modules/normalizers";
 
 // --- 🎨 Formatters ---
-export {
+export { NodeFormatter } from "./modules/formatters";
+export type {
   FormattedPayload,
+  NodeFormattedPayload,
+  BrowserFormattedPayload,
   FormatterConfig,
   BaseFormatPartOptions,
   StringifyFormat,
@@ -39,14 +43,17 @@ export {
 
 // --- 🚚 Transporters ---
 export { Transporter } from "./modules/transporters";
+export { composeMessage } from "./modules/transporters/node/utils/compose-message";
 
 // --- 🎛️ Handler Manager ---
-export { HandlerManager } from "./modules/handler-manager";
+export { HandlerManager, BaseHandler } from "./modules/handler-manager";
 export type {
   HandlerConfig,
   Handler,
+  HandlerFunction,
+  HandlerClass,
   FlushStrategy,
-  ErrorCallback,
+  HandlerErrorHandler,
 } from "./modules/handler-manager";
 
 // ─────────────────────────────────────────────────────────────

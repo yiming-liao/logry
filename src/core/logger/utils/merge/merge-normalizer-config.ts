@@ -12,18 +12,18 @@ import type {
  * @returns A merged normalizer config object.
  */
 export const mergeNormalizerConfig = (
-  baseConfig: NormalizerConfig,
+  baseConfig?: NormalizerConfig,
   additionalConfig?: NormalizerConfig,
 ): NormalizerConfig => {
   // Shallow merge node config
   const mergedNode: BaseNormalizerConfig = {
-    ...(baseConfig.node ?? {}),
+    ...(baseConfig?.node ?? {}),
     ...(additionalConfig?.node ?? {}),
   };
 
   // Shallow merge browser config
   const mergedBrowser: BaseNormalizerConfig = {
-    ...(baseConfig.browser ?? {}),
+    ...(baseConfig?.browser ?? {}),
     ...(additionalConfig?.browser ?? {}),
   };
 

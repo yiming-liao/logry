@@ -12,17 +12,10 @@ import {
 } from "@/modules/formatters/node/constants";
 import { formatStructuredParts } from "@/modules/formatters/node/shared/format-structured-parts";
 
-/**
- * Format log context for Node.js.
- *
- * @param context - Normalized context object.
- * @param options - Formatting options.
- * @returns Formatted context string or empty string.
- */
 export const formatContext = (
   context: NormalizedContext,
-  options: FormatStructuredPartOptions = {},
-): FormattedContext => {
+  options: FormatStructuredPartOptions<"context"> = {},
+): { context: FormattedContext; withAnsiColor: FormattedContext } => {
   const {
     hide = DEFAULT_CONTEXT_HIDE,
     prefix = DEFAULT_CONTEXT_PREFIX,
@@ -35,6 +28,7 @@ export const formatContext = (
   } = options;
 
   return formatStructuredParts({
+    label: "context",
     part: context,
     options: {
       hide,

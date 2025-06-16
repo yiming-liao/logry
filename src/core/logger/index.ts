@@ -12,5 +12,4 @@ export {
   RawContext,
   RawPid,
   RawHostname,
-  RawUserAgent,
 } from "./types";

@@ -6,6 +6,8 @@ import type {
   RawMessage,
   RawMeta,
   RawContext,
+  RawPid,
+  RawHostname,
 } from "@/core/logger";
 import type {
   NormalizeLevelExtraOptions,
@@ -22,6 +24,8 @@ import type {
   NormalizedMessage,
   NormalizedMeta,
   NormalizedContext,
+  NormalizedPid,
+  NormalizedHostname,
 } from "@/modules/normalizers/types";
 
 export type TimestampStyle = "raw" | "pretty" | "iso" | "epoch";
@@ -41,6 +45,8 @@ export type BaseNormalizerConfig = {
     NormalizedLevel,
     NormalizeLevelExtraOptions
   >;
+  pid?: NormalizePartOptions<RawPid, NormalizedPid>;
+  hostname?: NormalizePartOptions<RawHostname, NormalizedHostname>;
   scope?: NormalizePartOptions<
     RawScope,
     NormalizedScope,

@@ -1,4 +1,4 @@
-import type { BrowserFormattedPayload } from "@/modules/formatters";
+import type { NodeFormattedPayload } from "@/modules/formatters";
 import type { NormalizedPayload } from "@/modules/normalizers";
 import { NodeFormatter } from "@/modules/formatters";
 
@@ -35,7 +35,7 @@ describe("NodeFormatter", () => {
       },
     };
 
-    const result = formatter.format(mockPayload) as BrowserFormattedPayload;
+    const result = formatter.format(mockPayload) as NodeFormattedPayload;
 
     expect(result.timestamp).toBeDefined();
     expect(result.id).toBeDefined();

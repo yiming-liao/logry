@@ -71,7 +71,7 @@ describe("Normalizer", () => {
       },
     };
 
-    const result = normalizer.normalize("node", rawPayload);
+    const result = normalizer.normalize({ platform: "node", rawPayload });
 
     expect(result.timestamp).toBe("ts:123456");
     expect(result.id).toBe("id:abc");
@@ -115,7 +115,7 @@ describe("Normalizer", () => {
       },
     };
 
-    const result = normalizer.normalize("browser", rawPayload);
+    const result = normalizer.normalize({ platform: "browser", rawPayload });
 
     expect(result.timestamp).toBe("ts:111");
     expect(result.id).toBe("id:id123");
@@ -146,7 +146,7 @@ describe("Normalizer", () => {
       },
     };
 
-    const result = normalizer.normalize("node", rawPayload);
+    const result = normalizer.normalize({ platform: "node", rawPayload });
 
     expect(result.timestamp).toBe("ts:1");
     expect(result.id).toBe("id:x");

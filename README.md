@@ -6,8 +6,9 @@
 
 <div align="center">
 
-A clean, lightweight, cross-platform logger that just works — on both Node.js and modern browsers.  
-Fully typed, deeply customizable, and built for the monorepo era.
+**A clean, lightweight, cross-platform logging library for Node.js and modern browsers,  
+fully typed and customizable with scoped loggers, formatter pipelines,  
+and modular handlers offering full flexibility for custom processing and delivery.**
 
 </div>
 
@@ -22,17 +23,13 @@ Fully typed, deeply customizable, and built for the monorepo era.
 
 <div align="center">
 
-[📄 Read the documentation](https://yiming-liao.github.io/logry/docs/introduction/getting-started)
+[🔗 Read the documentation](https://yiming-liao.github.io/logry/docs/introduction/getting-started)
 
 </div>
 
-> Logging in fullstack apps is messy.  
-> You jump between server and browser, but most loggers don’t.  
-> **Logry** was built for the monorepo era — a single, fully-typed logger that works identically across platforms.
-
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Box%20with%20Check.png" alt="Check Box with Check" width="13" height="13" /> Use the same logger in SSR, API routes, and client-side code  
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Box%20with%20Check.png" alt="Check Box with Check" width="13" height="13" /> Modular architecture: customize each part (normalize, format, transport)  
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Box%20with%20Check.png" alt="Check Box with Check" width="13" height="13" /> Fully typed, no runtime deps, scoped logging, plugin-ready
+> Logging across fullstack apps is messy.  
+> You jump between server and browser but most loggers don’t.  
+> **Logry** is built for the monorepo era — _a fully typed logger that works the same everywhere._
 
 ---
 
@@ -325,6 +322,8 @@ The Normalizer transforms a raw log input into a normalized shape, handling core
 - message
 - meta
 - context
+- pid (_Node.js only_)
+- hostname (_Node.js only_)
 
 Each part has a dedicated normalizer, all of which can be overridden via custom logic.
 

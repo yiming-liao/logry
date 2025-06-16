@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example for using handler in Browser</title>
+    <style>
+      body {
+        color: antiquewhite;
+        background-color: #000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <pre></pre>
+
+    <script>
+      // To enable internal warnning when in dev mode
+      globalThis.__LOGRY_DEV__ = true;
+    </script>
+
+    <script type="module">
+      // https://cdn.jsdelivr.net/npm/logry@1.0.1/dist/index.js
+      import { logry, error, BaseHandler } from "../../dist/index.js";
+
+      class Handler extends BaseHandler {
+        constructor(options) {
+          super(options);
+        }
+
+        async handle(payload) {
+          const logLine = await this.compose(payload);
+          const output = document.querySelector("pre");
+          output.textContent += logLine + "\n";
+        }
+      }
+
+      const myhandler = new Handler({
+        formatterConfig: {
+          node: { meta: { format: "json", prefix: "| " } },
+        },
+      });
+
+      // Create a logger
+      const logger = logry({ id: "my-logger" });
+
+      // Register the handler
+      logger.addHandler(myhandler, "my-handler");
+
+      // 🚀 Fire logs
+      logger.fatal("💥 Disk full — initiating crash landing", { path: "/var" });
+      logger.error("🚫 Can't write to disk — logs lost in space");
+      logger.warn("⚠️ Low disk — delete your cat videos");
+    </script>
+  </body>
+</html>

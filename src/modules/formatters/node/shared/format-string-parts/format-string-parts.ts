@@ -1,11 +1,16 @@
 import type {
+  RawHostname,
   RawId,
   RawLevel,
   RawMessage,
+  RawPid,
   RawScope,
   RawTimestamp,
 } from "@/core/logger/types";
-import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
+import type {
+  CustomStringPartFormatter,
+  FormatStringPartOptions,
+} from "@/modules/formatters/node/shared/format-string-parts";
 import type { FormattedStringPart } from "@/modules/formatters/types";
 import { addAnsiColor } from "@/modules/formatters/utils/add-ansi-color";
 import { addLineBreakPrefix } from "@/modules/formatters/utils/add-line-break-prefix";
@@ -18,17 +23,24 @@ import { LEVEL_CONFIG } from "@/shared/constants";
 /**
  * Format a log string part with optional styles and transformations.
  */
-export const formatStringParts = ({
-  label = "",
+export const formatStringParts = <L extends string>({
+  label,
   part,
   rawPart,
-  options = {},
+  options,
 }: {
   label: string;
   part: string;
-  rawPart: RawTimestamp | RawId | RawLevel | RawScope | RawMessage;
-  options: FormatStringPartOptions<"scope">;
-}): FormattedStringPart => {
+  rawPart:
+    | RawTimestamp
+    | RawId
+    | RawPid
+    | RawHostname
+    | RawLevel
+    | RawScope
+    | RawMessage;
+  options: FormatStringPartOptions<L>;
+}): { [Key in L]: FormattedStringPart } & { withAnsiColor: string } => {
   const {
     hide,
     prefix,
@@ -39,11 +51,13 @@ export const formatStringParts = ({
     showOnlyLatest,
     separator: customSeparator,
     customFormatter,
-  } = options;
+  } = options as FormatStringPartOptions<"scope">;
 
   // Return empty string if hide is true or part is a empty string
   if (hide || !part) {
-    return "";
+    return { [label]: "", withAnsiColor: "" } as {
+      [Key in L]: FormattedStringPart;
+    } & { withAnsiColor: string };
   }
 
   // Use custom formatter if provided
@@ -51,7 +65,7 @@ export const formatStringParts = ({
     const customized = tryCustomFormatter({
       label,
       input: { part, rawPart },
-      customFormatter,
+      customFormatter: customFormatter as CustomStringPartFormatter<L>,
     });
     if (customized) {
       return customized;
@@ -82,9 +96,14 @@ export const formatStringParts = ({
   }
 
   // Apply optional stylings
-  formatted = addAnsiColor(formatted, ansiColor);
-  formatted = addLineBreakPrefix(formatted, lineBreaks);
-  formatted = addSpaceAfter(formatted, spaceAfter);
+  let withoutAnsiColor = "";
+  withoutAnsiColor = addLineBreakPrefix(formatted, lineBreaks);
+  withoutAnsiColor = addSpaceAfter(withoutAnsiColor, spaceAfter);
+  let withAnsiColor = addAnsiColor(formatted, ansiColor);
+  withAnsiColor = addLineBreakPrefix(withAnsiColor, lineBreaks);
+  withAnsiColor = addSpaceAfter(withAnsiColor, spaceAfter);
 
-  return formatted;
+  return { [label]: withoutAnsiColor, withAnsiColor } as {
+    [Key in L]: FormattedStringPart;
+  } & { withAnsiColor: string };
 };

@@ -12,19 +12,11 @@ import {
 } from "@/modules/formatters/node/constants";
 import { formatStringParts } from "@/modules/formatters/node/shared/format-string-parts";
 
-/**
- * Format an ID string with optional brackets and trailing space.
- *
- * @param id - Normalized ID string.
- * @param rawId - Original raw ID.
- * @param options - Formatting options.
- * @returns Formatted ID string or empty string if hidden.
- */
 export const formatId = (
   id: NormalizedId,
   rawId: RawId,
-  options: FormatStringPartOptions = {},
-): FormattedId => {
+  options: FormatStringPartOptions<"id"> = {},
+): { id: FormattedId; withAnsiColor: FormattedId } => {
   const {
     hide = DEFAULT_ID_HIDE,
     prefix = DEFAULT_ID_PREFIX,

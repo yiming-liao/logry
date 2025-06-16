@@ -6,9 +6,7 @@ import type { BrowserFormattedPayload } from "@/modules/formatters";
  * @param payload - The formatted browser payload.
  * @returns The console message string.
  */
-export const composeConsoleMessage = (
-  payload: BrowserFormattedPayload,
-): string => {
+export const composeMessage = (payload: BrowserFormattedPayload): string => {
   const { timestamp, id, level, scope, message, meta, context } = payload;
 
   const lineBreaksBefore = "\n".repeat(

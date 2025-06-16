@@ -8,28 +8,28 @@ import type {
 import type { BaseFormatPartOptions } from "@/modules/formatters/formatter-config-types";
 import type { FormattedStringPart } from "@/modules/formatters/types";
 
-export type CustomStringPartFormatter = ({
+export type CustomStringPartFormatter<L extends string> = ({
   part,
   rawPart,
 }: {
   part: string;
   rawPart: RawTimestamp | RawId | RawLevel | RawScope | RawMessage;
-}) => FormattedStringPart;
+}) => { [Key in L]: FormattedStringPart } & { withAnsiColor: string };
 
 /**
  * String part formatting options.
  */
 export type FormatStringPartOptions<L extends string = string> =
   L extends "scope"
-    ? BaseFormatStringPartOptions & FormatScopePartOptions
-    : BaseFormatStringPartOptions;
+    ? BaseFormatStringPartOptions<L> & FormatScopePartOptions
+    : BaseFormatStringPartOptions<L>;
 
 /** Base options without scope options  */
-type BaseFormatStringPartOptions = BaseFormatPartOptions & {
+type BaseFormatStringPartOptions<L extends string> = BaseFormatPartOptions & {
   /** ANSI escape code string to wrap the output with color. */
   ansiColor?: string;
   /** Provide a custom function to override default formatting. */
-  customFormatter?: CustomStringPartFormatter;
+  customFormatter?: CustomStringPartFormatter<L>;
 };
 
 /** Specific adiitional options for "scope" */

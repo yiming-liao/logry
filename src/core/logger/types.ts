@@ -14,11 +14,11 @@ export type RawScope = string[];
 export type RawMessage = string;
 export type RawMeta = unknown;
 export type RawContext = Record<string, unknown> | undefined;
-/** Only used in Node.js environment (NodeConsoleTransporter) */
+/** Only used in Node.js environment */
 export type RawPid = number;
 export type RawHostname = string;
-/** Only used in Browser environment (BrowserConsoleTransporter) */
-export type RawUserAgent = string;
+/** Only used in Browser environment */
+// export type RawUserAgent = string;
 
 // Core log data combining user input and internal context, passed to the Normalizer before processing.
 export type RawLogData = {
@@ -31,10 +31,18 @@ export type RawLogData = {
   context?: RawContext;
 };
 
+export type RawCoreLogData = Omit<RawLogData, "meta" | "context"> & {
+  pid?: RawPid;
+  hostname?: RawHostname;
+};
+
 // Input passed to the Normalizer — includes both log data and config
 export type RawPayload = RawLogData & {
+  pid?: RawPid;
+  hostname?: RawHostname;
+} & {
   normalizerConfig: NormalizerConfig;
   formatterConfig: FormatterConfig;
-} & { raw: Omit<RawLogData, "meta" | "context"> };
+} & { raw: RawCoreLogData };
 
 export type ReadyPayload = NormalizedPayload | FormattedPayload;

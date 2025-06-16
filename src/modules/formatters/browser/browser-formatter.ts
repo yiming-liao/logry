@@ -1,4 +1,4 @@
-import type { FormattedPayload } from "@/modules/formatters/types";
+import type { BrowserFormattedPayload } from "@/modules/formatters/types";
 import type { NormalizedPayload } from "@/modules/normalizers";
 import type { Platform } from "@/shared/types";
 import {
@@ -17,7 +17,7 @@ export class BrowserFormatter {
   /**
    * Format normalized log payload into formatted output
    * @param {NormalizedPayload} payload - Input normalized log data
-   * @returns {FormattedPayload} Formatted log parts
+   * @returns {BrowserFormattedPayload} Formatted log parts
    */
   format({
     timestamp,
@@ -30,7 +30,7 @@ export class BrowserFormatter {
     normalizerConfig,
     formatterConfig,
     raw,
-  }: NormalizedPayload): FormattedPayload {
+  }: NormalizedPayload): BrowserFormattedPayload {
     const {
       timestamp: timestampOptions,
       id: idOptions,

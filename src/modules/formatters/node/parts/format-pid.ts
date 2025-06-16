@@ -1,6 +1,7 @@
 import type { RawPid } from "@/core/logger/types";
 import type { FormatStringPartOptions } from "@/modules/formatters/node/shared/format-string-parts";
 import type { FormattedPid } from "@/modules/formatters/types";
+import type { NormalizedPid } from "@/modules/normalizers/types";
 import {
   DEFAULT_PID_ANSI_COLOR,
   DEFAULT_PID_HIDE,
@@ -20,10 +21,10 @@ import { formatStringParts } from "@/modules/formatters/node/shared/format-strin
  * @returns Formatted Pid string or empty string if hidden.
  */
 export const formatPid = (
-  pid: string,
+  pid: NormalizedPid,
   rawPid: RawPid,
-  options: FormatStringPartOptions = {},
-): FormattedPid => {
+  options: FormatStringPartOptions<"pid"> = {},
+): { pid: FormattedPid; withAnsiColor: FormattedPid } => {
   const {
     hide = DEFAULT_PID_HIDE,
     prefix = DEFAULT_PID_PREFIX,
@@ -36,7 +37,7 @@ export const formatPid = (
 
   return formatStringParts({
     label: "pid",
-    part: pid,
+    part: String(pid),
     rawPart: rawPid,
     options: {
       hide,

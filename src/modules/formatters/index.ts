@@ -1,5 +1,7 @@
 export { NodeFormatter } from "./node";
+export type { NodeFormatterConfig } from "./node";
 export { BrowserFormatter } from "./browser";
+export type { BrowserFormatterConfig } from "./browser";
 
 export type {
   FormatterConfig,

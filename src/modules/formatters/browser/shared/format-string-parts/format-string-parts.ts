@@ -10,7 +10,6 @@ import type {
   FormatStringPartOptions,
 } from "@/modules/formatters/browser/shared/format-string-parts";
 import type { FormattedStringPart } from "@/modules/formatters/types";
-import type { ScopeSeparator } from "@/modules/normalizers";
 import { addLineBreakPrefix } from "@/modules/formatters/utils/add-line-break-prefix";
 import { addPrefixAndSuffix } from "@/modules/formatters/utils/add-prefix-and-suffix";
 import { addSpaceAfter } from "@/modules/formatters/utils/add-space-after";
@@ -31,7 +30,6 @@ export const formatStringParts = <L extends string>({
   part: string;
   rawPart: RawTimestamp | RawId | RawLevel | RawScope | RawMessage;
   options: FormatStringPartOptions<L>;
-  separator?: ScopeSeparator;
 }): { [Key in L]: FormattedStringPart } & { cssStyle: string } => {
   const {
     hide,

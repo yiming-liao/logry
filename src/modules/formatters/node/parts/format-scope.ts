@@ -18,7 +18,7 @@ export const formatScope = (
   scope: NormalizedScope,
   rawScope: RawScope,
   options: FormatStringPartOptions<"scope"> = {},
-): FormattedScope => {
+): { scope: FormattedScope; withAnsiColor: FormattedScope } => {
   const {
     hide = DEFAULT_SCOPE_HIDE,
     prefix = DEFAULT_SCOPE_PREFIX,

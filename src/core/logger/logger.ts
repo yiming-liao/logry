@@ -4,19 +4,18 @@ import type {
   LogOptions,
   LoggerConstructorOptions,
 } from "@/core/logger/logger-types";
-import type { RawPayload, RawContext, RawScope } from "@/core/logger/types";
+import type { RawContext, RawScope } from "@/core/logger/types";
 import type { AdditionOptions } from "@/core/logger/utils/merge/merge-inherited-options";
 import type { LoggerCore } from "@/core/logger-core/logger-core";
 import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
-import type { HandlerManager } from "@/modules/handler-manager";
+import type { Handler, HandlerManager } from "@/modules/handler-manager";
+import type { AddHandlerPosition } from "@/modules/handler-manager/types";
 import type { Transporter } from "@/modules/transporters/types";
 import type { Level } from "@/shared/types";
 import { createBoundLogMethod } from "@/core/logger/utils/create-bound-log-method";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 import { mergeInheritedOptions } from "@/core/logger/utils/merge/merge-inherited-options";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
-import { formatPayload } from "@/core/logger/utils/payload/format-payload";
-import { normalizePayload } from "@/core/logger/utils/payload/normalize-payload";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";
 import { NodeFormatter, BrowserFormatter } from "@/modules/formatters";
 import { Normalizer, type NormalizerConfig } from "@/modules/normalizers";
@@ -44,12 +43,12 @@ export class Logger {
   // HandlerManager
   private readonly handlerManager: HandlerManager;
   // Standard log methods
-  public trace: BoundLogMethod = () => {};
-  public debug: BoundLogMethod = () => {};
-  public info: BoundLogMethod = () => {};
-  public warn: BoundLogMethod = () => {};
-  public error: BoundLogMethod = () => {};
-  public fatal: BoundLogMethod = () => {};
+  public trace!: BoundLogMethod;
+  public debug!: BoundLogMethod;
+  public info!: BoundLogMethod;
+  public warn!: BoundLogMethod;
+  public error!: BoundLogMethod;
+  public fatal!: BoundLogMethod;
   // Force log methods (bypass level filtering)
   public force: Record<Exclude<Level, "silent">, BoundLogMethod>;
   // Transporters
@@ -86,26 +85,36 @@ export class Logger {
     });
     // Initialize force log methods
     this.force = createForceMethods(boundLog);
-
     // Normalizer
-    this.normalizerConfig = normalizerConfig ?? {};
+    this.normalizerConfig = normalizerConfig || {};
     this.normalizer = new Normalizer();
     // Formatter
-    this.formatterConfig = formatterConfig ?? {};
+    this.formatterConfig = formatterConfig || {};
     this.nodeFormatter = new NodeFormatter();
     this.browserFormatter = new BrowserFormatter();
     // HandlerManager
     this.handlerManager = core.handlerManager;
     // Transporters
-    this.transporters.push(new NodeConsoleTransporter());
-    this.transporters.push(new BrowserConsoleTransporter());
+    this.transporters.push(
+      new NodeConsoleTransporter({
+        normalizer: this.normalizer,
+        formatter: this.nodeFormatter,
+      }),
+    );
+    this.transporters.push(
+      new BrowserConsoleTransporter({
+        normalizer: this.normalizer,
+        formatter: this.browserFormatter,
+      }),
+    );
   }
 
+  /** Get the LoggerCore instance */
   public getCore(): LoggerCore {
     return this.core;
   }
 
-  // Merge inherited options with runtime options.
+  /** Merge inherited options with runtime options */
   private mergeInheritedOptions = (additions?: AdditionOptions) => {
     return mergeInheritedOptions(
       {
@@ -118,9 +127,7 @@ export class Logger {
     );
   };
 
-  /**
-   * Create a child logger.
-   */
+  /** Create a child logger */
   child({
     level,
     scope,
@@ -138,14 +145,17 @@ export class Logger {
     return new Logger({ core: this.core, level, ...merged });
   }
 
-  /**
-   * Core log method. Used by all level-specific methods.
-   */
-  private log({ level, message, meta, options }: LogOptions): void {
-    assertValidLevel(level);
+  /** Core log method, used by all level-specific methods */
+  private async log({
+    level,
+    message,
+    meta,
+    options,
+  }: LogOptions): Promise<void> {
     if (level === "silent") {
       return;
     }
+    assertValidLevel(level);
 
     // Merge inherited options with runtime options.
     const merged = this.mergeInheritedOptions({
@@ -156,7 +166,7 @@ export class Logger {
     });
 
     // Build the log payload with all necessary data.
-    const payload = buildPayload({
+    const rawPayload = buildPayload({
       timestamp: Date.now(),
       level,
       id: this.core.id,
@@ -165,51 +175,32 @@ export class Logger {
       ...merged,
     });
 
-    // Normalize raw payload.
-    const normalizedPayload = normalizePayload(
-      this.normalizer.normalize,
-      payload,
-    );
-
-    // (Optional) Format normalized payload.
-    const readyPayload = formatPayload({
-      normalizedPayload,
-      formatterConfig: merged.formatterConfig,
-      nodeFormatter: this.nodeFormatter,
-      browserFormatter: this.browserFormatter,
-    });
-
     // Transport the payload
-    transportPayload({ transporters: this.transporters, readyPayload });
-    this.handlerManager.runHandlers(payload); // -> Run handlers
+    transportPayload({ transporters: this.transporters, rawPayload });
+    this.handlerManager.runHandlers(rawPayload); // -> Run handlers with rawPayload
   }
 
-  // Add a log handler to be triggered after dispatch.
+  /** Add a log handler to be triggered after dispatch */
   public addHandler(
-    handler: (payload: RawPayload) => void | Promise<void>,
+    handler: Handler,
     id?: string,
-  ): void {
-    this.handlerManager.addHandler(handler, id);
+    position?: AddHandlerPosition,
+  ): string {
+    return this.handlerManager.addHandler(handler, id, position);
   }
 
-  // Remove a log handler with the specified id.
+  /** Remove a log handler with the specified id */
   public removeHandler(id: string): void {
     this.handlerManager.removeHandler(id);
   }
 
-  // Wait for all async handlers to finish (useful before exit).
+  /** Wait for all async handlers to finish */
   public async flush(timeout?: number): Promise<void> {
     await this.handlerManager.flush(timeout);
-    await Promise.all(
-      this.transporters.map((t) =>
-        "flush" in t && typeof t.flush === "function" ? t.flush() : undefined,
-      ),
-    );
   }
 
-  // Dispose of the handlerManager's flush strategy (Customized).
-  // This is important for cleanup, especially in long-running applications.
-  public dispose(): void {
-    this.handlerManager.dispose();
+  /** Dispose all handlers and flush strategy via the handler manager */
+  public async dispose(): Promise<void> {
+    await this.handlerManager.dispose();
   }
 }

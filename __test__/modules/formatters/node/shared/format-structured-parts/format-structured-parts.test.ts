@@ -1,92 +1,80 @@
-import type { NormalizedStructuredPart } from "@/modules/normalizers/types";
-import { formatStructuredParts } from "@/modules/formatters/node/shared/format-structured-parts";
+import type { FormatStructuredPartOptions } from "@/modules/formatters/node/shared/format-structured-parts/format-structured-parts-types";
+import { formatStructuredParts } from "@/modules/formatters/node/shared/format-structured-parts/format-structured-parts";
+import { formatObject } from "@/modules/formatters/utils/format-object";
+
+jest.mock("@/modules/formatters/utils/format-object", () => ({
+  formatObject: jest.fn(() => '{"foo":"bar"}'),
+}));
+
+jest.mock("@/modules/formatters/utils/add-ansi-color", () => ({
+  addAnsiColor: jest.fn((str: string) => `\x1b[32m${str}\x1b[0m`),
+}));
 
 describe("formatStructuredParts", () => {
-  const mockPart: NormalizedStructuredPart = { foo: "bar", num: 1 };
+  const basePart = { foo: "bar" };
 
-  it("should return empty string if hidden", () => {
+  it("should return empty when hide is true", () => {
     const result = formatStructuredParts({
-      part: mockPart,
+      label: "data",
+      part: basePart,
       options: { hide: true },
     });
-    expect(result).toBe("");
+    expect(result).toEqual({ data: "", withAnsiColor: "" });
   });
 
-  it("should return empty string if part is falsy", () => {
+  it("should return custom formatted result if customFormatter is provided", () => {
+    const customFormatter = jest.fn(() => ({
+      data: "[custom]",
+      withAnsiColor: "[custom-colored]",
+    }));
+
     const result = formatStructuredParts({
-      part: undefined as unknown as NormalizedStructuredPart,
-      options: {},
+      label: "data",
+      part: basePart,
+      options: { customFormatter } as FormatStructuredPartOptions,
     });
-    expect(result).toBe("");
-  });
 
-  it("should apply custom formatter if provided", () => {
-    const result = formatStructuredParts({
-      part: mockPart,
-      options: {
-        customFormatter: (input) => `<<${JSON.stringify(input.part)}>>`,
-      },
+    expect(customFormatter).toHaveBeenCalled();
+    expect(result).toEqual({
+      data: "[custom]",
+      withAnsiColor: "[custom-colored]",
     });
-    expect(result).toBe('<<{"foo":"bar","num":1}>>');
   });
 
-  it("should format object and apply prefix/suffix", () => {
+  it("should format part with all options applied", () => {
     const result = formatStructuredParts({
-      part: { key: "value" },
+      label: "data",
+      part: basePart,
       options: {
-        format: "json",
         prefix: "[",
         suffix: "]",
-      },
-    }) as string;
-    expect(result.startsWith("[")).toBe(true);
-    expect(result.endsWith("]")).toBe(true);
-  });
-
-  it("should apply ansi color if specified", () => {
-    const result = formatStructuredParts({
-      part: { key: "value" },
-      options: {
-        format: "json",
+        lineBreaks: 1,
+        spaceAfter: 1,
         ansiColor: "green",
       },
     });
-    expect(result).toContain("value");
+
+    const expectedRaw = `\n[{"foo":"bar"}] `;
+    const expectedAnsi = `\n\x1b[32m[{"foo":"bar"}]\x1b[0m `;
+
+    expect(result).toEqual({
+      data: expectedRaw,
+      withAnsiColor: expectedAnsi,
+    });
   });
 
-  it("should add line break prefix if specified", () => {
-    const result = formatStructuredParts({
-      part: { x: 1 },
-      options: {
-        format: "json",
-        lineBreaks: 2,
-      },
-    }) as string;
-    expect(result.startsWith("\n\n")).toBe(true);
-  });
+  it("should return raw object if formatObject returns non-string", () => {
+    (formatObject as jest.Mock).mockImplementationOnce(() => ({ raw: true }));
 
-  it("should add space after if enabled", () => {
     const result = formatStructuredParts({
-      part: { hello: "world" },
-      options: {
-        format: "json",
-        spaceAfter: 1,
-      },
-    }) as string;
-    expect(result.endsWith(" ")).toBe(true);
-  });
-
-  it("should return object directly if formatObject returns non-string", () => {
-    const input = { asd: 123 };
-    const result = formatStructuredParts({
-      part: input,
-      options: {
-        format: "raw",
-      },
+      label: "meta",
+      part: { some: "thing" },
+      options: {},
     });
 
-    expect(typeof result).toBe("object");
-    expect(result).toEqual(input);
-    expect(result).not.toBeNull();
+    expect(result).toEqual({
+      meta: { raw: true },
+      withAnsiColor: "",
+    });
   });
 });

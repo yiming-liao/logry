@@ -1,114 +1,79 @@
-import { Logger } from "@/core/logger";
-import { mergeInheritedOptions } from "@/core/logger/utils/merge/merge-inherited-options";
+import type { LoggerCore } from "@/core/logger-core/logger-core";
+import { Logger } from "@/core/logger/logger";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
-import { formatPayload } from "@/core/logger/utils/payload/format-payload";
-import { normalizePayload } from "@/core/logger/utils/payload/normalize-payload";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";
-import { LoggerCore } from "@/core/logger-core";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
 
-jest.mock("@/shared/utils/assert-valid-level", () => ({
-  assertValidLevel: jest.fn(),
-}));
-jest.mock("@/core/logger/utils/merge/merge-inherited-options", () => ({
-  mergeInheritedOptions: jest.fn(),
-}));
-jest.mock("@/core/logger/utils/payload/build-payload", () => ({
-  buildPayload: jest.fn(),
-}));
-jest.mock("@/core/logger/utils/payload/normalize-payload", () => ({
-  normalizePayload: jest.fn(),
-}));
-jest.mock("@/core/logger/utils/payload/format-payload", () => ({
-  formatPayload: jest.fn(),
-}));
-jest.mock("@/core/logger/utils/payload/transport-payload", () => ({
-  transportPayload: jest.fn(),
-}));
+jest.mock("@/core/logger/utils/payload/build-payload");
+jest.mock("@/core/logger/utils/payload/transport-payload");
+jest.mock("@/shared/utils/assert-valid-level");
 
 describe("Logger.log", () => {
-  const core = new LoggerCore({ id: "test", level: "info" });
-  const logger = new Logger({
-    core,
-    level: "debug",
-    scope: "app",
-    context: { env: "dev" },
-  });
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should skip log if level is 'silent'", () => {
-    logger["log"]({ level: "silent", message: "skip", meta: {} });
-    expect(assertValidLevel).toHaveBeenCalledWith("silent");
-    expect(mergeInheritedOptions).not.toHaveBeenCalled();
-    expect(buildPayload).not.toHaveBeenCalled();
-    expect(transportPayload).not.toHaveBeenCalled();
-  });
-
-  it("should process and transport payload when level is valid", () => {
-    const additions = {
-      scope: ["s"],
-      context: { env: "test" },
-      formatterConfig: {},
-      normalizerConfig: {},
-    };
-    const payload = { message: "log", level: "info" };
-    const normalized = { formatterConfig: {}, extra: "data" };
-    const formatted = { ready: true };
-
-    (mergeInheritedOptions as jest.Mock).mockReturnValue(additions);
-    (buildPayload as jest.Mock).mockReturnValue(payload);
-    (normalizePayload as jest.Mock).mockReturnValue(normalized);
-    (formatPayload as jest.Mock).mockReturnValue(formatted);
-
-    const spyHandler = jest.spyOn(logger["handlerManager"], "runHandlers");
-
-    logger["log"]({
+  it("should validate level, build payload, transport it, and run handlers", async () => {
+    const mockCore = {
+      id: "logger-1",
       level: "info",
-      message: "log",
-      meta: { foo: "bar" },
-      options: {
-        scope: additions.scope,
-        context: additions.context,
-        formatterConfig: additions.formatterConfig,
-        normalizerConfig: additions.normalizerConfig,
+      onLevelChange: jest.fn(),
+      handlerManager: {
+        runHandlers: jest.fn(),
       },
+    } as unknown as LoggerCore;
+
+    const logger = new Logger({
+      core: mockCore,
+      level: "debug",
+    });
+
+    const mockPayload = { id: "mock-payload" };
+    (buildPayload as jest.Mock).mockReturnValue(mockPayload);
+
+    await logger["log"]({
+      level: "info",
+      message: "Test message",
+      meta: { key: "value" },
     });
 
     expect(assertValidLevel).toHaveBeenCalledWith("info");
-    expect(mergeInheritedOptions).toHaveBeenCalledWith(
-      {
-        scope: logger["scope"],
-        context: logger["context"],
-        normalizerConfig: logger["normalizerConfig"],
-        formatterConfig: logger["formatterConfig"],
-      },
-      additions,
+    expect(buildPayload).toHaveBeenCalledWith(
+      expect.objectContaining({
+        level: "info",
+        message: "Test message",
+        meta: { key: "value" },
+        id: "logger-1",
+      }),
     );
-    expect(buildPayload).toHaveBeenCalledWith({
-      timestamp: expect.any(Number),
-      level: "info",
-      id: "test",
-      message: "log",
-      meta: { foo: "bar" },
-      ...additions,
-    });
-    expect(normalizePayload).toHaveBeenCalledWith(
-      logger["normalizer"].normalize,
-      payload,
-    );
-    expect(formatPayload).toHaveBeenCalledWith({
-      normalizedPayload: normalized,
-      formatterConfig: {},
-      nodeFormatter: logger["nodeFormatter"],
-      browserFormatter: logger["browserFormatter"],
-    });
     expect(transportPayload).toHaveBeenCalledWith({
-      transporters: logger["transporters"],
-      readyPayload: formatted,
+      transporters: expect.any(Array),
+      rawPayload: mockPayload,
     });
-    expect(spyHandler).toHaveBeenCalledWith(payload);
+    expect(mockCore.handlerManager.runHandlers).toHaveBeenCalledWith(
+      mockPayload,
+    );
+  });
+
+  it("should do nothing if level is 'silent'", async () => {
+    const mockCore: LoggerCore = {
+      id: "logger-1",
+      level: "info",
+      onLevelChange: jest.fn(),
+      handlerManager: {
+        runHandlers: jest.fn(),
+      },
+    } as unknown as LoggerCore;
+
+    const logger = new Logger({ core: mockCore, level: "silent" });
+
+    await logger["log"]({
+      level: "silent",
+      message: "This should not be logged",
+    });
+
+    expect(buildPayload).not.toHaveBeenCalled();
+    expect(transportPayload).not.toHaveBeenCalled();
+    expect(mockCore.handlerManager.runHandlers).not.toHaveBeenCalled();
   });
 });

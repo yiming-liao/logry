@@ -3,6 +3,7 @@ import { withTimeout } from "@/modules/handler-manager/utils/with-timeout";
 describe("withTimeout", () => {
   it("resolves if the promise completes before timeout", async () => {
     const result = await withTimeout(
+      "id",
       new Promise((resolve) => setTimeout(() => resolve("done"), 50)),
       100,
     );
@@ -12,6 +13,7 @@ describe("withTimeout", () => {
   it("rejects if the promise exceeds timeout", async () => {
     await expect(
       withTimeout(
+        "id",
         new Promise((resolve) => setTimeout(() => resolve("late"), 200)),
         100,
       ),
@@ -23,6 +25,7 @@ describe("withTimeout", () => {
 
     await expect(
       withTimeout(
+        "id",
         new Promise((resolve) => setTimeout(() => resolve("late"), 200)),
         100,
         onTimeout,
@@ -36,6 +39,7 @@ describe("withTimeout", () => {
     const onTimeout = jest.fn();
 
     const result = await withTimeout(
+      "id",
       new Promise((resolve) => setTimeout(() => resolve("early"), 50)),
       100,
       onTimeout,
@@ -52,7 +56,7 @@ describe("withTimeout", () => {
     const promise = new Promise((resolve) =>
       setTimeout(() => resolve("ok"), 10),
     );
-    const result = withTimeout(promise, 100);
+    const result = withTimeout("id", promise, 100);
 
     jest.advanceTimersByTime(50); // resolve earlier than timeout
     await expect(result).resolves.toBe("ok");
