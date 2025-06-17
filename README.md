@@ -1,14 +1,16 @@
-<p align="center">
-  <!-- <img src="logry-logo.png" alt="logry Logo" width="150"  /> -->
-</p>
+<div align="center">
+  <a href="https://yiming-liao.github.io/logry/docs/introduction/getting-started">
+    <img src="logry-logo-rounded.png" alt="Logry node" width="100" height="100" />
+  </a>
+</div>
 
 <h1 align="center">Logry</h1>
 
 <div align="center">
 
-**A clean, lightweight, cross-platform logging library for Node.js and modern browsers,  
+A clean, lightweight, cross-platform logging library for Node.js and modern browsers,  
 fully typed and customizable with scoped loggers, formatter pipelines,  
-and modular handlers offering full flexibility for custom processing and delivery.**
+and modular handlers offering full flexibility for custom processing and delivery.
 
 </div>
 
@@ -16,14 +18,15 @@ and modular handlers offering full flexibility for custom processing and deliver
 
 [![NPM version](https://img.shields.io/npm/v/logry?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/logry)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/logry?style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/package/logry)
-[![License](https://img.shields.io/npm/l/logry?style=flat&colorA=000000&colorB=000000)](LICENSE)
+[![Coverage Status](https://img.shields.io/coveralls/github/yiming-liao/logry.svg?branch=main&style=flat&colorA=000000&colorB=000000)](https://coveralls.io/github/yiming-liao/logry?branch=main)
 [![TypeScript](https://img.shields.io/badge/TypeScript-%E2%9C%94-blue?style=flat&colorA=000000&colorB=000000)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/npm/l/logry?style=flat&colorA=000000&colorB=000000)](LICENSE)
 
 </div>
 
 <div align="center">
 
-[🔗 Read the documentation](https://yiming-liao.github.io/logry/docs/introduction/getting-started)
+[![📚 Read the Docs](https://img.shields.io/badge/📚%20Read%20the%20Docs-007477?style=for-the-badge)](https://yiming-liao.github.io/logry/docs/introduction/getting-started)
 
 </div>
 
@@ -33,35 +36,34 @@ and modular handlers offering full flexibility for custom processing and deliver
 
 ---
 
-## 📚 Outline
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Books.png" alt="Books" width="25" height="25" /> Outline
 
-- [😎 Features at a Glance](#features-at-a-glance)
-- [🌟 Output Preview](#output-preview)
-- [🚩 Installation](#installation)
-- [🚀 Quick Start](#quick-start)
-- [🌌 Presets](#presets)
-- [☄️ Core Concepts](#core-concepts)
-  - [✨ Log Level](#✨-log-level)
-  - [✨ Child Loggers](#✨-child-loggers)
-  - [✨ Logger Core](#✨-logger-core)
-  - [✨ Logger Handlers and Tasks](#✨-logger-handlers-and-tasks)
-- [🔀 Normalizer](#normalizer)
-- [🎨 Formatter](#formatter)
-- [🛫 Transporter](#transporter)
-- [🛠️ Devtools](#devtools)
-- [🔌 Development Mode Detection](#development-mode-detection)
+- [😎 Features at a Glance](#-features-at-a-glance)
+- [🌟 Output Preview](#-output-preview)
+- [🚩 Installation](#-installation)
+- [🚀 Quick Start](#-quick-start)
+- [🌠 Presets](#-presets)
+- [☄️ Core Concepts](#-core-concepts)
+  - [✨ Log Level](#-log-level)
+  - [✨ Child Loggers](#-child-loggers)
+  - [✨ Logger Core](#-logger-core)
+- [🛫 Transporter](#-transporter)
+- [🔀 Normalizer](#-normalizer)
+- [🎨 Formatter](#-formatter)
+- [📦 Handlers and HandlerManager](#-handlers-and-handlerManager)
+- [🛠️ Devtools](#-devtools)
+- [🚧 Development Mode Detection](#-development-mode-detection)
 
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="25" height="25" /> Features at a Glance
 
-- **⚡ Zero-dependency & Type-safe — Written in TypeScript with no runtime bloat**
-- **🌍 Environment Agnostic — Use the same logger in SSR, API routes, and the browser**
-- **🎨 Customizable Output — Control every part of the log format — or write your own**
-- **🧠 Context Support — Inject trace data like requestId, userId and pass it down**
-- **🪵 Scoped Loggers — Organize output with nested scopes like auth > login > error**
-- **🧩 Composable Architecture — Swap in custom normalizers, formatters, and transporters**
-- **🛠 Plugin-ready Core — Register your own handlers via a flexible hook system**
+- 🌍 **Environment Agnostic** — Use the same logger in SSR, API routes, and the browser
+- ⚡ **Zero Dependency & Fully Typed** — Written in TypeScript with no runtime bloat
+- 🔍 **Built-in Context Support** — Inject trace data like requestId, userId and pass it downstream
+- 🌳 **Scoped Loggers** — Organize logs with nested scopes like auth > login > error
+- 🎨 **Fully Customizable Output** — Tweak every part of the format, or define your own
+- 📦 **Plugin-Ready Core** — Extend via custom handlers and hooks with minimal effort
 
 ---
 
@@ -82,6 +84,8 @@ Here’s how logs look in Node.js vs. the browser:
   </tr>
 </table>
 
+> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Kissing%20Cat.png" alt="Kissing Cat" width="16" height="16" /> Not your style? No worries! It’s fully customizable.
+
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Triangular%20Flag.png" alt="Triangular Flag" width="25" height="25" /> Installation
@@ -100,49 +104,41 @@ yarn add logry
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" /> Quick Start
 
-<h3>Using Static Logger Methods</h3>
+### Using Static Logger Methods
 
 The easiest way to use **Logry** is by calling its static logging methods.  
-They work instantly without a logger instance, ignore level restrictions, and default to the **“pretty”** preset for clean outpu
+They work instantly without a logger instance, ignore level restrictions, and default to the **“pretty”** preset for clean output
 
-```typescript
+```ts
 import { trace, debug, info, warn, error, fatal } from "logry";
 
 info("👋🏼 Hi there! Welcome to Logry!");
 
-// 2nd argument is metadata for additional details
-warn("User session is about to expire", { user: "John Doe" });
+warn("User session is about to expire", { user: "John Doe" }); // second argument is metadata (meta)
 
-// Error with full error object
-error("Unexpected error occurred", new Error("Something went wrong"));
+error("Unexpected error occurred", new Error("Something went wrong")); // you can also pass an Error
 ```
 
-<h3>Creating a Custom Logger Instance</h3>
+### Creating a Custom Logger Instance
 
 You can create a logger by calling **logry()**.  
 By default, the log level is set to **"warn"**, so only logs with levels **"warn"**, **"error"**, and **"fatal"** will be shown.  
 If you don’t specify an ID, the logger will use **"default"** as its identifier automatically.
 
-```typescript
+```ts
 import { logry } from "logry";
 
 // Create a custom logger instance (defaults to id: 'default' and level: 'warn')
 const logger = logry();
 
-// ❌ This won't be shown — 'info' is lower than the default 'warn' level
-logger.info("User logged in");
+logger.info("User logged in"); // ❌ This won't be shown — 'info' is lower than the default 'warn' level
 
-// ✅ This will be shown — 'warn' and above are allowed
-logger.warn("User login warning");
-
-// Inspect internal core (optional)
-console.log(logger.getCore());
-// -> LoggerCore { id: 'default', level: 'warn', ... }
+logger.warn("User login warning"); // ✅ This will be shown
 ```
 
 - Basic Logger Setup for Development
 
-```typeScript
+```ts
 import { logry } from "logry";
 
 const logger = logry({
@@ -153,7 +149,7 @@ const logger = logry({
 
 - Full Custom Logger Setup
 
-```typescript
+```ts
 import { logry } from "logry";
 
 const logger = logry({
@@ -161,7 +157,7 @@ const logger = logry({
   level: "info",
   scope: ["auth", "api"],
   context: { env: "production", appVersion: "2.5.1" },
-  preset: "verbose", // "json" | "pretty" | "pretty-multi-line" | "minimal" | "verbose"
+  preset: "verbose", // "pretty" | "pretty-multi-line" | "minimal" | "verbose"
   normalizerConfig: {
     node: {
       timestamp: { style: "iso" },
@@ -185,8 +181,6 @@ const logger = logry({
     },
   },
   handlerConfig: {
-    onError: (error: unknown, handlerId: string) =>
-      console.log(handlerId, error),
     // ...
   },
 });
@@ -194,13 +188,13 @@ const logger = logry({
 
 ---
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Milky Way" width="25" height="25" /> Presets
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Shooting%20Star.png" alt="Shooting Star" width="25" height="25" /> Presets
 
-**Logry** offers several built-in logger presets. Each preset is a set of normalizer and formatter settings for different log styles.
+**Logry** offers several built-in logger presets.  
+ Each preset is a set of normalizer and formatter configs for different log styles.
 
-| Level               | Description                            |
+| Preset              | Description                            |
 | ------------------- | -------------------------------------- |
-| `json`              | Raw JSON output, good for machines     |
 | `pretty`            | Formatted, easy to read                |
 | `pretty-multi-line` | Multi-line output with line breaks     |
 | `minimal`           | Simple output with essential info only |
@@ -208,8 +202,8 @@ const logger = logry({
 
 To use a preset, pass it when creating the logger:
 
-```typeScript
-const logger = logry({ preset: "pretty" })
+```ts
+const logger = logry({ preset: "pretty" });
 ```
 
 Presets are fixed for now.  
@@ -224,26 +218,27 @@ Here are the key concepts that define how it works:
 
 ### ✨ Log Level
 
-**Logry** supports **seven log levels**, from most critical to most verbose:
+**Logry** supports **seven log levels**, ordered from most critical to most verbose:
 
-| Level    | Description                                                                            |
-| -------- | -------------------------------------------------------------------------------------- |
-| `fatal`  | Logs critical system failures. The application may crash or exit immediately ❗        |
-| `error`  | Logs runtime errors that should be investigated and typically require action ❌        |
-| `warn`   | Logs recoverable issues or unexpected behaviors that don't prevent operation ⚠️        |
-| `info`   | Logs general operational messages, such as successful startups or actions ℹ️           |
-| `debug`  | Logs detailed internal information helpful for debugging 🛠️                            |
-| `trace`  | Logs the most granular details — every step, useful for profiling or deep debugging 🔍 |
-| `silent` | Disables all logging output 🚫                                                         |
+| Level    |     | Description                                                                         |
+| -------- | --- | ----------------------------------------------------------------------------------- |
+| `fatal`  | ❗  | Logs critical system failures. The application may crash or exit immediately        |
+| `error`  | ❌  | Logs runtime errors that should be investigated and typically require action        |
+| `warn`   | ⚠️  | Logs recoverable issues or unexpected behaviors that don't prevent operation        |
+| `info`   | ℹ️  | Logs general operational messages, such as successful startups or actions           |
+| `debug`  | 🛠️  | Logs detailed internal information helpful for debugging                            |
+| `trace`  | 🔍  | Logs the most granular details — every step, useful for profiling or deep debugging |
+| `silent` | 🤐  | Disables all logging output                                                         |
 
-> The logger only outputs messages **at or above the current level**.  
-> For example, if the level is set to `warn`, only `warn`, `error`, and `fatal` logs will be printed.
+The logger only outputs messages **at or above the current level**.  
+For example, if the level is set to `warn`, only `warn`, `error`, and `fatal` logs will be printed.
 
-<h4> You can specify the desired log level when creating a logger instance </h4>
+#### You can specify the desired log level when creating a logger instance
 
-but this only affects the initial configuration and does not override the core’s log level.
+> Core-level configs like **level** are only applied when creating a new core.  
+> If a core with the same ID exists, those configs will be ignored, and a warning will be logged.
 
-```typescript
+```ts
 // Initialize a logger with a preferred level (for initial filtering)
 const logger = logry({ id: "my-app", level: "debug" });
 ```
@@ -253,14 +248,14 @@ const logger = logry({ id: "my-app", level: "debug" });
 In **Logry**, every logger instance is lightweight and modular.  
 You can freely create **child loggers** that inherit settings from their parent — while overriding only what you need.
 
-<h4> Creating a Child Logger </h4>
+#### Creating a Child Logger
 
 You can use the `.child()` method to create a scoped or customized logger:
 
 ```ts
-const appLogger = logry({ id: "main-app", level: "info" });
+const logger = logry({ id: "main-app", level: "info" });
 
-const authLogger = appLogger.child({
+const authLogger = logger.child({
   level: "debug", // override log level
   scope: "auth", // add a scope
   context: { userType: "admin" }, // inject default context
@@ -274,8 +269,6 @@ const authLogger = appLogger.child({
     e.g., **{ app: "main", user: "guest" } + { user: "admin" }** → **{ app: "main", user: "admin" }**
   - **formatterConfig / normalizerConfig**: shallow merged per platform (**node**, **browser**), with child taking precedence
 
-This keeps child loggers flexible and contextual — without needing to re-specify everything.
-
 ### ✨ Logger Core
 
 The core engine responsible for managing log levels, shared identity (id), and optional configurations for formatting, normalization, and handlers.
@@ -287,29 +280,37 @@ The core engine responsible for managing log levels, shared identity (id), and o
 
 This allows flexible adjustment of log output without needing to recreate logger instances.
 
-### ✨ Logger Handlers and Tasks
+---
 
-Each Logger instance internally binds to a HandlerManager, inherited from its LoggerCore.
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane%20Departure.png" alt="Airplane Departure" width="25" height="25" /> Transporter
 
-This module orchestrates all registered log handlers, manages asynchronous tasks, and controls error recovery and flush strategies.
+When a log is passed to the Transporter,  
+it first runs through the **Normalizer** to ensure a consistent and structured payload.  
+Then, it uses the **Formatter** to convert the normalized data into styled, readable strings.  
+Finally, the **Transporter** outputs the fully formatted log to the console or other targets.
 
-- Handlers are responsible for final log delivery, such as writing to the console, server, or external services.
-- You can dynamically attach or remove handlers:
-  - `addHandler(handler, id?)`
-  - `removeHandler(id)`
-- It also ensures all async handlers complete with:
-  - `flush(timeout?)`: waits for pending log operations
-  - `dispose()`: clean up all resources and cancel strategies
+### Built-in Transporters
 
-Behind the scenes, HandlerManager tracks pending tasks and gracefully handles errors via configurable callbacks and timeout policies.
+Logry comes with two built-in transporters, automatically selected based on your runtime environment:
 
-This flexible system allows reliable logging — even in asynchronous or failure-prone environments.
+| Platform  | Transporter               | Styling mechanism                                    |
+| --------- | ------------------------- | ---------------------------------------------------- |
+| `Node.js` | NodeConsoleTransporter    | Prints logs to the terminal using ANSI styles        |
+| `Browser` | BrowserConsoleTransporter | Prints logs to the DevTools console using CSS styles |
+
+> These built-ins provide clean and consistent output across platforms with minimal overhead.
+
+‼️ Currently, Logry does not support external transporter injection.
+
+🔮 For advanced or custom delivery mechanisms (e.g., file output, remote logging),  
+it is recommended to implement custom handlers.
 
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Shuffle%20Tracks%20Button.png" alt="Shuffle Tracks Button" width="25" height="25" /> Normalizer
 
-Before any log is formatted or transported, **Logry** runs it through a platform-aware normalizer — ensuring consistent structure, reliable types, and flexible customization
+Before any log is formatted or transported, **Logry** first passes it through a platform-aware normalizer.  
+This process ensures a consistent structure, reliable data types, and full flexibility for customization.
 
 ### What it does
 
@@ -322,8 +323,8 @@ The Normalizer transforms a raw log input into a normalized shape, handling core
 - message
 - meta
 - context
-- pid (_Node.js only_)
-- hostname (_Node.js only_)
+- pid <sub>(_Node.js only_)</sub>
+- hostname <sub>(_Node.js only_)</sub>
 
 Each part has a dedicated normalizer, all of which can be overridden via custom logic.
 
@@ -331,8 +332,10 @@ Each part has a dedicated normalizer, all of which can be overridden via custom 
 
 Every normalizer supports a customNormalizer function, letting you override default behavior:
 
-```typescript
-customNormalizer?: ({ part }) => NormalizedValue;
+```ts
+id: {
+  customNormalizer: ({ part }) => `node-${part}`, // e.g., "default" → "node-default"
+}
 ```
 
 You can also fine-tune behavior using extra options per part.
@@ -346,53 +349,48 @@ You can also fine-tune behavior using extra options per part.
 
 ### Platform Awareness
 
-Normalization logic can vary between Node and Browser environments, adapting behavior accordingly.
+Normalization logic in Logry adapts based on the runtime environment,  
+allowing logs to be tailored specifically for Node.js or Browser contexts.
 
 For example:
 
 - Timestamps appear as full ISO 8601 UTC strings in Node, but as simplified human-readable strings in the browser.
-- Error stack traces can be more verbose on the server, while trimmed on the client.
 
 > You can define environment-specific behavior using the normalizerConfig structure.  
 > It can be set globally in **logry(...)**, scoped to a **logger.child(...)**, or **overridden per log method**:
 
-```typeScript
- normalizerConfig: {
-    node: {
-      timestamp: {
-        style: "iso",
-        useUTC: true,
-      },
-      meta: {
-        errorStackLines: 10,
-      },
-      level: {
-        style: "upper",
-      },
-      id: {
-        customNormalizer: ({ part }) => `node-${part}`,
-      },
+```ts
+normalizerConfig: {
+  node: {
+    timestamp: {
+      style: "iso",
+      useUTC: true,
     },
-    browser: {
-      timestamp: {
-        style: "pretty",
-        useUTC: false,
-      },
-      meta: {
-        errorStackLines: 3,
-      },
-      level: {
-        style: "lower",
-      },
+    level: {
+      style: "upper",
+    },
+    meta: {
+      errorStackLines: 10,
     },
   },
+  browser: {
+    timestamp: {
+      style: "pretty",
+      useUTC: false,
+    },
+    level: {
+      style: "lower",
+    },
+  },
+},
 ```
 
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Artist%20Palette.png" alt="Artist Palette" width="25" height="25" /> Formatter
 
-The Formatter layer is responsible for converting the normalized parts of a log into final output strings — styled, readable, and optionally color-coded.
+The Formatter layer takes the normalized parts of a log and converts them into the final output strings.  
+These outputs are styled, easy to read, and can include optional color coding.
 
 ### What it does
 
@@ -406,8 +404,8 @@ Handled parts include:
 - message
 - meta
 - context
-- pid (_Node.js only_)
-- hostname (_Node.js only_)
+- pid <sub>(_Node.js only_)</sub>
+- hostname <sub>(_Node.js only_)</sub>
 
 Each part has its own formatter. All formatters support optional style customizations and can be overridden with custom logic.
 
@@ -415,8 +413,13 @@ Each part has its own formatter. All formatters support optional style customiza
 
 Every formatter supports a customFormatter function, letting you override default behavior:
 
-```typescript
-customFormatter?: ({ part, rawPart }) => FormattedValue; // rawPart is not normalized
+```ts
+level: {
+  customFormatter: ({ part, rawPart }) => { // `rawPart` is the original unnormalized value
+    if (rawPart === "warn") return `⚠️ ${part}`;
+    return part;
+  },
+}
 ```
 
 You can also fine-tune behavior using extra options per part.
@@ -434,29 +437,28 @@ You can also fine-tune behavior using extra options per part.
 
 ### Platform Awareness
 
-Formatter adapts to the runtime platform — Node.js or Browser — adjusting output format and styling accordingly.  
-This ensures logs stay readable and well-styled in both environments.
+Formatter behavior automatically adapts to the runtime platform, whether it is Node.js or the browser.  
+ This ensures that log outputs remain clear, styled, and consistent across environments.
 
 The output behavior varies depending on the platform:
 
-| Platform  | Format output                                 | Styling mechanism      |
-| --------- | --------------------------------------------- | ---------------------- |
-| `Node.js` | Returns a plain string with ANSI codes        | Uses ANSI escape codes |
-| `Browser` | Returns { [label]: string, cssStyle: string } | Uses %c and inline CSS |
+| Platform  | Format output                                  | Styling mechanism                          |
+| --------- | ---------------------------------------------- | ------------------------------------------ |
+| `Node.js` | Returns { [k]: string, withAnsiColor: string } | Uses ANSI escape codes (e.g. **\x1b[31m**) |
+| `Browser` | Returns { [k]: string, cssStyle: string }      | Uses %c and inline CSS                     |
 
-In the browser, the final result will be used with console.log("%c...%c...%c...", styleA, styleB, ...), allowing for per-part CSS styling.
+> In the browser, the final result will be used with console.log("%c...%c...%c...", styleA, styleB, ...), allowing for per-part CSS styling.
 
 For example:
 
-- Node.js prints timestamps as full ISO strings with ANSI colors (e.g., \x1b[33m).
-- Browser styles timestamps with CSS (e.g., orange and bold) and simpler format.
+- Timestamps appear as full ISO strings with ANSI colors in Node.js and as simplified text styled with CSS in the browser.
 - Meta shows full depth in Node, but gets a prefix like “META | “ in Browser.
 - Some parts (like level) can be hidden in one platform but shown in another.
 
 > You can define environment-specific behavior using the formatterConfig structure.  
 > It can be set globally in **logry(...)**, scoped to a **logger.child(...)**, or **overridden per log method**:
 
-```typeScript
+```ts
 formatterConfig: {
   node: {
     timestamp: {
@@ -465,12 +467,7 @@ formatterConfig: {
     meta: {
       depth: null,
     },
-    level: {
-      lineBreaks: 1,
-    },
-    id: {
-      customFormatter: ({ part }) => `node-${part}`,
-    },
+    lineBreaksAfter: 2,
   },
   browser: {
     timestamp: {
@@ -488,22 +485,84 @@ formatterConfig: {
 
 ---
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane%20Departure.png" alt="Airplane Departure" width="25" height="25" /> Transporter
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Package.png" alt="Package" width="25" height="25" /> Handlers and HandlerManager
 
-The Transporter is the final step in the logging pipeline — responsible for delivering the formatted log to its destination.  
-After a log is normalized and formatted, the Transporter takes over and outputs it — whether that’s the terminal in Node.js, or the DevTools console in a browser.
+Each Logger instance internally binds to a **HandlerManager**, inherited from its **LoggerCore**.  
+This module orchestrates all registered log handlers, manages asynchronous tasks, and controls error recovery and flush strategies.
 
-### Built-in Transporters
+### What Are Handlers?
 
-Logry comes with two built-in transporters, automatically selected based on your runtime environment:
+Handlers are modular units that define **_where_** and **_how_** a log should be delivered,  
+ whether to the console, a file, or a third-party service.
 
-| Platform  | Transporter               | Styling mechanism                                    |
-| --------- | ------------------------- | ---------------------------------------------------- |
-| `Node.js` | NodeConsoleTransporter    | Prints logs to the terminal using ANSI styles        |
-| `Browser` | BrowserConsoleTransporter | Prints logs to the DevTools console using CSS styles |
+💡 They receive the raw log payload and can process it synchronously or asynchronously.
 
-These built-ins are designed to be minimal yet effective — providing clean and consistent output across platforms.  
-🎯 In future versions, Logry will support custom transporters for advanced use cases like file writing, remote logging, or API-based delivery.
+You can add or remove them dynamically at runtime:
+
+```ts
+logger.addHandler(handler, id?, position?); // Adds a handler, returns the assigned ID
+logger.removeHandler(id); // Removes the handler by ID
+```
+
+### What Is the HandlerManager?
+
+The HandlerManager orchestrates all registered handlers.  
+It ensures your logs are reliably processed, even in asynchronous or failure-prone environments.
+
+- ♻️ Handler lifecycle
+  - Initializes handlers on registration
+  - Optionally handles errors via a configurable onError callback
+  - Disposes each handler safely when no longer needed
+- 🔎 Async task tracking
+  - Tracks all pending asynchronous log operations
+  - Ensures that every delivery completes or fails safely
+- ⏱️ Flush support
+  - Call **flush(timeout?)** to wait for all pending handler tasks
+  - Supports flushStrategy for scheduled or event-based flush triggers
+- 🛑 Error recovery
+  - Catches errors during log handling
+  - Reports them via the **onError** callback (with handler ID and context)
+- 🧼 Resource cleanup
+  - **dispose()** cancels flush strategies, removes all handlers, and clears internal states
+
+> Whether you’re logging to local files, remote servers, or cloud dashboards,  
+> the HandlerManager makes it reliable and composable 🌐
+
+### Creating Custom Handlers with BaseHandler
+
+To create your own log destinations, you can extend the **BaseHandler** class.
+
+🧱 This class provides core functionalities such as payload preparation, normalization, formatting,  
+ and safe execution flow, so you only need to focus on implementing the log delivery logic.
+
+The key method to implement is:
+
+```ts
+abstract handle(rawPayload: RawPayload): Promise<void>;
+```
+
+Here are some useful protected methods you can use inside your custom handler:
+
+| Method      | Signature                                                                                            | Description                                                                               |
+| ----------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `normalize` | `(rawPayload: RawPayload) => Promise<NormalizedPayload>`                                             | **Normalize** the raw log payload into a consistent format.                               |
+| `format`    | `(normalized: NormalizedPayload) => NodeFormattedPayload`                                            | **Format** the normalized payload into a string or structured output.                     |
+| `compose`   | `(rawPayload: RawPayload) => Promise<string>`                                                        | **Normalize**, **format**, and **compose** the raw payload into the final string message. |
+| `toJson`    | `(rawPayload: RawPayload, options?: { useNormalizer?: boolean; space?: number }) => Promise<string>` | Convert the raw payload into a JSON string, optionally normalized and pretty-printed.     |
+
+Example implementation:
+
+```ts
+class MyCustomHandler extends BaseHandler {
+  async handle(rawPayload: RawPayload) {
+    const message = await this.compose(rawPayload);
+    await sendToExternalService(message);
+  }
+}
+```
+
+> This makes it easy to build reliable and composable handlers,  
+> whether you write files, send to remote servers, or push logs to cloud ingestion pipelines ☁️
 
 ---
 
@@ -515,7 +574,7 @@ Logry includes small tools to help you debug and inspect logger internals.
 
 List all registered LoggerCore instances.
 
-```typeScript
+```ts
 import { inspectLoggerCores } from "logry/devtools";
 
 inspectLoggerCores();
@@ -527,7 +586,7 @@ Helps you verify how loggers are created and linked.
 
 Show the resolved handler config for a given logger.
 
-```typeScript
+```ts
 import { inspectHandlerConfig } from "logry/devtools";
 
 inspectHandlerConfig(myLogger);
@@ -537,7 +596,7 @@ Good for checking which rules and tasks are active.
 
 ---
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Electric%20Plug.png" alt="Electric Plug" width="25" height="25" /> Development Mode Detection
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Construction.png" alt="Construction" width="25" height="25" /> Development Mode Detection
 
 This function detects whether the runtime is in development mode.  
  It is primarily used to control internal logging and error reporting within the library, such as internal-log and internal-error messages.
@@ -546,11 +605,10 @@ This function detects whether the runtime is in development mode.
 
   - Returns true if `NODE_ENV` is not set to 'production'.
   - Defaults to true (development) if `NODE_ENV` is undefined.
+    x
 
 - In `Browsers`, it checks the global flag `__LOGRY_DEV__`:
   - Returns true if the flag is truthy.
   - Defaults to false (production) if undefined.
 
 This setup assumes Node defaults to development mode for easier local testing, while browsers default to production to avoid unnecessary debug logs.
-
----
