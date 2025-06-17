@@ -1,7 +1,7 @@
 {
   "name": "logry",
   "version": "1.0.1",
-  "description": "A clean, lightweight, cross-platform logging library for Node.js and modern browsers. Fully typed and deeply customizable, with scoped loggers, formatter pipelines, and modular handlers that provide full flexibility for custom processing, delivery strategies, and integrations — giving you complete control over normalization and log delivery.",
+  "description": "A clean, lightweight, cross-platform logging library for Node.js and modern browsers, fully typed and customizable with scoped loggers, formatter pipelines, and modular handlers offering full flexibility for custom processing and delivery.",
   "author": "Yiming Liao",
   "license": "MIT",
   "homepage": "https://github.com/yiming-liao/logry#readme",
