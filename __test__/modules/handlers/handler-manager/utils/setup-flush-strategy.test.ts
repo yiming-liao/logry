@@ -1,5 +1,5 @@
-import type { FlushStrategy } from "@/modules/handler-manager/handler-config-types";
-import { setupFlushStrategy } from "@/modules/handler-manager/utils/setup-flush-strategy";
+import type { FlushStrategy } from "@/modules/handlers/handler-manager/handler-config-types";
+import { setupFlushStrategy } from "@/modules/handlers/handler-manager/utils/setup-flush-strategy";
 
 describe("setupFlushStrategy", () => {
   it("should return cancel function when flushStrategy provides one", async () => {

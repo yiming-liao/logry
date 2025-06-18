@@ -2,7 +2,7 @@ import type {
   CancelFlushStrategy,
   HandlerErrorHandler,
   FlushStrategy,
-} from "@/modules/handler-manager/handler-config-types";
+} from "@/modules/handlers/handler-manager/handler-config-types";
 
 type SetupFlushStrategyOptions = {
   flushStrategy: FlushStrategy;

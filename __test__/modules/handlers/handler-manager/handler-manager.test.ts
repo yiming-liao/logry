@@ -1,21 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { RawPayload } from "@/core/logger";
-import type { HandlerClass } from "@/modules/handler-manager/types";
-import { DEFAULT_FLUSH_TIMEOUT } from "@/modules/handler-manager/constants";
-import { HandlerManager } from "@/modules/handler-manager/handler-manager";
-import { flushTasksWithTimeout } from "@/modules/handler-manager/utils/flush-tasks-with-timeout";
-import { initHandler } from "@/modules/handler-manager/utils/init-handler";
-import { isHandlerClass } from "@/modules/handler-manager/utils/is-handler-class";
+import type { HandlerClass } from "@/modules/handlers/types";
+import { HandlerManager } from "@/modules/handlers/handler-manager";
+import { DEFAULT_FLUSH_TIMEOUT } from "@/modules/handlers/handler-manager/constants";
+import { flushTasksWithTimeout } from "@/modules/handlers/handler-manager/utils/flush-tasks-with-timeout";
+import { initHandler } from "@/modules/handlers/handler-manager/utils/init-handler";
+import { isHandlerClass } from "@/modules/handlers/handler-manager/utils/is-handler-class";
 
-jest.mock("@/modules/handler-manager/utils/flush-tasks-with-timeout", () => ({
-  flushTasksWithTimeout: jest.fn(),
-}));
+jest.mock(
+  "@/modules/handlers/handler-manager/utils/flush-tasks-with-timeout",
+  () => ({
+    flushTasksWithTimeout: jest.fn(),
+  }),
+);
 
-jest.mock("@/modules/handler-manager/utils/init-handler", () => ({
+jest.mock("@/modules/handlers/handler-manager/utils/init-handler", () => ({
   initHandler: jest.fn(),
 }));
 
-jest.mock("@/modules/handler-manager/utils/is-handler-class", () => ({
+jest.mock("@/modules/handlers/handler-manager/utils/is-handler-class", () => ({
   isHandlerClass: jest.fn(),
 }));
 

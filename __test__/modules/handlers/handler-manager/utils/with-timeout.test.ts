@@ -1,4 +1,4 @@
-import { withTimeout } from "@/modules/handler-manager/utils/with-timeout";
+import { withTimeout } from "@/modules/handlers/handler-manager/utils/with-timeout";
 
 describe("withTimeout", () => {
   it("resolves if the promise completes before timeout", async () => {

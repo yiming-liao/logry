@@ -1,5 +1,5 @@
 import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
-import type { HandlerConfig } from "@/modules/handler-manager";
+import type { HandlerConfig } from "@/modules/handlers/handler-manager";
 import type { NormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
 import type { Level } from "@/shared/types";
 

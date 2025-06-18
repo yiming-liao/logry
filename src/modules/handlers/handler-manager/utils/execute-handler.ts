@@ -1,7 +1,7 @@
 import type { RawPayload } from "@/core/logger/types";
-import type { HandlerErrorHandler } from "@/modules/handler-manager/handler-config-types";
-import type { Handler } from "@/modules/handler-manager/types";
-import { isHandlerClass } from "@/modules/handler-manager/utils/is-handler-class";
+import type { HandlerErrorHandler } from "@/modules/handlers/handler-manager/handler-config-types";
+import type { Handler } from "@/modules/handlers/types";
+import { isHandlerClass } from "@/modules/handlers/handler-manager/utils/is-handler-class";
 
 type ExecuteHandlerOptions = {
   handler: Handler;

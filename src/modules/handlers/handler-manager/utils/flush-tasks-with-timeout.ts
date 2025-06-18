@@ -1,4 +1,4 @@
-import { withTimeout } from "@/modules/handler-manager/utils/with-timeout";
+import { withTimeout } from "@/modules/handlers/handler-manager/utils/with-timeout";
 
 /**
  * Flush all pending tasks with optional timeout handling.

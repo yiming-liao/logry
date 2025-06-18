@@ -1,4 +1,4 @@
-import type { HandlerClass } from "@/modules/handler-manager/types";
+import type { HandlerClass } from "@/modules/handlers/types";
 
 /**
  * Checks if the given object is a HandlerClass.

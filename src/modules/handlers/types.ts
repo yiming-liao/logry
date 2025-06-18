@@ -14,9 +14,3 @@ export interface HandlerClass {
   dispose?: () => void | Promise<void>;
   flush?: () => void | Promise<void>;
 }
-
-/** Where to insert the handler in the chain. */
-export type AddHandlerPosition = "start" | "end";
-
-/// RAW PAYLOAD WITH PID HOSTNAME
-export type EnrichedPayload = RawPayload & { pid: string; hostname: string };

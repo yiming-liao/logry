@@ -1,7 +1,7 @@
-import { flushTasksWithTimeout } from "@/modules/handler-manager/utils/flush-tasks-with-timeout";
-import { withTimeout } from "@/modules/handler-manager/utils/with-timeout";
+import { flushTasksWithTimeout } from "@/modules/handlers/handler-manager/utils/flush-tasks-with-timeout";
+import { withTimeout } from "@/modules/handlers/handler-manager/utils/with-timeout";
 
-jest.mock("@/modules/handler-manager/utils/with-timeout", () => ({
+jest.mock("@/modules/handlers/handler-manager/utils/with-timeout", () => ({
   withTimeout: jest.fn(),
 }));
 

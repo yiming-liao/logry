@@ -1,4 +1,4 @@
-import { isHandlerClass } from "@/modules/handler-manager/utils/is-handler-class";
+import { isHandlerClass } from "@/modules/handlers/handler-manager/utils/is-handler-class";
 
 describe("isHandlerClass", () => {
   it("should return false for null", () => {

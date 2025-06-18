@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { initHandler } from "@/modules/handler-manager/utils/init-handler";
+import { initHandler } from "@/modules/handlers/handler-manager/utils/init-handler";
 
 describe("initHandler", () => {
   it("should not call init if handler is not a HandlerClass", () => {

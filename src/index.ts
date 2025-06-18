@@ -46,7 +46,7 @@ export { Transporter } from "./modules/transporters";
 export { composeMessage } from "./modules/transporters/node/utils/compose-message";
 
 // --- 🎛️ Handler Manager ---
-export { HandlerManager, BaseHandler } from "./modules/handler-manager";
+export { HandlerManager, BaseHandler } from "./modules/handlers";
 export type {
   HandlerConfig,
   Handler,
@@ -54,7 +54,7 @@ export type {
   HandlerClass,
   FlushStrategy,
   HandlerErrorHandler,
-} from "./modules/handler-manager";
+} from "./modules/handlers";
 
 // ─────────────────────────────────────────────────────────────
 // 🔥 Force Logging Methods (always output regardless of log level)

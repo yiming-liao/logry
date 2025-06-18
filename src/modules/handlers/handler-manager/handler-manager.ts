@@ -3,18 +3,16 @@ import type {
   CancelFlushStrategy,
   HandlerErrorHandler,
   HandlerConfig,
-} from "@/modules/handler-manager/handler-config-types";
-import type {
-  AddHandlerPosition,
-  Handler,
-} from "@/modules/handler-manager/types";
+} from "@/modules/handlers/handler-manager/handler-config-types";
+import type { AddHandlerPosition } from "@/modules/handlers/handler-manager/types";
+import type { Handler } from "@/modules/handlers/types";
 import { internalLog } from "@/internal";
-import { DEFAULT_FLUSH_TIMEOUT } from "@/modules/handler-manager/constants";
-import { executeHandler } from "@/modules/handler-manager/utils/execute-handler";
-import { flushTasksWithTimeout } from "@/modules/handler-manager/utils/flush-tasks-with-timeout";
-import { initHandler } from "@/modules/handler-manager/utils/init-handler";
-import { isHandlerClass } from "@/modules/handler-manager/utils/is-handler-class";
-import { setupFlushStrategy } from "@/modules/handler-manager/utils/setup-flush-strategy";
+import { DEFAULT_FLUSH_TIMEOUT } from "@/modules/handlers/handler-manager/constants";
+import { executeHandler } from "@/modules/handlers/handler-manager/utils/execute-handler";
+import { flushTasksWithTimeout } from "@/modules/handlers/handler-manager/utils/flush-tasks-with-timeout";
+import { initHandler } from "@/modules/handlers/handler-manager/utils/init-handler";
+import { isHandlerClass } from "@/modules/handlers/handler-manager/utils/is-handler-class";
+import { setupFlushStrategy } from "@/modules/handlers/handler-manager/utils/setup-flush-strategy";
 
 export class HandlerManager {
   /** List of registered handlers with unique IDs */

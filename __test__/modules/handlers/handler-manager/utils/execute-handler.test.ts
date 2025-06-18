@@ -1,5 +1,5 @@
 import type { RawPayload } from "@/core/logger/types";
-import { executeHandler } from "@/modules/handler-manager/utils/execute-handler";
+import { executeHandler } from "@/modules/handlers/handler-manager/utils/execute-handler";
 
 describe("executeHandler", () => {
   const dummyPayload = {} as RawPayload;
