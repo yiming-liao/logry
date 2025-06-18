@@ -1,5 +1,5 @@
-import type { FlushStrategy } from "../dist";
-import { logry } from "../dist";
+import type { FlushStrategy } from "logry";
+import { logry } from "logry";
 
 // flushStrategy controls when to flush handlers (e.g. write to file, send to server)
 const autoFlush = (ms: number): FlushStrategy => {
@@ -17,7 +17,7 @@ const logger = logry({
   id: "my-logger",
   handlerConfig: {
     onError: (error) => console.log(error),
-    flushStrategy: autoFlush(500),
+    flushStrategy: autoFlush(2000),
   },
 });
 

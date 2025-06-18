@@ -1,5 +1,5 @@
-import type { FormatterConfig, NormalizerConfig, RawPayload } from "../../dist";
-import { BaseHandler, logry } from "../../dist";
+import type { FormatterConfig, NormalizerConfig, RawPayload } from "logry";
+import { BaseHandler, logry } from "logry";
 import "dotenv/config";
 
 // 📚 Slack webhooks doc: https://api.slack.com/messaging/webhooks
@@ -14,7 +14,7 @@ class SlackHandler extends BaseHandler {
     normalizerConfig,
     formatterConfig,
   }: {
-    webhookUrl?: string; // Slack webhook URL (optional, but make sure it's defined)
+    webhookUrl?: string;
     normalizerConfig?: NormalizerConfig;
     formatterConfig?: FormatterConfig;
   }) {

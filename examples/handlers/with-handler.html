@@ -16,13 +16,16 @@
     <pre></pre>
 
     <script>
-      // To enable internal warnning when in dev mode
+      // Enable internal warnings in development mode
       globalThis.__LOGRY_DEV__ = true;
     </script>
 
     <script type="module">
-      // https://cdn.jsdelivr.net/npm/logry@1.0.1/dist/index.js
-      import { logry, error, BaseHandler } from "../../dist/index.js";
+      import {
+        logry,
+        error,
+        BaseHandler,
+      } from "https://cdn.jsdelivr.net/npm/logry/dist/index.js";
 
       class Handler extends BaseHandler {
         constructor(options) {

@@ -6,7 +6,7 @@ import {
   type RawPayload,
   BaseHandler,
   logry,
-} from "../../dist";
+} from "logry";
 import "dotenv/config";
 
 // 📚 Sentry sdk doc: https://develop.sentry.dev/sdk/overview/
@@ -31,7 +31,7 @@ class SentryHandler extends BaseHandler {
     normalizerConfig,
     formatterConfig,
   }: {
-    dsn?: string; // Your Sentry DSN (optional, but make sure it's defined)
+    dsn?: string;
     normalizerConfig?: NormalizerConfig;
     formatterConfig?: FormatterConfig;
   }) {

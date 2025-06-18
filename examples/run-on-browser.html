@@ -12,7 +12,11 @@
   </head>
   <body>
     <script type="module">
-      import { logry, error } from "../dist/index.js";
+      import {
+        logry,
+        error,
+        BaseHandler,
+      } from "https://cdn.jsdelivr.net/npm/logry/dist/index.js";
 
       const logger = logry({
         level: "trace",
@@ -30,10 +34,6 @@
       logger.warn("Warning message", { warningCode: 42 });
       logger.error("Error message", { error: new Error("Oops!") });
       logger.fatal("Fatal message", new Error("Carshed!"));
-    </script>
-
-    <script>
-      globalThis.__LOGRY_DEV__ = true;
     </script>
   </body>
 </html>
