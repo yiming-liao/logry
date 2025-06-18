@@ -50,7 +50,9 @@ export const getOrCreateLogger = ({
       normalizerConfig,
       handlerConfig,
     });
+
     coreMap.set(id, newCore);
+
     return new Logger({
       core: newCore,
       scope,

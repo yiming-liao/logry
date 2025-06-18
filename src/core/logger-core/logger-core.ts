@@ -66,28 +66,20 @@ export class LoggerCore {
     }
   }
 
-  /**
-   * Dynamically update the current log level.
-   * This will trigger notification to all registered listeners.
-   */
+  /** Dynamically update the current log level. */
   setLevel(level: Level) {
     assertValidLevel(level);
     this.level = level;
     this.notifyLevelChange(level);
   }
 
-  /**
-   * Resets the log level to its original value defined during construction.
-   * Triggers notification to all registered listeners.
-   */
+  /** Resets the log level to its original value defined during construction. */
   resetLevel() {
     this.level = this.initialLevel;
     this.notifyLevelChange(this.level);
   }
 
-  /**
-   * Notify all registered callbacks of the current log level change.
-   */
+  /** Notify all registered callbacks of the current log level change. */
   private notifyLevelChange(level: Level) {
     for (const callback of this.levelChangeCallbacks) {
       try {
@@ -103,16 +95,12 @@ export class LoggerCore {
     }
   }
 
-  /**
-   * Register a callback function that will be invoked whenever the log level changes.
-   */
+  /** Register a callback function that will be invoked whenever the log level changes. */
   onLevelChange(callback: LevelChangeCallback) {
     this.levelChangeCallbacks.add(callback);
   }
 
-  /**
-   * Unregister a previously registered level change callback.
-   */
+  /** Unregister a previously registered level change callback. */
   offLevelChange(callback: LevelChangeCallback) {
     this.levelChangeCallbacks.delete(callback);
   }
