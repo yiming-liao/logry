@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Example for using handler in Browser</title>
+    <title>😎 Hit F12 to see the result</title>
     <style>
       body {
         color: antiquewhite;
@@ -23,11 +23,10 @@
     <script type="module">
       import {
         logry,
-        error,
-        BaseHandler,
+        BrowserBaseHandler,
       } from "https://cdn.jsdelivr.net/npm/logry/dist/index.js";
 
-      class Handler extends BaseHandler {
+      class Handler extends BrowserBaseHandler {
         constructor(options) {
           super(options);
         }
@@ -35,13 +34,13 @@
         async handle(payload) {
           const logLine = await this.compose(payload);
           const output = document.querySelector("pre");
-          output.textContent += logLine + "\n";
+          output.textContent += logLine.replaceAll("%c", " ") + "\n";
         }
       }
 
       const myhandler = new Handler({
         formatterConfig: {
-          node: { meta: { format: "json", prefix: "| " } },
+          browser: { meta: { format: "json", prefix: "| " } },
         },
       });
 

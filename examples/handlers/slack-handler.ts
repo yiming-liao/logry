@@ -1,12 +1,12 @@
 import type { FormatterConfig, NormalizerConfig, RawPayload } from "logry";
-import { BaseHandler, logry } from "logry";
+import { NodeBaseHandler, logry } from "logry";
 import "dotenv/config";
 
 // 📚 Slack webhooks doc: https://api.slack.com/messaging/webhooks
 
 // 📣 SlackHandler sends logs to a Slack channel via Incoming Webhooks.
-// It extends BaseHandler and posts formatted log messages as plain text.
-class SlackHandler extends BaseHandler {
+// It extends NodeBaseHandler and posts formatted log messages as plain text.
+class SlackHandler extends NodeBaseHandler {
   private webhookUrl: string;
 
   constructor({
@@ -40,7 +40,6 @@ const mySlackHandler = new SlackHandler({
   webhookUrl: process.env.SLACK_WEBHOOK_URL,
   formatterConfig: {
     node: {
-      message: { lineBreaks: 1 },
       meta: { format: "json", lineBreaks: 1 },
     },
   },

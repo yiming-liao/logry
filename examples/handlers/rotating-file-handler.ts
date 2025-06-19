@@ -1,12 +1,11 @@
 import type { FormatterConfig, NormalizerConfig, RawPayload } from "logry";
-import fs from "fs/promises";
-import path from "path";
-import { BaseHandler } from "logry";
-import { logry } from "logry";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { NodeBaseHandler, logry } from "logry";
 
 // 🌀 RotatingFileHandler is a basic example showing how to integrate log rotation.
 // It uses `rotating-file-stream` to rotate log files daily.
-class RotatingFileHandler extends BaseHandler {
+class RotatingFileHandler extends NodeBaseHandler {
   private currentDate: string;
   private currentFilePath: string;
   private fileDir: string;

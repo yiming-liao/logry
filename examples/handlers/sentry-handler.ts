@@ -4,7 +4,7 @@ import {
   type NormalizerConfig,
   type FormatterConfig,
   type RawPayload,
-  BaseHandler,
+  NodeBaseHandler,
   logry,
 } from "logry";
 import "dotenv/config";
@@ -24,8 +24,8 @@ const levelMap: Record<Exclude<Level, "silent">, Sentry.SeverityLevel> = {
 };
 
 // 🛡️ SentryHandler sends logs to Sentry for error monitoring.
-// It extends BaseHandler and maps log levels to Sentry severity.
-class SentryHandler extends BaseHandler {
+// It extends NodeBaseHandler and maps log levels to Sentry severity.
+class SentryHandler extends NodeBaseHandler {
   constructor({
     dsn,
     normalizerConfig,

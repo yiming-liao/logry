@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>😎 Hit F12 to see the result</title>
+    <style>
+      body {
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import { logry } from "https://cdn.jsdelivr.net/npm/logry/dist/index.js";
+      import { format1, format2, format3 } from "./browser-custom-formats.js";
+
+      const logger = logry({
+        level: "trace",
+        scope: ["api", "v1"],
+        formatterConfig: { browser: { context: { hide: false } } },
+      });
+
+      logger.error(
+        "🚀 Launching app...",
+        {
+          system: "thrusters",
+          stage: 1,
+          health: { main: "ok", backup: "ok" },
+        },
+        { formatterConfig: { browser: format1 } },
+      );
+
+      logger.error(
+        "🚀 Launching app...",
+        {
+          system: "thrusters",
+          stage: 1,
+          health: { main: "ok", backup: "ok" },
+        },
+        { formatterConfig: { browser: format2 } },
+      );
+
+      logger.error(
+        "🚀 Launching app...",
+        {
+          system: "thrusters",
+          stage: 1,
+          health: { main: "ok", backup: "ok" },
+        },
+        { formatterConfig: { browser: format3 } },
+      );
+    </script>
+  </body>
+</html>

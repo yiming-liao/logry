@@ -1,12 +1,11 @@
 import type { FormatterConfig, NormalizerConfig, RawPayload } from "logry";
-import fs from "fs/promises";
-import path from "path";
-import { BaseHandler } from "logry";
-import { logry } from "logry";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { NodeBaseHandler, logry } from "logry";
 
 // 📝 FileHandler is a basic example of creating your own handler.
 // It extends BaseHandler and writes formatted (or not) logs into a file.
-class FileHandler extends BaseHandler {
+class FileHandler extends NodeBaseHandler {
   private filePath: string;
   constructor({
     filePath,
@@ -23,6 +22,7 @@ class FileHandler extends BaseHandler {
 
   async handle(payload: RawPayload) {
     // You can also use: this.toJson(payload) if you prefer JSON
+    // const logLine = await this.compose(payload);
     const logLine = await this.compose(payload);
     const file = path.resolve(this.filePath);
     await fs.mkdir(path.dirname(file), { recursive: true });

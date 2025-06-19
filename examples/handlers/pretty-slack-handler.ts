@@ -1,13 +1,13 @@
 import type { FormatterConfig, NormalizerConfig, RawPayload } from "logry";
-import { BaseHandler, logry } from "logry";
+import { NodeBaseHandler, logry } from "logry";
 import "dotenv/config";
 
 // 📚 Slack webhooks doc: https://api.slack.com/messaging/webhooks
 // 📚 Slack block-kit doc: https://api.slack.com/block-kit/building
 
 // 📣 PrettySlackHandler sends logs to a Slack channel via Incoming Webhooks.
-// It extends BaseHandler and posts formatted log messages using Slack Block Kit for better structure.
-class PrettySlackHandler extends BaseHandler {
+// It extends NodeBaseHandler and posts formatted log messages using Slack Block Kit for better structure.
+class PrettySlackHandler extends NodeBaseHandler {
   private webhookUrl: string;
 
   constructor({
