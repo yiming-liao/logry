@@ -13,15 +13,9 @@ export const composeMessage = (payload: BrowserFormattedPayload): string => {
     payload.formatterConfig.browser?.lineBreaksBefore ?? 0,
   );
 
-  // Construct the base message with style placeholders
-  let composedMessage = `${lineBreaksBefore}%c${timestamp}%c${id}%c${level}%c${scope}%c${message}`;
+  const parts = [timestamp, id, level, scope, message, meta, context]
+    .filter((val) => typeof val === "string" && val !== "")
+    .map((val) => `%c${val}`);
 
-  if (typeof meta === "string") {
-    composedMessage += meta;
-  }
-  if (typeof context === "string") {
-    composedMessage += context;
-  }
-
-  return composedMessage;
+  return lineBreaksBefore + parts.join("");
 };

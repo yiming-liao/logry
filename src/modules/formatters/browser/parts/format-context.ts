@@ -9,6 +9,7 @@ import {
   DEFAULT_CONTEXT_LINE_BREAKS,
   DEFAULT_CONTEXT_SPACE_AFTER,
   DEFAULT_CONTEXT_FORMAT,
+  DEFAULT_CONTEXT_INDENTS,
 } from "@/modules/formatters/browser/constants";
 import { formatStructuredParts } from "@/modules/formatters/browser/shared/format-structured-parts";
 
@@ -24,6 +25,7 @@ export const formatContext = (
     lineBreaks = DEFAULT_CONTEXT_LINE_BREAKS,
     spaceAfter = DEFAULT_CONTEXT_SPACE_AFTER,
     format = DEFAULT_CONTEXT_FORMAT,
+    indent = DEFAULT_CONTEXT_INDENTS,
     customFormatter,
   } = options;
 
@@ -38,6 +40,7 @@ export const formatContext = (
       lineBreaks,
       spaceAfter,
       format,
+      indent,
       customFormatter,
     },
   });

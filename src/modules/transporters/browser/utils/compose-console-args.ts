@@ -18,40 +18,56 @@ export const composeConsoleArgs = (
   const { meta, context, cssStyles, formatterConfig } = payload;
   const browserConfig = formatterConfig.browser;
 
-  const isMetaString = typeof meta === "string";
-  const isContextString = typeof context === "string";
+  const isMetaValidString = typeof meta === "string" && meta !== "";
+  const isContexValidtString = typeof context === "string" && context !== "";
 
   // Base console arguments: message plus style strings
   const consoleArgs: unknown[] = [
-    consoleMessage,
-    cssStyles.timestamp,
-    cssStyles.id,
-    cssStyles.level,
-    cssStyles.scope,
-    cssStyles.message,
-  ];
+    "timestamp",
+    "id",
+    "level",
+    "scope",
+    "message",
+  ]
+    .filter(
+      (key) =>
+        typeof payload[key as keyof typeof payload] === "string" &&
+        payload[key as keyof typeof payload] !== "",
+    )
+    .map((key) => {
+      const style = cssStyles[key as keyof typeof cssStyles];
+      return style && style.trim() !== "" ? style : "color: inherit;";
+    });
 
-  if (isMetaString) {
+  consoleArgs.unshift(consoleMessage);
+
+  if (isMetaValidString) {
     consoleArgs.push(cssStyles.meta);
   }
-  if (isContextString) {
+  if (isContexValidtString) {
     consoleArgs.push(cssStyles.context);
   }
 
   // Add meta with line breaks if meta is not string
-  if (!isMetaString) {
+  if (!isMetaValidString && meta !== "") {
     const lineBreaks = "\n".repeat(
       browserConfig?.meta?.lineBreaks ?? DEFAULT_META_LINE_BREAKS,
     );
-    consoleArgs.push(lineBreaks, meta);
+    if (lineBreaks) {
+      consoleArgs.push(lineBreaks);
+    }
+    consoleArgs.push(meta);
   }
 
   // Add context with line breaks if context is not string
-  if (!isContextString) {
+  if (!isContexValidtString && context !== "") {
     const lineBreaks = "\n".repeat(
       browserConfig?.context?.lineBreaks ?? DEFAULT_CONTEXT_LINE_BREAKS,
     );
-    consoleArgs.push(lineBreaks, context);
+    if (lineBreaks) {
+      consoleArgs.push(lineBreaks);
+    }
+    consoleArgs.push(context);
   }
 
   return consoleArgs;

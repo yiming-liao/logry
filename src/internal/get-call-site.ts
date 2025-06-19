@@ -5,5 +5,5 @@
  * @returns A single line representing the call site, or undefined if not available.
  */
 export const getCallSite = (err: Error = new Error()): string | undefined => {
-  return err.stack?.split("\n").slice(2, 3).join().trim();
+  return err.stack?.split("\n").slice(2, 5).join("\n").trim();
 };

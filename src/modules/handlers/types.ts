@@ -1,8 +1,5 @@
 import type { RawPayload } from "@/core/logger/types";
 
-/** A handler can be a simple function or a class-based object. */
-export type Handler = HandlerFunction | HandlerClass;
-
 /** Function-based handler. Receives raw payload only. */
 export type HandlerFunction = (payload: RawPayload) => void | Promise<void>;
 
@@ -14,3 +11,6 @@ export interface HandlerClass {
   dispose?: () => void | Promise<void>;
   flush?: () => void | Promise<void>;
 }
+
+/** A handler can be a simple function or a class-based object. */
+export type Handler = HandlerFunction | HandlerClass;

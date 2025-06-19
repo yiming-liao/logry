@@ -6,23 +6,23 @@ export type NodeFormatterConfig = {
   /** Whether to disabled the formatter */
   disabled?: boolean;
   /** Timestamp formatting options. */
-  timestamp?: FormatStringPartOptions;
+  timestamp?: FormatStringPartOptions<"timestamp">;
   /** ID formatting options. */
-  id?: FormatStringPartOptions;
+  id?: FormatStringPartOptions<"id">;
   /** Level formatting options. */
-  level?: FormatStringPartOptions;
+  level?: FormatStringPartOptions<"level">;
   /** Scope formatting options. */
   scope?: FormatStringPartOptions<"scope">;
   /** Message formatting options. */
-  message?: FormatStringPartOptions;
+  message?: FormatStringPartOptions<"message">;
   /** Meta formatting options. */
   meta?: FormatStructuredPartOptions;
   /** Context formatting options. */
   context?: FormatStructuredPartOptions;
   /** Pid formatting options. */
-  pid?: FormatStringPartOptions;
+  pid?: FormatStringPartOptions<"pid">;
   /** Hostname formatting options. */
-  hostname?: FormatStringPartOptions;
+  hostname?: FormatStringPartOptions<"hostname">;
 
   /** Number of line breaks to add before the entire log message */
   lineBreaksBefore?: number;

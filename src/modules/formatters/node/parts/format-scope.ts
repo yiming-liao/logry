@@ -18,12 +18,12 @@ export const formatScope = (
   scope: NormalizedScope,
   rawScope: RawScope,
   options: FormatStringPartOptions<"scope"> = {},
-): { scope: FormattedScope; withAnsiColor: FormattedScope } => {
+): { scope: FormattedScope; withAnsiStyle: FormattedScope } => {
   const {
     hide = DEFAULT_SCOPE_HIDE,
     prefix = DEFAULT_SCOPE_PREFIX,
     suffix = DEFAULT_SCOPE_SUFFIX,
-    ansiColor = DEFAULT_SCOPE_ANSI_COLOR,
+    ansiStyle: ansiStyle = DEFAULT_SCOPE_ANSI_COLOR,
     lineBreaks = DEFAULT_SCOPE_LINE_BREAKS,
     spaceAfter = DEFAULT_SCOPE_SPACE_AFTER,
     separator: customSeparator = DEFAULT_SCOPE_SEPARATOR,
@@ -39,7 +39,7 @@ export const formatScope = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle: ansiStyle,
       lineBreaks,
       spaceAfter,
       separator: customSeparator,

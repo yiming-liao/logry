@@ -30,6 +30,7 @@ export const formatStructuredParts = <L extends string>({
     lineBreaks,
     spaceAfter,
     format,
+    indent,
     customFormatter,
   } = options;
 
@@ -53,7 +54,7 @@ export const formatStructuredParts = <L extends string>({
   }
 
   // Stringify the part if format is specified, or keep it as raw
-  let formatted = formatObject(part, format);
+  let formatted = formatObject(part, format, indent);
 
   // Apply additional stylings if it's a string
   if (typeof formatted === "string") {

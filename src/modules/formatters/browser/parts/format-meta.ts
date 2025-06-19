@@ -9,6 +9,7 @@ import {
   DEFAULT_META_LINE_BREAKS,
   DEFAULT_META_SPACE_AFTER,
   DEFAULT_META_FORMAT,
+  DEFAULT_META_INDENTS,
 } from "@/modules/formatters/browser/constants";
 import { formatStructuredParts } from "@/modules/formatters/browser/shared/format-structured-parts";
 
@@ -24,6 +25,7 @@ export const formatMeta = (
     lineBreaks = DEFAULT_META_LINE_BREAKS,
     spaceAfter = DEFAULT_META_SPACE_AFTER,
     format = DEFAULT_META_FORMAT,
+    indent = DEFAULT_META_INDENTS,
     customFormatter,
   } = options;
 
@@ -38,6 +40,7 @@ export const formatMeta = (
       lineBreaks,
       spaceAfter,
       format,
+      indent,
       customFormatter,
     },
   });

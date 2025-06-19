@@ -12,7 +12,7 @@ import type {
   FormatStringPartOptions,
 } from "@/modules/formatters/node/shared/format-string-parts";
 import type { FormattedStringPart } from "@/modules/formatters/types";
-import { addAnsiColor } from "@/modules/formatters/utils/add-ansi-color";
+import { addAnsiStyle } from "@/modules/formatters/utils/add-ansi-style";
 import { addLineBreakPrefix } from "@/modules/formatters/utils/add-line-break-prefix";
 import { addPrefixAndSuffix } from "@/modules/formatters/utils/add-prefix-and-suffix";
 import { addSpaceAfter } from "@/modules/formatters/utils/add-space-after";
@@ -40,12 +40,12 @@ export const formatStringParts = <L extends string>({
     | RawScope
     | RawMessage;
   options: FormatStringPartOptions<L>;
-}): { [Key in L]: FormattedStringPart } & { withAnsiColor: string } => {
+}): { [Key in L]: FormattedStringPart } & { withAnsiStyle: string } => {
   const {
     hide,
     prefix,
     suffix,
-    ansiColor,
+    ansiStyle: ansiStyle,
     lineBreaks,
     spaceAfter,
     showOnlyLatest,
@@ -55,9 +55,9 @@ export const formatStringParts = <L extends string>({
 
   // Return empty string if hide is true or part is a empty string
   if (hide || !part) {
-    return { [label]: "", withAnsiColor: "" } as {
+    return { [label]: "", withAnsiStyle: "" } as {
       [Key in L]: FormattedStringPart;
-    } & { withAnsiColor: string };
+    } & { withAnsiStyle: string };
   }
 
   // Use custom formatter if provided
@@ -96,14 +96,14 @@ export const formatStringParts = <L extends string>({
   }
 
   // Apply optional stylings
-  let withoutAnsiColor = "";
-  withoutAnsiColor = addLineBreakPrefix(formatted, lineBreaks);
-  withoutAnsiColor = addSpaceAfter(withoutAnsiColor, spaceAfter);
-  let withAnsiColor = addAnsiColor(formatted, ansiColor);
-  withAnsiColor = addLineBreakPrefix(withAnsiColor, lineBreaks);
-  withAnsiColor = addSpaceAfter(withAnsiColor, spaceAfter);
+  let withoutAnsiStyle = "";
+  withoutAnsiStyle = addLineBreakPrefix(formatted, lineBreaks);
+  withoutAnsiStyle = addSpaceAfter(withoutAnsiStyle, spaceAfter);
+  let withAnsiStyle = addAnsiStyle(formatted, ansiStyle);
+  withAnsiStyle = addLineBreakPrefix(withAnsiStyle, lineBreaks);
+  withAnsiStyle = addSpaceAfter(withAnsiStyle, spaceAfter);
 
-  return { [label]: withoutAnsiColor, withAnsiColor } as {
+  return { [label]: withoutAnsiStyle, withAnsiStyle } as {
     [Key in L]: FormattedStringPart;
-  } & { withAnsiColor: string };
+  } & { withAnsiStyle: string };
 };

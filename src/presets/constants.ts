@@ -1,6 +1,6 @@
 export const LOGGER_PRESETS = [
   "pretty",
-  "pretty-multi-line",
+  "pretty-expanded",
   "minimal",
   "verbose",
 ] as const;

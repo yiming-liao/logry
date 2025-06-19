@@ -16,12 +16,12 @@ export const formatLevel = (
   level: NormalizedLevel,
   rawLevel: RawLevel,
   options: FormatStringPartOptions<"level"> = {},
-): { level: FormattedLevel; withAnsiColor: FormattedLevel } => {
+): { level: FormattedLevel; withAnsiStyle: FormattedLevel } => {
   const {
     hide = DEFAULT_LEVEL_HIDE,
     prefix = DEFAULT_LEVEL_PREFIX,
     suffix = DEFAULT_LEVEL_SUFFIX,
-    ansiColor = LEVEL_CONFIG[rawLevel].ansiColor,
+    ansiStyle: ansiStyle = LEVEL_CONFIG[rawLevel].ansiStyle,
     lineBreaks = DEFAULT_LEVEL_LINE_BREAKS,
     spaceAfter = DEFAULT_LEVEL_SPACE_AFTER,
     customFormatter,
@@ -35,7 +35,7 @@ export const formatLevel = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle: ansiStyle,
       lineBreaks,
       spaceAfter,
       customFormatter,

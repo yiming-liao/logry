@@ -8,7 +8,7 @@ import type { RawPayload } from "@/core/logger/types";
  * @returns New payload with pid and hostname fields
  */
 export const appendProcessParts = async (
-  getOsFn: () => Promise<typeof import("os") | undefined>,
+  getOsFn: () => Promise<typeof import("node:os") | undefined>,
   rawPayload: RawPayload,
 ): Promise<RawPayload> => {
   const os = await getOsFn();

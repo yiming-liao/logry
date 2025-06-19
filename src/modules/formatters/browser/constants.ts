@@ -41,7 +41,7 @@ export const DEFAULT_SCOPE_SHOW_ONLY_LATEST = false;
 
 // Message
 export const DEFAULT_MESSAGE_HIDE = false;
-export const DEFAULT_MESSAGE_PREFIX = " • ";
+export const DEFAULT_MESSAGE_PREFIX = " ";
 export const DEFAULT_MESSAGE_SUFFIX = undefined;
 export const DEFAULT_MESSAGE_CSS_STYLE = undefined;
 export const DEFAULT_MESSAGE_LINE_BREAKS = 0;
@@ -55,6 +55,7 @@ export const DEFAULT_META_CSS_STYLE = undefined;
 export const DEFAULT_META_LINE_BREAKS = 0;
 export const DEFAULT_META_SPACE_AFTER = 0;
 export const DEFAULT_META_FORMAT: StringifyFormat = "raw";
+export const DEFAULT_META_INDENTS = 4;
 
 // Context
 export const DEFAULT_CONTEXT_HIDE = true;
@@ -64,3 +65,4 @@ export const DEFAULT_CONTEXT_CSS_STYLE = undefined;
 export const DEFAULT_CONTEXT_LINE_BREAKS = 0;
 export const DEFAULT_CONTEXT_SPACE_AFTER = 0;
 export const DEFAULT_CONTEXT_FORMAT: StringifyFormat = "raw";
+export const DEFAULT_CONTEXT_INDENTS = 4;

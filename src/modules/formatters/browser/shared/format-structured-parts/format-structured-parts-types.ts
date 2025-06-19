@@ -29,6 +29,8 @@ export type FormatStructuredPartOptions<L extends string = string> =
      * - "pretty": human-readable formatting,
      */
     format?: StringifyFormat;
+    /** Indentation width (in spaces) for each line, used with the "pretty" format. */
+    indent?: number;
     /** Provide a custom function to override default formatting. */
     customFormatter?: CustomStructuredPartFormatter<L>;
   };

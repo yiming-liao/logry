@@ -43,10 +43,15 @@ export type {
 
 // --- 🚚 Transporters ---
 export { Transporter } from "./modules/transporters";
-export { composeMessage } from "./modules/transporters/node/utils/compose-message";
 
-// --- 🎛️ Handler Manager ---
-export { HandlerManager, BaseHandler } from "./modules/handlers";
+// --- 🎛️ Handlers ---
+export {
+  HandlerManager,
+  BaseHandler,
+  NodeBaseHandler,
+  BrowserBaseHandler,
+} from "./modules/handlers";
+
 export type {
   HandlerConfig,
   Handler,

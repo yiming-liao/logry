@@ -11,6 +11,7 @@ import { internalLog } from "@/internal";
 export const formatObject = (
   input: Record<string, unknown>,
   style: StringifyFormat = "pretty",
+  indent: number = 0,
 ): Record<string, unknown> | string => {
   try {
     switch (style) {
@@ -18,23 +19,32 @@ export const formatObject = (
         return input;
 
       case "json":
-        return JSON.stringify(input); // Single-line JSON
+        return JSON.stringify(input);
 
-      case "pretty":
-        return JSON.stringify(input, null, 2); // Multi-line JSON
+      case "pretty": {
+        const indentSpaces = " ".repeat(indent);
+        return `\n${JSON.stringify(input, null, 2)
+          .split("\n")
+          .map((line) => indentSpaces + line)
+          .join("\n")}`;
+      }
 
       case "compact":
-        return typeof input === "object" && input !== null
-          ? Object.entries(input)
-              .map(([key, val]) => {
-                const value =
-                  typeof val === "object" && val !== null
-                    ? JSON.stringify(val)
-                    : String(val);
-                return `${key}:${value}`;
-              })
-              .join(", ")
-          : "";
+        if (typeof input !== "object" || input === null) return "";
+
+        return Object.entries(input)
+          .map(([key, val]) => {
+            let value;
+            if (typeof val === "object" && val !== null) {
+              value = JSON.stringify(val);
+            } else if (typeof val === "string" && /\s/.test(val)) {
+              value = `"${val}"`;
+            } else {
+              value = String(val);
+            }
+            return `${key}=${value}`;
+          })
+          .join(" ");
 
       default:
         internalLog({
@@ -44,7 +54,6 @@ export const formatObject = (
         return JSON.stringify(input); // Fallback to single-line JSON
     }
   } catch (error) {
-    // Graceful fallback on unexpected error
     internalLog({
       type: "error",
       message: `Failed to stringify object. ${error instanceof Error ? error.message : String(error)}`,

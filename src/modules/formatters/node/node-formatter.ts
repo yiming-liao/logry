@@ -49,43 +49,43 @@ export class NodeFormatter {
 
     const {
       timestamp: formattedTimestamp,
-      withAnsiColor: timestampWithAnsiColor,
+      withAnsiStyle: timestampWithAnsiStyle,
     } = formatTimestamp(timestamp, raw.timestamp, timestampOptions);
-    const { id: formattedId, withAnsiColor: idWithAnsiColor } = formatId(
+    const { id: formattedId, withAnsiStyle: idWithAnsiStyle } = formatId(
       id,
       raw.id,
       idOptions,
     );
-    const { level: formattedLevel, withAnsiColor: levelWithAnsiColor } =
+    const { level: formattedLevel, withAnsiStyle: levelWithAnsiStyle } =
       formatLevel(level, raw.level, levelOptions);
-    const { pid: formattedPid, withAnsiColor: pidWithAnsiColor } = formatPid(
+    const { pid: formattedPid, withAnsiStyle: pidWithAnsiStyle } = formatPid(
       pid,
       raw.pid ?? 0,
       pidOptions,
     );
     const {
       hostname: formattedHostname,
-      withAnsiColor: hostnameWithAnsiColor,
+      withAnsiStyle: hostnameWithAnsiStyle,
     } = formatHostname(hostname, raw.hostname ?? "", hostnameOptions);
-    const { scope: formattedScope, withAnsiColor: scopeWithAnsiColor } =
+    const { scope: formattedScope, withAnsiStyle: scopeWithAnsiStyle } =
       formatScope(scope, raw.scope, scopeOptions);
-    const { message: formattedMessage, withAnsiColor: messageWithAnsiColor } =
+    const { message: formattedMessage, withAnsiStyle: messageWithAnsiStyle } =
       formatMessage(message, raw.message, messageOptions);
-    const { meta: formattedMeta, withAnsiColor: metaWithAnsiColor } =
+    const { meta: formattedMeta, withAnsiStyle: metaWithAnsiStyle } =
       formatMeta(meta, metaOptions);
-    const { context: formattedContext, withAnsiColor: contextWithAnsiColor } =
+    const { context: formattedContext, withAnsiStyle: contextWithAnsiStyle } =
       formatContext(context, contextOptions);
 
-    const withAnsiColor = {
-      timestamp: timestampWithAnsiColor,
-      id: idWithAnsiColor,
-      level: levelWithAnsiColor,
-      pid: pidWithAnsiColor,
-      hostname: hostnameWithAnsiColor,
-      scope: scopeWithAnsiColor,
-      message: messageWithAnsiColor,
-      meta: metaWithAnsiColor,
-      context: contextWithAnsiColor,
+    const withAnsiStyle = {
+      timestamp: timestampWithAnsiStyle,
+      id: idWithAnsiStyle,
+      level: levelWithAnsiStyle,
+      pid: pidWithAnsiStyle,
+      hostname: hostnameWithAnsiStyle,
+      scope: scopeWithAnsiStyle,
+      message: messageWithAnsiStyle,
+      meta: metaWithAnsiStyle,
+      context: contextWithAnsiStyle,
     };
 
     return {
@@ -101,7 +101,7 @@ export class NodeFormatter {
       normalizerConfig,
       formatterConfig,
       raw,
-      withAnsiColor,
+      withAnsiStyle,
     };
   }
 }

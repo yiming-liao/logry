@@ -15,12 +15,12 @@ export const formatHostname = (
   hostname: string,
   rawHostname: RawHostname,
   options: FormatStringPartOptions<"hostname"> = {},
-): { hostname: FormattedHostname; withAnsiColor: FormattedHostname } => {
+): { hostname: FormattedHostname; withAnsiStyle: FormattedHostname } => {
   const {
     hide = DEFAULT_HOSTNAME_HIDE,
     prefix = DEFAULT_HOSTNAME_PREFIX,
     suffix = DEFAULT_HOSTNAME_SUFFIX,
-    ansiColor = DEFAULT_HOSTNAME_ANSI_COLOR,
+    ansiStyle: ansiStyle = DEFAULT_HOSTNAME_ANSI_COLOR,
     lineBreaks = DEFAULT_HOSTNAME_LINE_BREAKS,
     spaceAfter = DEFAULT_HOSTNAME_SPACE_AFTER,
     customFormatter,
@@ -34,7 +34,7 @@ export const formatHostname = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle: ansiStyle,
       lineBreaks,
       spaceAfter,
       customFormatter,

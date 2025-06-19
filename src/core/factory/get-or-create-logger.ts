@@ -68,7 +68,8 @@ export const getOrCreateLogger = ({
     formatterConfig !== undefined ||
     normalizerConfig !== undefined ||
     handlerConfig !== undefined ||
-    level !== undefined
+    level !== undefined ||
+    preset !== undefined
   ) {
     internalLog({
       type: "warn",

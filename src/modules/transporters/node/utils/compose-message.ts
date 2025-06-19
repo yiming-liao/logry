@@ -10,10 +10,10 @@ import type { NodeFormattedPayload } from "@/modules/formatters";
  */
 export const composeMessage = (
   payload: NodeFormattedPayload,
-  withAnsiColor?: boolean,
+  withAnsiStyle: boolean = false,
 ): string => {
   const { timestamp, id, level, scope, message, meta, context, pid, hostname } =
-    withAnsiColor ? payload.withAnsiColor : payload;
+    withAnsiStyle ? payload.withAnsiStyle : payload;
 
   const parts = [timestamp, id, level];
 

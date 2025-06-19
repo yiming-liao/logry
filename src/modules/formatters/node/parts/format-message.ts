@@ -16,12 +16,12 @@ export const formatMessage = (
   message: NormalizedMessage,
   rawMessage: RawMessage,
   options: FormatStringPartOptions<"message"> = {},
-): { message: FormattedMessage; withAnsiColor: FormattedMessage } => {
+): { message: FormattedMessage; withAnsiStyle: FormattedMessage } => {
   const {
     hide = DEFAULT_MESSAGE_HIDE,
     prefix = DEFAULT_MESSAGE_PREFIX,
     suffix = DEFAULT_MESSAGE_SUFFIX,
-    ansiColor = DEFAULT_MESSAGE_ANSI_COLOR,
+    ansiStyle: ansiStyle = DEFAULT_MESSAGE_ANSI_COLOR,
     lineBreaks = DEFAULT_MESSAGE_LINE_BREAKS,
     spaceAfter = DEFAULT_MESSAGE_SPACE_AFTER,
     customFormatter,
@@ -35,7 +35,7 @@ export const formatMessage = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle: ansiStyle,
       lineBreaks,
       spaceAfter,
       customFormatter,

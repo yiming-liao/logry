@@ -18,42 +18,42 @@ export const PLATFORMS = ["node", "browser"] as const;
  * Configuration for log levels including priority and colors.
  *
  * - priority: higher means more verbose
- * - ansiColor: terminal color code
+ * - ansiStyle: terminal color code
  * - cssColor: browser color code (RGBA)
  */
 export const LEVEL_CONFIG: Record<
   Level,
-  { priority: number; ansiColor: string; cssColor: string }
+  { priority: number; ansiStyle: string; cssColor: string }
 > = {
-  silent: { priority: 0, ansiColor: "", cssColor: "" },
+  silent: { priority: 0, ansiStyle: "", cssColor: "" },
   trace: {
     priority: 10,
-    ansiColor: "\x1b[38;5;244m",
+    ansiStyle: "",
     cssColor: "rgba(150, 150, 150, 0.6)",
   },
   debug: {
     priority: 20,
-    ansiColor: "\x1b[38;5;33m",
+    ansiStyle: "\x1b[38;5;39m",
     cssColor: "rgba(112, 152, 215, 0.93)",
   },
   info: {
     priority: 30,
-    ansiColor: "\x1b[38;5;34m",
+    ansiStyle: "\x1b[38;5;114m",
     cssColor: "rgba(76, 186, 123, 0.75)",
   },
   warn: {
     priority: 40,
-    ansiColor: "\x1b[38;5;214m",
+    ansiStyle: "\x1b[38;5;215m",
     cssColor: "rgba(231, 151, 65, 0.75)",
   },
   error: {
     priority: 50,
-    ansiColor: "\x1b[38;5;9m",
+    ansiStyle: "\x1b[38;5;9m",
     cssColor: "rgba(250, 72, 98, 0.75)",
   },
   fatal: {
     priority: 60,
-    ansiColor: "\x1b[38;5;196m",
+    ansiStyle: "\x1b[101m\x1b[30m",
     cssColor: "rgba(220, 20, 60, 0.9)",
   },
 };

@@ -4,7 +4,7 @@ import type {
 } from "@/modules/formatters/node/shared/format-structured-parts/format-structured-parts-types";
 import type { FormattedStructuredPart } from "@/modules/formatters/types";
 import type { NormalizedStructuredPart } from "@/modules/normalizers/types";
-import { addAnsiColor } from "@/modules/formatters/utils/add-ansi-color";
+import { addAnsiStyle } from "@/modules/formatters/utils/add-ansi-style";
 import { addLineBreakPrefix } from "@/modules/formatters/utils/add-line-break-prefix";
 import { addPrefixAndSuffix } from "@/modules/formatters/utils/add-prefix-and-suffix";
 import { addSpaceAfter } from "@/modules/formatters/utils/add-space-after";
@@ -22,23 +22,24 @@ export const formatStructuredParts = <L extends string>({
   label: L;
   part: NormalizedStructuredPart;
   options: FormatStructuredPartOptions;
-}): { [Key in L]: FormattedStructuredPart } & { withAnsiColor: string } => {
+}): { [Key in L]: FormattedStructuredPart } & { withAnsiStyle: string } => {
   const {
     hide,
     prefix,
     suffix,
-    ansiColor,
+    ansiStyle,
     lineBreaks,
     spaceAfter,
     format,
+    indent,
     customFormatter,
   } = options;
 
   // Return empty string if hide is true or part is undefined
   if (hide || !part) {
-    return { [label]: "", withAnsiColor: "" } as {
+    return { [label]: "", withAnsiStyle: "" } as {
       [Key in L]: FormattedStructuredPart;
-    } & { withAnsiColor: string };
+    } & { withAnsiStyle: string };
   }
 
   // Use custom formatter if provided
@@ -54,24 +55,24 @@ export const formatStructuredParts = <L extends string>({
   }
 
   // Stringify the part if format is specified, or keep it as raw
-  let formatted = formatObject(part, format);
+  let formatted = formatObject(part, format, indent);
 
   // Apply additional stylings if it's a string
   if (typeof formatted === "string") {
     formatted = addPrefixAndSuffix(formatted, prefix, suffix);
-    let withoutAnsiColor = "";
-    withoutAnsiColor = addLineBreakPrefix(formatted, lineBreaks);
-    withoutAnsiColor = addSpaceAfter(withoutAnsiColor, spaceAfter);
-    let withAnsiColor = addAnsiColor(formatted, ansiColor);
-    withAnsiColor = addLineBreakPrefix(withAnsiColor, lineBreaks);
-    withAnsiColor = addSpaceAfter(withAnsiColor, spaceAfter);
+    let withoutAnsiStyle = "";
+    withoutAnsiStyle = addLineBreakPrefix(formatted, lineBreaks);
+    withoutAnsiStyle = addSpaceAfter(withoutAnsiStyle, spaceAfter);
+    let withAnsiStyle = addAnsiStyle(formatted, ansiStyle);
+    withAnsiStyle = addLineBreakPrefix(withAnsiStyle, lineBreaks);
+    withAnsiStyle = addSpaceAfter(withAnsiStyle, spaceAfter);
 
-    return { [label]: withoutAnsiColor, withAnsiColor } as {
+    return { [label]: withoutAnsiStyle, withAnsiStyle } as {
       [Key in L]: FormattedStructuredPart;
-    } & { withAnsiColor: string };
+    } & { withAnsiStyle: string };
   }
 
-  return { [label]: formatted, withAnsiColor: "" } as {
+  return { [label]: formatted, withAnsiStyle: "" } as {
     [Key in L]: FormattedStructuredPart;
-  } & { withAnsiColor: string };
+  } & { withAnsiStyle: string };
 };

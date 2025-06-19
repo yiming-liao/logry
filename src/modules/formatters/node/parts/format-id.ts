@@ -16,12 +16,12 @@ export const formatId = (
   id: NormalizedId,
   rawId: RawId,
   options: FormatStringPartOptions<"id"> = {},
-): { id: FormattedId; withAnsiColor: FormattedId } => {
+): { id: FormattedId; withAnsiStyle: FormattedId } => {
   const {
     hide = DEFAULT_ID_HIDE,
     prefix = DEFAULT_ID_PREFIX,
     suffix = DEFAULT_ID_SUFFIX,
-    ansiColor = DEFAULT_ID_ANSI_COLOR,
+    ansiStyle: ansiStyle = DEFAULT_ID_ANSI_COLOR,
     lineBreaks = DEFAULT_ID_LINE_BREAKS,
     spaceAfter = DEFAULT_ID_SPACE_AFTER,
     customFormatter,
@@ -35,7 +35,7 @@ export const formatId = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle: ansiStyle,
       lineBreaks,
       spaceAfter,
       customFormatter,

@@ -16,12 +16,12 @@ export const formatTimestamp = (
   timestamp: NormalizedTimestamp,
   rawTimestamp: RawTimestamp,
   options: FormatStringPartOptions<"timestamp"> = {},
-): { timestamp: FormattedTimestamp; withAnsiColor: FormattedTimestamp } => {
+): { timestamp: FormattedTimestamp; withAnsiStyle: FormattedTimestamp } => {
   const {
     hide = DEFAULT_TIMESTAMP_HIDE,
     prefix = DEFAULT_TIMESTAMP_PREFIX,
     suffix = DEFAULT_TIMESTAMP_SUFFIX,
-    ansiColor = DEFAULT_TIMESTAMP_ANSI_COLOR,
+    ansiStyle: ansiStyle = DEFAULT_TIMESTAMP_ANSI_COLOR,
     lineBreaks = DEFAULT_TIMESTAMP_LINE_BREAKS,
     spaceAfter = DEFAULT_TIMESTAMP_SPACE_AFTER,
     customFormatter,
@@ -35,7 +35,7 @@ export const formatTimestamp = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle: ansiStyle,
       lineBreaks,
       spaceAfter,
       customFormatter,

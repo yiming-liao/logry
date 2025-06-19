@@ -84,7 +84,6 @@ export const formatStringParts = <L extends string>({
   ) {
     formatted += " ";
   }
-  // const colored = addAnsiColor(surrounded, ansiColor);
   formatted = addLineBreakPrefix(formatted, lineBreaks);
   formatted = addSpaceAfter(formatted, spaceAfter);
 

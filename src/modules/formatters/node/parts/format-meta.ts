@@ -9,21 +9,23 @@ import {
   DEFAULT_META_LINE_BREAKS,
   DEFAULT_META_FORMAT,
   DEFAULT_META_SPACE_AFTER,
+  DEFAULT_META_INDENTS,
 } from "@/modules/formatters/node/constants";
 import { formatStructuredParts } from "@/modules/formatters/node/shared/format-structured-parts";
 
 export const formatMeta = (
   meta: NormalizedMeta,
   options: FormatStructuredPartOptions<"meta"> = {},
-): { meta: FormattedMeta; withAnsiColor: FormattedMeta } => {
+): { meta: FormattedMeta; withAnsiStyle: FormattedMeta } => {
   const {
     hide = DEFAULT_META_HIDE,
     prefix = DEFAULT_META_PREFIX,
     suffix = DEFAULT_META_SUFFIX,
-    ansiColor = DEFAULT_META_ANSI_COLOR,
+    ansiStyle = DEFAULT_META_ANSI_COLOR,
     lineBreaks = DEFAULT_META_LINE_BREAKS,
     format = DEFAULT_META_FORMAT,
     spaceAfter = DEFAULT_META_SPACE_AFTER,
+    indent = DEFAULT_META_INDENTS,
     customFormatter,
   } = options;
 
@@ -34,10 +36,11 @@ export const formatMeta = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle,
       lineBreaks,
       format,
       spaceAfter,
+      indent,
       customFormatter,
     },
   });

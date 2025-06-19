@@ -39,7 +39,7 @@ export type NodeFormattedPayload = BaseFormattedPayload & {
   pid: FormattedPid;
   hostname: FormattedHostname;
 } & {
-  withAnsiColor: {
+  withAnsiStyle: {
     timestamp: FormattedTimestamp;
     id: FormattedId;
     level: FormattedLevel;

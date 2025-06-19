@@ -14,7 +14,7 @@ export type CustomStringPartFormatter<L extends string> = ({
 }: {
   part: string;
   rawPart: RawTimestamp | RawId | RawLevel | RawScope | RawMessage;
-}) => { [Key in L]: FormattedStringPart } & { withAnsiColor: string };
+}) => { [Key in L]: FormattedStringPart } & { withAnsiStyle: string };
 
 /**
  * String part formatting options.
@@ -27,7 +27,7 @@ export type FormatStringPartOptions<L extends string = string> =
 /** Base options without scope options  */
 type BaseFormatStringPartOptions<L extends string> = BaseFormatPartOptions & {
   /** ANSI escape code string to wrap the output with color. */
-  ansiColor?: string;
+  ansiStyle?: string;
   /** Provide a custom function to override default formatting. */
   customFormatter?: CustomStringPartFormatter<L>;
 };

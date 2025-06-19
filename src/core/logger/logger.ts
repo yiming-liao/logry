@@ -146,12 +146,7 @@ export class Logger {
   }
 
   /** Core log method, used by all level-specific methods */
-  private async log({
-    level,
-    message,
-    meta,
-    options,
-  }: LogOptions): Promise<void> {
+  private log({ level, message, meta, options }: LogOptions): void {
     if (level === "silent") {
       return;
     }

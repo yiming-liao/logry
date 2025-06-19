@@ -24,12 +24,12 @@ export const formatPid = (
   pid: NormalizedPid,
   rawPid: RawPid,
   options: FormatStringPartOptions<"pid"> = {},
-): { pid: FormattedPid; withAnsiColor: FormattedPid } => {
+): { pid: FormattedPid; withAnsiStyle: FormattedPid } => {
   const {
     hide = DEFAULT_PID_HIDE,
     prefix = DEFAULT_PID_PREFIX,
     suffix = DEFAULT_PID_SUFFIX,
-    ansiColor = DEFAULT_PID_ANSI_COLOR,
+    ansiStyle: ansiStyle = DEFAULT_PID_ANSI_COLOR,
     lineBreaks = DEFAULT_PID_LINE_BREAKS,
     spaceAfter = DEFAULT_PID_SPACE_AFTER,
     customFormatter,
@@ -43,7 +43,7 @@ export const formatPid = (
       hide,
       prefix,
       suffix,
-      ansiColor,
+      ansiStyle: ansiStyle,
       lineBreaks,
       spaceAfter,
       customFormatter,
