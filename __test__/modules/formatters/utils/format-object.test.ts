@@ -20,12 +20,17 @@ describe("formatObject", () => {
 
   it("should return compact string when style is 'compact'", () => {
     const result = formatObject(input, "compact");
-    expect(result).toBe("a:1, b:text");
+    expect(result).toBe("a=1 b=text");
   });
 
   it("should return pretty JSON when style is 'pretty'", () => {
     const result = formatObject(input, "pretty");
-    expect(result).toBe(JSON.stringify(input, null, 2));
+    expect(result).toBe(
+      `\n${JSON.stringify(input, null, 2)
+        .split("\n")
+        .map((line) => line)
+        .join("\n")}`,
+    );
   });
 
   it("should fall back to json and log warning on unknown style", () => {

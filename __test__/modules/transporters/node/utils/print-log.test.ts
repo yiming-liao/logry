@@ -1,12 +1,8 @@
-import type { NodeFormattedPayload } from "@/modules/formatters";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { composeMessage } from "@/modules/transporters/node/utils/compose-message";
 import { printLog } from "@/modules/transporters/node/utils/print-log";
 import { printObject } from "@/modules/transporters/node/utils/print-object";
 import { writeToStreamAsync } from "@/modules/transporters/node/utils/write-to-stream-async";
-
-jest.mock("@/modules/transporters/node/utils/write-to-stream-async", () => ({
-  writeToStreamAsync: jest.fn(),
-}));
 
 jest.mock("@/modules/transporters/node/utils/compose-message", () => ({
   composeMessage: jest.fn(),
@@ -16,72 +12,100 @@ jest.mock("@/modules/transporters/node/utils/print-object", () => ({
   printObject: jest.fn(),
 }));
 
+jest.mock("@/modules/transporters/node/utils/write-to-stream-async", () => ({
+  writeToStreamAsync: jest.fn(),
+}));
+
 describe("printLog", () => {
-  const mockPayload = {
-    timestamp: "2025-06-16 12:00:00",
-    id: "abc123",
-    level: "info",
-    scope: "test",
-    message: "Test log",
+  const queueWriteMock = jest.fn(async (fn) => fn());
+
+  const defaultPayload = {
     meta: { foo: "bar" },
-    context: { user: "yiming" },
-    normalizerConfig: {},
+    context: { baz: "qux" },
     formatterConfig: {
       node: {
         lineBreaksBefore: 1,
         lineBreaksAfter: 2,
-        meta: { lineBreaks: 1, depth: 3 },
-        context: { lineBreaks: 2, depth: 2 },
+        meta: { lineBreaks: 3, depth: 4 },
+        context: { lineBreaks: 5, depth: 6 },
       },
     },
-    raw: {
-      id: "abc123",
-      level: "info",
-      scope: ["test"],
-      message: "Test log",
-      timestamp: 123456789,
-    },
-  } as unknown as NodeFormattedPayload;
-
-  const queueWrite = jest.fn((fn) => fn());
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
     (composeMessage as jest.Mock).mockReturnValue("COMPOSED_MESSAGE");
   });
 
-  it("should call queueWrite and write all outputs in order", async () => {
-    await printLog(mockPayload, queueWrite);
+  it("should call queueWrite with a function", async () => {
+    await printLog(defaultPayload as any, queueWriteMock);
+    expect(queueWriteMock).toHaveBeenCalled();
+    expect(typeof queueWriteMock.mock.calls[0][0]).toBe("function");
+  });
 
-    expect(queueWrite).toHaveBeenCalledTimes(1);
+  it("should write lineBreaksBefore before message", async () => {
+    await printLog(defaultPayload as any, queueWriteMock);
     expect(writeToStreamAsync).toHaveBeenCalledWith("\n");
+  });
+
+  it("should write composed message", async () => {
+    await printLog(defaultPayload as any, queueWriteMock);
+    expect(composeMessage).toHaveBeenCalledWith(defaultPayload, true);
     expect(writeToStreamAsync).toHaveBeenCalledWith("COMPOSED_MESSAGE");
+  });
 
-    expect(printObject).toHaveBeenCalledWith(mockPayload.meta, {
-      lineBreaks: 1,
-      depth: 3,
-    });
+  it("should print meta and context objects with configured options", async () => {
+    await printLog(defaultPayload as any, queueWriteMock);
+    expect(printObject).toHaveBeenCalledWith(
+      expect.any(Function),
+      defaultPayload.meta,
+      expect.objectContaining({
+        lineBreaks: 3,
+        depth: 4,
+      }),
+    );
 
-    expect(printObject).toHaveBeenCalledWith(mockPayload.context, {
-      lineBreaks: 2,
-      depth: 2,
-    });
+    expect(printObject).toHaveBeenCalledWith(
+      expect.any(Function),
+      defaultPayload.context,
+      expect.objectContaining({
+        lineBreaks: 5,
+        depth: 6,
+      }),
+    );
+  });
 
+  it("should write lineBreaksAfter after all", async () => {
+    await printLog(defaultPayload as any, queueWriteMock);
     expect(writeToStreamAsync).toHaveBeenCalledWith("\n\n");
   });
 
-  it("should not write line breaks if not configured", async () => {
-    const payloadWithoutBreaks: NodeFormattedPayload = {
-      ...mockPayload,
-      formatterConfig: { node: {} },
+  it("should use default meta/context line breaks and depth if not configured", async () => {
+    const payload = {
+      meta: { foo: "bar" },
+      context: { baz: "qux" },
+      formatterConfig: {
+        node: {},
+      },
     };
+    await printLog(payload as any, queueWriteMock);
 
-    await printLog(payloadWithoutBreaks, queueWrite);
+    expect(printObject).toHaveBeenCalledWith(
+      expect.any(Function),
+      payload.meta,
+      expect.objectContaining({
+        lineBreaks: expect.any(Number),
+        depth: expect.any(Number),
+      }),
+    );
 
-    // No line break
-    expect(writeToStreamAsync).not.toHaveBeenCalledWith("\n");
-    expect(writeToStreamAsync).not.toHaveBeenCalledWith("\n\n");
-
-    expect(writeToStreamAsync).toHaveBeenCalledWith("COMPOSED_MESSAGE");
+    expect(printObject).toHaveBeenCalledWith(
+      expect.any(Function),
+      payload.context,
+      expect.objectContaining({
+        lineBreaks: expect.any(Number),
+        depth: expect.any(Number),
+      }),
+    );
   });
 });

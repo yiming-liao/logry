@@ -6,8 +6,8 @@ jest.mock("@/modules/formatters/utils/format-object", () => ({
   formatObject: jest.fn(() => '{"foo":"bar"}'),
 }));
 
-jest.mock("@/modules/formatters/utils/add-ansi-color", () => ({
-  addAnsiColor: jest.fn((str: string) => `\x1b[32m${str}\x1b[0m`),
+jest.mock("@/modules/formatters/utils/add-ansi-style", () => ({
+  addAnsiStyle: jest.fn((str: string) => `\x1b[32m${str}\x1b[0m`),
 }));
 
 describe("formatStructuredParts", () => {
@@ -19,13 +19,13 @@ describe("formatStructuredParts", () => {
       part: basePart,
       options: { hide: true },
     });
-    expect(result).toEqual({ data: "", withAnsiColor: "" });
+    expect(result).toEqual({ data: "", withAnsiStyle: "" });
   });
 
   it("should return custom formatted result if customFormatter is provided", () => {
     const customFormatter = jest.fn(() => ({
       data: "[custom]",
-      withAnsiColor: "[custom-colored]",
+      withAnsiStyle: "[custom-colored]",
     }));
 
     const result = formatStructuredParts({
@@ -37,7 +37,7 @@ describe("formatStructuredParts", () => {
     expect(customFormatter).toHaveBeenCalled();
     expect(result).toEqual({
       data: "[custom]",
-      withAnsiColor: "[custom-colored]",
+      withAnsiStyle: "[custom-colored]",
     });
   });
 
@@ -50,7 +50,7 @@ describe("formatStructuredParts", () => {
         suffix: "]",
         lineBreaks: 1,
         spaceAfter: 1,
-        ansiColor: "green",
+        ansiStyle: "green",
       },
     });
 
@@ -59,7 +59,7 @@ describe("formatStructuredParts", () => {
 
     expect(result).toEqual({
       data: expectedRaw,
-      withAnsiColor: expectedAnsi,
+      withAnsiStyle: expectedAnsi,
     });
   });
 
@@ -74,7 +74,7 @@ describe("formatStructuredParts", () => {
 
     expect(result).toEqual({
       meta: { raw: true },
-      withAnsiColor: "",
+      withAnsiStyle: "",
     });
   });
 });

@@ -1,5 +1,4 @@
-import { getOrCreateLogger } from "@/core/factory";
-import { resetCoreMap } from "@/core/factory";
+import { resetCoreMap, getOrCreateLogger } from "@/index";
 
 describe("resetLoggerFactory", () => {
   it("should reset the logger factory and remove all logger cores", () => {

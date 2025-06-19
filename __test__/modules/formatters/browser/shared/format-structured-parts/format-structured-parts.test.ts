@@ -78,7 +78,7 @@ describe("formatStructuredParts", () => {
       },
     });
 
-    expect(formatObject).toHaveBeenCalledWith(part, undefined);
+    expect(formatObject).toHaveBeenCalledWith(part, undefined, undefined);
     expect(addPrefixAndSuffix).toHaveBeenCalledWith("stringified", "[", "]");
     expect(addLineBreakPrefix).toHaveBeenCalledWith("[stringified]", 1);
     expect(addSpaceAfter).toHaveBeenCalledWith("\n[stringified]", 2);

@@ -1,54 +1,85 @@
 import type { RawPayload } from "@/core/logger";
-import { BaseHandler } from "@/modules/handlers/base-handler";
+import type { AdditionOptions } from "@/core/logger/utils/merge/merge-inherited-options";
+import type { Platform } from "@/index";
+import { BaseHandler } from "@/index";
 
 class MockHandler extends BaseHandler {
-  public lastMessage: string | null = null;
+  platform: Platform = "node";
+  public lastNormalized?: unknown;
 
   async handle(rawPayload: RawPayload): Promise<void> {
-    this.lastMessage = await this.compose(rawPayload);
+    this.lastNormalized = await this.normalize(rawPayload);
+  }
+
+  public getBaseConfig(): unknown {
+    return this.getNormalizerConfig();
+  }
+
+  public async callNormalize(rawPayload: RawPayload) {
+    return this.normalize(rawPayload);
+  }
+
+  public async callToJson(
+    rawPayload: RawPayload,
+    options?: { space?: number },
+  ) {
+    return this.toJson(rawPayload, options);
+  }
+
+  public mergeTestOptions(additions?: AdditionOptions) {
+    return this.mergeInheritedOptions(additions);
   }
 }
 
+const mockPayload = {
+  level: "info",
+  message: "Test message",
+  context: { service: "unit-test" },
+  timestamp: Date.now(),
+  scope: [],
+  raw: {},
+} as unknown as RawPayload;
+
 describe("BaseHandler", () => {
-  const rawPayload: RawPayload = {
-    timestamp: Date.now(),
-    level: "info",
-    message: "Hello, world",
-    pid: process.pid,
-    hostname: "localhost",
-    scope: ["test"],
-    id: "abc",
-    context: {},
-    meta: {},
-    formatterConfig: {},
-    normalizerConfig: { node: { level: { style: "lower" } } },
-    raw: { timestamp: 0, id: "", level: "info", message: "", scope: ["test"] },
-  };
-
-  it("should compose a formatted message", async () => {
+  it("should normalize raw payload", async () => {
     const handler = new MockHandler();
-    const message = await handler["compose"](rawPayload);
-    expect(typeof message).toBe("string");
-    expect(message).toContain("Hello, world");
+    const result = await handler.callNormalize(mockPayload);
+    expect(result.level).toBe("INFO");
+    expect(result.message).toBe("Test message");
   });
 
-  it("should convert payload to JSON", async () => {
+  it("should convert raw payload to JSON", async () => {
     const handler = new MockHandler();
-    const json = await handler["toJson"](rawPayload, { space: 2 });
-    expect(json).toContain('"message": "Hello, world"');
+    const json = await handler.callToJson(mockPayload, { space: 2 });
+    expect(json).toContain('"message": "Test message"');
   });
 
-  it("should normalize payload", async () => {
-    const handler = new MockHandler();
-    const normalized = await handler["normalize"](rawPayload);
-    expect(normalized.message).toBe("Hello, world");
-    expect(normalized.level).toBe("info");
+  it("should normalize with custom normalizer config", async () => {
+    const handler = new MockHandler({
+      normalizerConfig: {
+        node: { level: { style: "title" } },
+      },
+    });
+
+    const result = await handler.callNormalize(mockPayload);
+    expect(result.level).toBe("Info");
   });
 
-  it("should format normalized payload", async () => {
+  it("should fallback to default options when undefined is passed to toJson", async () => {
     const handler = new MockHandler();
-    const normalized = await handler["normalize"](rawPayload);
-    const formatted = handler["format"](normalized);
-    expect(formatted.message).toBeDefined();
+    const result = await handler.callToJson(mockPayload, undefined);
+    expect(typeof result).toBe("string");
+    expect(result).toMatch(/"message":\s*"Test message"/);
+  });
+
+  it("should return base normalizer config from getter", () => {
+    const handler = new MockHandler({
+      normalizerConfig: { node: { level: { style: "upper" } } },
+    });
+
+    const config = handler.getBaseConfig() as {
+      node: { level: { style: string } };
+    };
+    expect(config?.node?.level?.style).toBe("upper");
   });
 });

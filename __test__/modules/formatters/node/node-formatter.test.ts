@@ -1,6 +1,6 @@
 import type { NodeFormattedPayload } from "@/modules/formatters";
 import type { NormalizedPayload } from "@/modules/normalizers";
-import { NodeFormatter } from "@/modules/formatters";
+import { NodeFormatter } from "@/index";
 
 describe("NodeFormatter", () => {
   it("should format all log parts correctly", () => {

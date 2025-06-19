@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { RawPayload } from "@/core/logger";
 import type { HandlerClass } from "@/modules/handlers/types";
-import { HandlerManager } from "@/modules/handlers/handler-manager";
+import { HandlerManager } from "@/index";
 import { DEFAULT_FLUSH_TIMEOUT } from "@/modules/handlers/handler-manager/constants";
 import { flushTasksWithTimeout } from "@/modules/handlers/handler-manager/utils/flush-tasks-with-timeout";
 import { initHandler } from "@/modules/handlers/handler-manager/utils/init-handler";

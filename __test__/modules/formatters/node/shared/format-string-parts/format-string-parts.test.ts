@@ -1,5 +1,5 @@
 import { formatStringParts } from "@/modules/formatters/node/shared/format-string-parts";
-import { addAnsiColor } from "@/modules/formatters/utils/add-ansi-color";
+import { addAnsiStyle } from "@/modules/formatters/utils/add-ansi-style";
 import { addLineBreakPrefix } from "@/modules/formatters/utils/add-line-break-prefix";
 import { addPrefixAndSuffix } from "@/modules/formatters/utils/add-prefix-and-suffix";
 import { addSpaceAfter } from "@/modules/formatters/utils/add-space-after";
@@ -8,7 +8,7 @@ import { tryCustomFormatter } from "@/modules/formatters/utils/try-custom-format
 
 jest.mock("@/modules/formatters/utils/try-custom-formatter");
 jest.mock("@/modules/formatters/utils/resolve-scope-string");
-jest.mock("@/modules/formatters/utils/add-ansi-color");
+jest.mock("@/modules/formatters/utils/add-ansi-style");
 jest.mock("@/modules/formatters/utils/add-line-break-prefix");
 jest.mock("@/modules/formatters/utils/add-prefix-and-suffix");
 jest.mock("@/modules/formatters/utils/add-space-after");
@@ -27,13 +27,13 @@ describe("formatStringParts", () => {
     });
 
     expect(result.message).toBe("");
-    expect(result.withAnsiColor).toBe("");
+    expect(result.withAnsiStyle).toBe("");
   });
 
   it("should return custom formatted value when customFormatter is provided", () => {
     (tryCustomFormatter as jest.Mock).mockReturnValue({
       message: "custom",
-      withAnsiColor: "\u001b[33mcustom\u001b[0m",
+      withAnsiStyle: "\u001b[33mcustom\u001b[0m",
     });
 
     const result = formatStringParts({
@@ -46,7 +46,7 @@ describe("formatStringParts", () => {
     });
 
     expect(result.message).toBe("custom");
-    expect(result.withAnsiColor).toBe("\u001b[33mcustom\u001b[0m");
+    expect(result.withAnsiStyle).toBe("\u001b[33mcustom\u001b[0m");
   });
 
   it("should format scope using resolveScopeString", () => {
@@ -54,7 +54,7 @@ describe("formatStringParts", () => {
     (addPrefixAndSuffix as jest.Mock).mockImplementation((p) => p);
     (addLineBreakPrefix as jest.Mock).mockImplementation((p) => p);
     (addSpaceAfter as jest.Mock).mockImplementation((p) => p);
-    (addAnsiColor as jest.Mock).mockImplementation((p) => p);
+    (addAnsiStyle as jest.Mock).mockImplementation((p) => p);
 
     const result = formatStringParts<"scope">({
       label: "scope",
@@ -71,7 +71,7 @@ describe("formatStringParts", () => {
     (addPrefixAndSuffix as jest.Mock).mockImplementation((p) => p);
     (addLineBreakPrefix as jest.Mock).mockImplementation((p) => p);
     (addSpaceAfter as jest.Mock).mockImplementation((p) => p);
-    (addAnsiColor as jest.Mock).mockImplementation((p) => p);
+    (addAnsiStyle as jest.Mock).mockImplementation((p) => p);
 
     const result = formatStringParts({
       label: "level",
@@ -87,7 +87,7 @@ describe("formatStringParts", () => {
     (addPrefixAndSuffix as jest.Mock).mockReturnValue("[part]");
     (addLineBreakPrefix as jest.Mock).mockImplementation((p) => `\n${p}`);
     (addSpaceAfter as jest.Mock).mockImplementation((p) => `${p} `);
-    (addAnsiColor as jest.Mock).mockReturnValue("\u001b[32m[part]\u001b[0m");
+    (addAnsiStyle as jest.Mock).mockReturnValue("\u001b[32m[part]\u001b[0m");
 
     const result = formatStringParts({
       label: "message",
@@ -96,13 +96,13 @@ describe("formatStringParts", () => {
       options: {
         prefix: "[",
         suffix: "]",
-        ansiColor: "green",
+        ansiStyle: "green",
         lineBreaks: 1,
         spaceAfter: 1,
       },
     });
 
     expect(result.message).toBe("\n[part] ");
-    expect(result.withAnsiColor).toBe("\n\u001b[32m[part]\u001b[0m ");
+    expect(result.withAnsiStyle).toBe("\n\u001b[32m[part]\u001b[0m ");
   });
 });

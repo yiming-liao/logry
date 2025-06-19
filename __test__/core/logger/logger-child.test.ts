@@ -1,6 +1,6 @@
-import { Logger } from "@/core/logger";
 import { mergeInheritedOptions } from "@/core/logger/utils/merge/merge-inherited-options";
 import { LoggerCore } from "@/core/logger-core";
+import { Logger } from "@/index";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
 
 jest.mock("@/shared/utils/assert-valid-level", () => ({

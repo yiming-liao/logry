@@ -1,5 +1,5 @@
 import type { RawPayload } from "@/core/logger/types";
-import { Normalizer } from "@/modules/normalizers";
+import { Normalizer } from "@/index";
 import {
   normalizeTimestamp,
   normalizeId,

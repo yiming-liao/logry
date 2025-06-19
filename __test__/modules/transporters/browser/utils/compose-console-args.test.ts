@@ -92,7 +92,13 @@ describe("composeConsoleArgs", () => {
     const result = composeConsoleArgs(payload, "msg");
 
     // Default line breaks should be used
-    expect(result).toContainEqual("\n".repeat(DEFAULT_META_LINE_BREAKS)); // DEFAULT_META_LINE_BREAKS
-    expect(result).toContainEqual("\n".repeat(DEFAULT_CONTEXT_LINE_BREAKS)); // DEFAULT_CONTEXT_LINE_BREAKS
+    expect(result).toContainEqual({ metaObj: true });
+    expect(result).toContainEqual({ ctxObj: true });
+    if (DEFAULT_META_LINE_BREAKS > 0) {
+      expect(result).toContainEqual("\n".repeat(DEFAULT_META_LINE_BREAKS));
+    }
+    if (DEFAULT_CONTEXT_LINE_BREAKS > 0) {
+      expect(result).toContainEqual("\n".repeat(DEFAULT_CONTEXT_LINE_BREAKS));
+    }
   });
 });

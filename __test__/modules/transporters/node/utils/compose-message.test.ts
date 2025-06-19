@@ -14,7 +14,7 @@ describe("composeMessage", () => {
     context: "",
     normalizerConfig: {},
     formatterConfig: {},
-    withAnsiColor: {
+    withAnsiStyle: {
       timestamp: "[2025-06-17 12:34:56]",
       id: "[logger-id]",
       level: "[INFO]",
@@ -44,8 +44,8 @@ describe("composeMessage", () => {
   it("should skip pid and hostname if raw flags are false", () => {
     const payload = {
       ...basePayload,
-      withAnsiColor: {
-        ...basePayload.withAnsiColor,
+      withAnsiStyle: {
+        ...basePayload.withAnsiStyle,
       },
       raw: {
         ...basePayload.raw,
@@ -62,8 +62,8 @@ describe("composeMessage", () => {
   it("should include meta and context if they are strings", () => {
     const payload: NodeFormattedPayload = {
       ...basePayload,
-      withAnsiColor: {
-        ...basePayload.withAnsiColor,
+      withAnsiStyle: {
+        ...basePayload.withAnsiStyle,
         meta: "[meta-info]",
         context: "[context-info]",
       },
@@ -74,7 +74,7 @@ describe("composeMessage", () => {
     );
   });
 
-  it("should fallback to default payload if withAnsiColor is false", () => {
+  it("should fallback to default payload if withAnsiStyle is false", () => {
     const rawPayload: NodeFormattedPayload = {
       ...basePayload,
       timestamp: "[TS]",

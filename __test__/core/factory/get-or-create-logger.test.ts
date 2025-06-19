@@ -1,8 +1,8 @@
 import type { LoggerPreset } from "@/presets/types";
 import { coreMap } from "@/core/factory";
-import { getOrCreateLogger } from "@/core/factory/get-or-create-logger";
 import { Logger } from "@/core/logger/logger";
 import { LoggerCore } from "@/core/logger-core";
+import { getOrCreateLogger } from "@/index";
 import { internalLog } from "@/internal";
 import { loggerPresets } from "@/presets";
 
