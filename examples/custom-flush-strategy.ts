@@ -15,7 +15,7 @@ const autoFlush = (ms: number): FlushStrategy => {
 // Create a logger
 const logger = logry({
   id: "my-logger",
-  handlerConfig: {
+  handlerManagerConfig: {
     onError: (error) => console.log(error),
     flushStrategy: autoFlush(2000),
   },

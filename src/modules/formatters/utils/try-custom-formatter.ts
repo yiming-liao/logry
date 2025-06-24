@@ -1,7 +1,7 @@
 import { internalError } from "@/internal";
 
 type TryCustomFormatterOptions<Input, Result> = {
-  label: string;
+  fieldKey: string;
   input: Input;
   customFormatter: ((input: Input) => Result) | undefined;
 };
@@ -9,13 +9,13 @@ type TryCustomFormatterOptions<Input, Result> = {
 /**
  * Safely executes a custom formatter if provided.
  *
- * @param label - Label for error reporting.
+ * @param fieldKey - Field key for error reporting.
  * @param input - Input to pass into the custom formatter.
  * @param customFormatter - Optional custom formatter function.
  * @returns Result of the custom formatter or undefined on failure.
  */
 export function tryCustomFormatter<Input, Result>({
-  label,
+  fieldKey,
   input,
   customFormatter,
 }: TryCustomFormatterOptions<Input, Result>): Result | undefined {
@@ -23,7 +23,7 @@ export function tryCustomFormatter<Input, Result>({
     try {
       return customFormatter(input);
     } catch (error) {
-      internalError({ error, message: `custom ${label} formatter failed.` });
+      internalError({ error, message: `custom ${fieldKey} formatter failed.` });
     }
   }
 }

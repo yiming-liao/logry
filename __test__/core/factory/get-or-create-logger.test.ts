@@ -1,10 +1,10 @@
 import type { LoggerPreset } from "@/presets/types";
 import { coreMap } from "@/core/factory";
-import { Logger } from "@/core/logger/logger";
+import { getOrCreateLogger } from "@/core/factory";
+import { Logger } from "@/core/logger";
 import { LoggerCore } from "@/core/logger-core";
-import { getOrCreateLogger } from "@/index";
 import { internalLog } from "@/internal";
-import { loggerPresets } from "@/presets";
+import { logryPresets } from "@/presets";
 
 jest.mock("@/internal/internal-log", () => ({
   internalLog: jest.fn(),
@@ -76,7 +76,7 @@ describe("getOrCreateLogger with preset", () => {
   });
 
   it("should merge preset configs when creating new LoggerCore", () => {
-    const presetName = Object.keys(loggerPresets)[0];
+    const presetName = Object.keys(logryPresets)[0];
     expect(presetName).toBeDefined();
 
     const logger = getOrCreateLogger({
@@ -90,15 +90,15 @@ describe("getOrCreateLogger with preset", () => {
     expect(logger).toBeInstanceOf(Logger);
 
     expect(core?.["formatterConfig"]).toMatchObject(
-      loggerPresets[presetName as LoggerPreset].formatterConfig,
+      logryPresets[presetName as LoggerPreset].formatterConfig,
     );
     expect(core?.["normalizerConfig"]).toMatchObject(
-      loggerPresets[presetName as LoggerPreset].normalizerConfig,
+      logryPresets[presetName as LoggerPreset].normalizerConfig,
     );
   });
 
   it("should warn and ignore configs when core already exists with preset passed", () => {
-    const presetName = Object.keys(loggerPresets)[0];
+    const presetName = Object.keys(logryPresets)[0];
 
     getOrCreateLogger({ id: "preset-test-2" });
 

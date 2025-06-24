@@ -1,4 +1,7 @@
-import type { InspectOptions, UtilModule } from "@/shared/utils/lazy-modules";
+import type { FormatFieldOptions } from "@/modules/formatters/types";
+import type { FormattedStructuredField } from "@/shared/types/log-fields";
+import type { UtilModule } from "@/shared/utils/node/lazy-modules";
+import { resolveFormatFieldOptions } from "@/modules/formatters/utils/resolve-format-field-options";
 import { writeToStreamAsync } from "@/modules/transporters/node/utils/write-to-stream-async";
 
 /**
@@ -9,19 +12,28 @@ import { writeToStreamAsync } from "@/modules/transporters/node/utils/write-to-s
  * @param options.lineBreaks - Number of blank lines before output (default 0).
  * @param options.depth - Depth level for object inspection (default 2).
  */
-export const printObject = async (
-  getUtil: () => Promise<UtilModule | undefined>,
-  obj?: unknown,
-  options?: {
-    prefix?: string;
-    suffix?: string;
-    lineBreaks?: number;
-    indent?: number;
-  } & InspectOptions,
-): Promise<void> => {
-  if (typeof obj !== "object" || obj === null) {
+export const printObject = async ({
+  getUtil,
+  stream,
+  fieldKey,
+  fieldValue,
+  options,
+}: {
+  getUtil: () => Promise<UtilModule | undefined>;
+  stream: NodeJS.WriteStream;
+  fieldKey: "meta" | "context";
+  fieldValue?: FormattedStructuredField;
+  options?: FormatFieldOptions<"node", "meta" | "context", "structured">;
+}): Promise<void> => {
+  if (typeof fieldValue !== "object" || fieldValue === null) {
     return;
   }
+
+  const resolvedOptions = resolveFormatFieldOptions({
+    platform: "node",
+    fieldKey,
+    options,
+  });
 
   const util = await getUtil();
 
@@ -31,18 +43,19 @@ export const printObject = async (
     lineBreaks = 0,
     indent = 0,
     ...inspectOptions
-  } = options || {};
+  } = resolvedOptions;
 
   if (lineBreaks > 0) {
-    await writeToStreamAsync("\n".repeat(lineBreaks));
+    await writeToStreamAsync("\n".repeat(lineBreaks), stream);
   }
 
+  // Use console.dir when util not loaded
   if (!util) {
-    console.dir(obj, inspectOptions);
+    console.dir(fieldValue, inspectOptions);
     return;
   }
 
-  const inspectedStr = util.inspect(obj, inspectOptions);
+  const inspectedStr = util.inspect(fieldValue, inspectOptions);
   const indentSpaces = " ".repeat(indent);
   const indentedStr =
     inspectedStr
@@ -51,10 +64,10 @@ export const printObject = async (
       .join("\n") + "\n";
 
   if (prefix) {
-    await writeToStreamAsync(prefix + "\n");
+    await writeToStreamAsync(prefix + "\n", stream);
   }
-  await writeToStreamAsync(indentedStr);
+  await writeToStreamAsync(indentedStr, stream);
   if (suffix) {
-    await writeToStreamAsync(suffix + "\n");
+    await writeToStreamAsync(suffix + "\n", stream);
   }
 };

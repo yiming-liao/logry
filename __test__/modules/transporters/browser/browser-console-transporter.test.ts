@@ -1,6 +1,7 @@
-import type { RawPayload } from "@/core/logger";
-import type { BrowserFormatter } from "@/modules/formatters";
-import { BrowserConsoleTransporter } from "@/modules/transporters";
+import type { Formatter } from "@/modules/formatters";
+import type { Normalizer } from "@/modules/normalizers";
+import type { RawPayload } from "@/shared/types/log-payload";
+import { BrowserConsoleTransporter } from "@/modules/transporters/browser/browser-console-transporter";
 import { printLog } from "@/modules/transporters/browser/utils/print-log";
 
 jest.mock("@/modules/transporters/browser/utils/print-log", () => ({
@@ -8,48 +9,65 @@ jest.mock("@/modules/transporters/browser/utils/print-log", () => ({
 }));
 
 describe("BrowserConsoleTransporter", () => {
+  const mockNormalizer: Normalizer = {
+    normalize: jest.fn(),
+  } as Normalizer;
+
+  const mockFormatter: Formatter = {
+    format: jest.fn(),
+  } as Formatter;
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  const mockNormalizer = {
-    normalize: jest.fn().mockImplementation(({ rawPayload }) => ({
-      ...rawPayload,
-      formatterConfig: {},
-    })),
-  };
-
-  const mockFormatter = {
-    format: jest.fn().mockImplementation((normalized) => ({
-      ...normalized,
-      formatterConfig: { browser: { disabled: false } },
-    })) as jest.MockedFunction<BrowserFormatter["format"]>,
-  };
-
-  const transporter = new BrowserConsoleTransporter({
-    normalizer: mockNormalizer,
-    formatter: mockFormatter as unknown as BrowserFormatter,
+  it("should have platform set to 'browser'", () => {
+    const transporter = new BrowserConsoleTransporter({
+      normalizer: mockNormalizer,
+      formatter: mockFormatter,
+    });
+    expect(transporter.platform).toBe("browser");
   });
 
-  const rawPayload = {
-    level: "info",
-    message: "Test message",
-    timestamp: 123456789,
-    scope: ["test"],
-    context: {},
-    meta: {},
-  } as unknown as RawPayload;
+  it("should normalize, format, and print the log", () => {
+    const rawPayload: RawPayload = { message: "test" } as RawPayload;
 
-  it("should use formatter and print formatted log", async () => {
-    await transporter.transport(rawPayload);
+    const normalizedPayload = { normalized: true };
+    (mockNormalizer.normalize as jest.Mock).mockReturnValue(normalizedPayload);
 
-    expect(mockNormalizer.normalize).toHaveBeenCalledWith({
-      platform: "browser",
-      rawPayload,
+    const formattedLog = {
+      message: "[formatted log]",
+      cssStyles: {
+        level: "color: red;",
+        timestamp: "color: gray;",
+      },
+      formatterConfig: {
+        browser: {
+          lineBreaksBefore: 0,
+          lineBreaksAfter: 0,
+          prefix: "",
+          suffix: "",
+          spaceAfterPrefix: false,
+        },
+      },
+    };
+    (mockFormatter.format as jest.Mock).mockReturnValue(formattedLog);
+
+    const transporter = new BrowserConsoleTransporter({
+      normalizer: mockNormalizer,
+      formatter: mockFormatter,
     });
 
-    expect(mockFormatter.format).toHaveBeenCalled();
+    transporter.transport(rawPayload);
 
-    expect(printLog).toHaveBeenCalled();
+    expect(mockNormalizer.normalize).toHaveBeenCalledWith(
+      "browser",
+      rawPayload,
+    );
+    expect(mockFormatter.format).toHaveBeenCalledWith(
+      "browser",
+      normalizedPayload,
+    );
+    expect(printLog).toHaveBeenCalledWith(formattedLog);
   });
 });

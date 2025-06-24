@@ -1,5 +1,5 @@
-import type { RawPayload } from "@/core/logger/types";
-import { Normalizer } from "@/index";
+import type { RawPayload } from "@/shared/types/log-payload";
+import { Normalizer } from "@/modules/normalizers";
 import {
   normalizeTimestamp,
   normalizeId,
@@ -8,15 +8,15 @@ import {
   normalizeMessage,
   normalizeMeta,
   normalizeContext,
-} from "@/modules/normalizers";
+} from "@/modules/normalizers/fields";
 
-jest.mock("@/modules/normalizers/parts");
-jest.mock("@/modules/normalizers/parts");
-jest.mock("@/modules/normalizers/parts");
-jest.mock("@/modules/normalizers/parts");
-jest.mock("@/modules/normalizers/parts");
-jest.mock("@/modules/normalizers/parts");
-jest.mock("@/modules/normalizers/parts");
+jest.mock("@/modules/normalizers/fields");
+jest.mock("@/modules/normalizers/fields");
+jest.mock("@/modules/normalizers/fields");
+jest.mock("@/modules/normalizers/fields");
+jest.mock("@/modules/normalizers/fields");
+jest.mock("@/modules/normalizers/fields");
+jest.mock("@/modules/normalizers/fields");
 
 describe("Normalizer", () => {
   let normalizer: Normalizer;
@@ -68,10 +68,12 @@ describe("Normalizer", () => {
         id: "",
         level: "silent",
         message: "",
+        hasMeta: true,
+        hasContext: true,
       },
     };
 
-    const result = normalizer.normalize({ platform: "node", rawPayload });
+    const result = normalizer.normalize("node", rawPayload);
 
     expect(result.timestamp).toBe("ts:123456");
     expect(result.id).toBe("id:abc");
@@ -112,10 +114,12 @@ describe("Normalizer", () => {
         id: "",
         level: "silent",
         message: "",
+        hasMeta: true,
+        hasContext: true,
       },
     };
 
-    const result = normalizer.normalize({ platform: "browser", rawPayload });
+    const result = normalizer.normalize("node", rawPayload);
 
     expect(result.timestamp).toBe("ts:111");
     expect(result.id).toBe("id:id123");
@@ -143,10 +147,12 @@ describe("Normalizer", () => {
         id: "",
         level: "silent",
         message: "",
+        hasMeta: true,
+        hasContext: true,
       },
     };
 
-    const result = normalizer.normalize({ platform: "node", rawPayload });
+    const result = normalizer.normalize("node", rawPayload);
 
     expect(result.timestamp).toBe("ts:1");
     expect(result.id).toBe("id:x");

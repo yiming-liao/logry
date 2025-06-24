@@ -1,8 +1,8 @@
-import type { NodeFormattedPayload } from "@/modules/formatters";
+import type { FormattedPayload } from "@/shared/types/log-payload";
 import { composeMessage } from "@/modules/transporters/node/utils/compose-message";
 
 describe("composeMessage", () => {
-  const basePayload: NodeFormattedPayload = {
+  const basePayload: FormattedPayload = {
     timestamp: "",
     id: "",
     level: "",
@@ -20,8 +20,8 @@ describe("composeMessage", () => {
       level: "[INFO]",
       scope: "[main]",
       message: "Hello world",
-      meta: {},
-      context: {},
+      meta: "",
+      context: "",
       pid: "[1234@host]",
       hostname: "[host]",
     },
@@ -31,7 +31,10 @@ describe("composeMessage", () => {
       level: "debug",
       scope: [],
       message: "",
+      hasMeta: true,
+      hasContext: true,
     },
+    cssStyles: {},
   };
 
   it("should compose message with all fields and ANSI color", () => {
@@ -60,7 +63,7 @@ describe("composeMessage", () => {
   });
 
   it("should include meta and context if they are strings", () => {
-    const payload: NodeFormattedPayload = {
+    const payload: FormattedPayload = {
       ...basePayload,
       withAnsiStyle: {
         ...basePayload.withAnsiStyle,
@@ -75,7 +78,7 @@ describe("composeMessage", () => {
   });
 
   it("should fallback to default payload if withAnsiStyle is false", () => {
-    const rawPayload: NodeFormattedPayload = {
+    const rawPayload: FormattedPayload = {
       ...basePayload,
       timestamp: "[TS]",
       id: "[ID]",

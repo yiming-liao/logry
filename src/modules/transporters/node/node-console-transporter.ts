@@ -1,16 +1,16 @@
-import type { RawPayload } from "@/core/logger/types";
-import type { NodeFormatter } from "@/modules/formatters";
+import type { Formatter } from "@/modules/formatters";
 import type { Normalizer } from "@/modules/normalizers";
 import type { Transporter } from "@/modules/transporters/types";
 import type { Platform } from "@/shared/types";
+import type { RawPayload } from "@/shared/types/log-payload";
 import { globalLogQueue } from "@/modules/transporters/node/utils/global-log-queue";
 import { printLog } from "@/modules/transporters/node/utils/print-log";
-import { preparePayload } from "@/shared/utils/prepare-payload";
+import { appendProcessFields } from "@/shared/utils/node/append-process-fields";
+import { getOs } from "@/shared/utils/node/lazy-modules";
 
 /**
- * A Node.js transporter that outputs logs to the console (stdout).
+ * A Node.js-specific transporter that outputs logs to the console (stdout).
  *
- * Supports both formatted and raw (unformatted) JSON output based on formatter settings.
  * Uses a write queue to guarantee that log entries are written sequentially,
  * preventing interleaved or out-of-order writes during high-frequency logging.
  */
@@ -21,7 +21,7 @@ export class NodeConsoleTransporter implements Transporter {
   constructor(
     private readonly deps: {
       normalizer: Normalizer;
-      formatter: NodeFormatter;
+      formatter: Formatter;
     },
   ) {}
 
@@ -29,21 +29,18 @@ export class NodeConsoleTransporter implements Transporter {
   private queueWrite = globalLogQueue.queueWrite.bind(globalLogQueue);
 
   /**
-   * Processes and forwards log payloads to stdout in order.
-   *
-   * Uses raw or formatted output based on configuration.
-   * Ensures all writes are chained to preserve sequential consistency.
+   * Transports the given formatted log payloads to stdout in order.
    */
   async transport(rawPayload: RawPayload): Promise<void> {
-    const { payload } = await preparePayload({
-      rawPayload,
-      normalizer: this.deps.normalizer,
-      platform: this.platform,
-    });
+    const appendedPayload = await appendProcessFields(getOs, rawPayload);
 
-    const formatted = this.deps.formatter.format(payload);
+    const normalized = this.deps.normalizer.normalize(
+      this.platform,
+      appendedPayload,
+    );
 
-    // Otherwise, write fully formatted log
+    const formatted = this.deps.formatter.format(this.platform, normalized);
+
     return printLog(formatted, this.queueWrite.bind(this));
   }
 }

@@ -1,7 +1,7 @@
-import type { RawPayload } from "@/core/logger/types";
-import { appendProcessParts } from "@/shared/utils/append-process-parts";
+import type { RawPayload } from "@/shared/types/log-payload";
+import { appendProcessFields } from "@/shared/utils/node/append-process-fields";
 
-describe("appendProcessParts", () => {
+describe("appendProcessFields", () => {
   it("should append pid and hostname from os module", async () => {
     const fakeOs = { hostname: () => "mock-host" };
     const getOsFn = async () => fakeOs as typeof import("os");
@@ -13,7 +13,7 @@ describe("appendProcessParts", () => {
       raw: {},
     } as unknown as RawPayload;
 
-    const result = await appendProcessParts(getOsFn, input);
+    const result = await appendProcessFields(getOsFn, input);
 
     expect(result.pid).toBe(process.pid);
     expect(result.hostname).toBe("mock-host");
@@ -31,7 +31,7 @@ describe("appendProcessParts", () => {
       raw: {},
     } as unknown as RawPayload;
 
-    const result = await appendProcessParts(getOsFn, input);
+    const result = await appendProcessFields(getOsFn, input);
 
     expect(result.hostname).toBe("unknown-host");
     expect(result.raw.hostname).toBe("unknown-host");
@@ -54,7 +54,7 @@ describe("appendProcessParts", () => {
       raw: {},
     } as unknown as RawPayload;
 
-    const result = await appendProcessParts(getOsFn, input);
+    const result = await appendProcessFields(getOsFn, input);
 
     expect(result.pid).toBe(0);
     expect(result.raw.pid).toBe(0);

@@ -1,6 +1,9 @@
-import type { RawPayload } from "@/core/logger/types";
 import type { Transporter } from "@/modules/transporters/types";
-import { isBrowser, isNode } from "@/shared/utils/platform";
+import type { Platform } from "@/shared/types";
+import type { RawPayload } from "@/shared/types/log-payload";
+import { isBrowser } from "@/shared/utils/is-browser";
+import { isEdge } from "@/shared/utils/is-edge";
+import { isNode } from "@/shared/utils/is-node";
 
 type TransportPayloadOptions = {
   transporters: Transporter[];
@@ -18,15 +21,23 @@ export const transportPayload = ({
   transporters,
   rawPayload,
 }: TransportPayloadOptions): void => {
-  const platform = isNode() ? "node" : isBrowser() ? "browser" : null;
+  let platform: Platform | null = null;
+
+  if (isNode()) {
+    platform = "node";
+  } else if (isBrowser()) {
+    platform = "browser";
+  } else if (isEdge()) {
+    platform = "edge";
+  }
 
   if (!platform) {
     return;
   }
 
-  transporters.forEach((t) => {
-    if (t.platform === platform) {
-      void t.transport(rawPayload);
+  for (const transporter of transporters) {
+    if (transporter.platform === platform) {
+      void transporter.transport(rawPayload);
     }
-  });
+  }
 };

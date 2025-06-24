@@ -1,13 +1,12 @@
-import type { RawPayload } from "@/core/logger/types";
-import type { BrowserFormatter } from "@/modules/formatters";
+import type { Formatter } from "@/modules/formatters";
 import type { Normalizer } from "@/modules/normalizers";
 import type { Transporter } from "@/modules/transporters/types";
 import type { Platform } from "@/shared/types";
+import type { RawPayload } from "@/shared/types/log-payload";
 import { printLog } from "@/modules/transporters/browser/utils/print-log";
 
 /**
  * A Browser-specific transporter that outputs log payloads to browser console.
- * Supports formatted and unformatted output.
  */
 export class BrowserConsoleTransporter implements Transporter {
   /** Indicates the current platform. */
@@ -16,7 +15,7 @@ export class BrowserConsoleTransporter implements Transporter {
   constructor(
     private readonly deps: {
       normalizer: Normalizer;
-      formatter: BrowserFormatter;
+      formatter: Formatter;
     },
   ) {}
 
@@ -24,12 +23,12 @@ export class BrowserConsoleTransporter implements Transporter {
    * Transports the given formatted payload to browser console.
    */
   transport(rawPayload: RawPayload): void {
-    const payload = this.deps.normalizer.normalize({
-      platform: this.platform,
+    const normalized = this.deps.normalizer.normalize(
+      this.platform,
       rawPayload,
-    });
+    );
 
-    const formatted = this.deps.formatter.format(payload);
+    const formatted = this.deps.formatter.format(this.platform, normalized);
 
     return printLog(formatted);
   }

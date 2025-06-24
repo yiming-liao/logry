@@ -1,18 +1,8 @@
-import type { NodeFormattedPayload } from "@/modules/formatters";
-import {
-  DEFAULT_CONTEXT_COLORS,
-  DEFAULT_CONTEXT_DEPTH,
-  DEFAULT_CONTEXT_INDENTS,
-  DEFAULT_CONTEXT_LINE_BREAKS,
-  DEFAULT_META_COLORS,
-  DEFAULT_META_DEPTH,
-  DEFAULT_META_INDENTS,
-  DEFAULT_META_LINE_BREAKS,
-} from "@/modules/formatters/node/constants";
+import type { FormattedPayload } from "@/shared/types/log-payload";
 import { composeMessage } from "@/modules/transporters/node/utils/compose-message";
 import { printObject } from "@/modules/transporters/node/utils/print-object";
 import { writeToStreamAsync } from "@/modules/transporters/node/utils/write-to-stream-async";
-import { getUtil } from "@/shared/utils/lazy-modules";
+import { getUtil } from "@/shared/utils/node/lazy-modules";
 
 /**
  * Print a formatted log message to the stream with optional meta and context output.
@@ -22,54 +12,49 @@ import { getUtil } from "@/shared/utils/lazy-modules";
  * @param queueWrite - Async queue function to serialize write operations.
  */
 export const printLog = async (
-  payload: NodeFormattedPayload,
+  payload: FormattedPayload,
   queueWrite: (fn: () => Promise<void>) => Promise<void>,
 ): Promise<void> => {
-  const { meta, context, formatterConfig } = payload;
-  const config = formatterConfig.node;
+  const config = payload.formatterConfig.node;
   const consoleMessage = composeMessage(payload, true);
 
-  // Ensure output order with chained write
+  // Decide output stream based on log level
+  let stream: NodeJS.WriteStream = process.stdout;
+  if (["fatal", "error", "warn"].includes(payload.raw.level)) {
+    stream = process.stderr;
+  }
+
+  // Queue log output to preserve order
   return queueWrite(async () => {
     // Line break before
     if (config?.lineBreaksBefore && config?.lineBreaksBefore > 0) {
-      await writeToStreamAsync("\n".repeat(config?.lineBreaksBefore));
+      await writeToStreamAsync("\n".repeat(config?.lineBreaksBefore), stream);
     }
 
     // Write main log message to stream
-    await writeToStreamAsync(consoleMessage);
+    await writeToStreamAsync(consoleMessage, stream);
 
     // Print meta object with configured line breaks and depth
-    await printObject(getUtil, meta, {
-      prefix: config?.meta?.prefix,
-      suffix: config?.meta?.suffix,
-      lineBreaks: config?.meta?.lineBreaks ?? DEFAULT_META_LINE_BREAKS,
-      indent: config?.meta?.indent ?? DEFAULT_META_INDENTS,
-      depth:
-        config?.meta?.depth !== undefined
-          ? config?.meta?.depth
-          : DEFAULT_META_DEPTH,
-      colors: config?.meta?.colors ?? DEFAULT_META_COLORS,
-      ...config?.meta,
+    await printObject({
+      getUtil,
+      stream,
+      fieldKey: "meta",
+      fieldValue: payload.meta,
+      options: config?.meta,
     });
 
     // Print context object with configured line breaks and depth
-    await printObject(getUtil, context, {
-      prefix: config?.context?.prefix,
-      suffix: config?.context?.suffix,
-      lineBreaks: config?.context?.lineBreaks ?? DEFAULT_CONTEXT_LINE_BREAKS,
-      indent: config?.context?.indent ?? DEFAULT_CONTEXT_INDENTS,
-      depth:
-        config?.context?.depth !== undefined
-          ? config?.context?.depth
-          : DEFAULT_CONTEXT_DEPTH,
-      colors: config?.context?.colors ?? DEFAULT_CONTEXT_COLORS,
-      ...config?.context,
+    await printObject({
+      getUtil,
+      stream,
+      fieldKey: "context",
+      fieldValue: payload.context,
+      options: config?.context,
     });
 
     // Line break after
     if (config?.lineBreaksAfter && config?.lineBreaksAfter > 0) {
-      await writeToStreamAsync("\n".repeat(config?.lineBreaksAfter));
+      await writeToStreamAsync("\n".repeat(config?.lineBreaksAfter), stream);
     }
   });
 };

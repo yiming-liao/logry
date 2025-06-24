@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { isNode } from "@/shared/utils/platform";
+import { isNode } from "@/shared/utils/is-node";
 
 /**
  * Detects if the current runtime environment is in development mode.

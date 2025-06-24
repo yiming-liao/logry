@@ -1,13 +1,14 @@
-import type { RawContext, RawPayload } from "@/core/logger/types";
-import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
-import type { NormalizerConfig } from "@/modules/normalizers";
+import type { FormatterConfig } from "@/modules/formatters/types";
+import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
+import type { RawContext } from "@/shared/types/log-fields";
+import type { RawPayload } from "@/shared/types/log-payload";
 import { internalError } from "@/internal";
 
 export type BuildPayloadOptions = {
   timestamp?: number;
   level: Level;
-  id: string;
+  id?: string;
   message: string;
   meta?: unknown;
   scope: string[];
@@ -23,7 +24,7 @@ export type BuildPayloadOptions = {
 export const buildPayload = ({
   timestamp = Date.now(),
   level,
-  id,
+  id = "",
   message,
   meta,
   scope,
@@ -48,6 +49,14 @@ export const buildPayload = ({
     context,
     normalizerConfig,
     formatterConfig,
-    raw: { timestamp, level, id, message, scope }, // Snapshot for unformatted/raw output
+    raw: {
+      timestamp,
+      level,
+      id,
+      message,
+      scope,
+      hasMeta: meta !== undefined,
+      hasContext: context !== undefined,
+    },
   };
 };

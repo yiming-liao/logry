@@ -1,4 +1,4 @@
-import type { BrowserFormattedPayload } from "@/modules/formatters";
+import type { FormattedPayload } from "@/shared/types/log-payload";
 import { composeConsoleArgs } from "@/modules/transporters/browser/utils/compose-console-args";
 import { composeMessage } from "@/modules/transporters/browser/utils/compose-message";
 import { printLog } from "@/modules/transporters/browser/utils/print-log";
@@ -14,7 +14,7 @@ describe("printLog", () => {
   it("should compose message and console args then log with line breaks", () => {
     const fakePayload = {
       formatterConfig: { browser: { lineBreaksAfter: 2 } },
-    } as BrowserFormattedPayload;
+    } as FormattedPayload;
     const fakeMessage = "formatted message";
     const fakeArgs = ["arg1", "arg2"];
 
@@ -35,7 +35,7 @@ describe("printLog", () => {
   it("should log without line breaks if lineBreaksAfter is 0 or undefined", () => {
     const fakePayload = {
       formatterConfig: { browser: { lineBreaksAfter: 0 } },
-    } as BrowserFormattedPayload;
+    } as FormattedPayload;
     const fakeMessage = "msg";
     const fakeArgs = ["arg"];
 
@@ -52,7 +52,7 @@ describe("printLog", () => {
   });
 
   it("should handle missing formatterConfig gracefully", () => {
-    const fakePayload = {} as BrowserFormattedPayload;
+    const fakePayload = {} as FormattedPayload;
     const fakeMessage = "msg";
     const fakeArgs = ["arg"];
 

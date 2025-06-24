@@ -1,5 +1,6 @@
-import type { StringifyFormat } from "@/modules/formatters";
 import { internalLog } from "@/internal";
+
+export type StringifyFormat = "raw" | "json" | "compact" | "pretty";
 
 /**
  * Converts an object into different string formats.
@@ -30,8 +31,9 @@ export const formatObject = (
       }
 
       case "compact":
-        if (typeof input !== "object" || input === null) return "";
-
+        if (typeof input !== "object" || input === null) {
+          return "";
+        }
         return Object.entries(input)
           .map(([key, val]) => {
             let value;

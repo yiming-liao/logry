@@ -1,4 +1,4 @@
-import { lazyImport } from "@/shared/utils/lazy-import";
+import { lazyImport } from "@/shared/utils/node/lazy-import";
 
 describe("lazyImport", () => {
   it("should only call importer once and cache the result", async () => {

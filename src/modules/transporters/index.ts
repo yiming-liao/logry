@@ -1,4 +1,5 @@
-export { NodeConsoleTransporter } from "./node/node-console-transporter";
-export { BrowserConsoleTransporter } from "./browser/browser-console-transporter";
+export { NodeConsoleTransporter } from "./node";
+export { BrowserConsoleTransporter } from "./browser";
+export { EdgeConsoleTransporter } from "./edge";
 
 export type { Transporter } from "./types";

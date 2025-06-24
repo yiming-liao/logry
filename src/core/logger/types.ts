@@ -1,48 +1,42 @@
-import type { FormattedPayload } from "@/modules/formatters";
-import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
-import type {
-  NormalizedPayload,
-  NormalizerConfig,
-} from "@/modules/normalizers";
+import type { FormatterConfig } from "@/modules/formatters/types";
+import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
+import type {
+  RawContext,
+  RawMessage,
+  RawMeta,
+  RawScope,
+} from "@/shared/types/log-fields";
 
-// Raw log data types
-export type RawTimestamp = number;
-export type RawId = string;
-export type RawLevel = Level;
-export type RawScope = string[];
-export type RawMessage = string;
-export type RawMeta = unknown;
-export type RawContext = Record<string, unknown> | undefined;
-/** Only used in Node.js environment */
-export type RawPid = number;
-export type RawHostname = string;
-/** Only used in Browser environment */
-// export type RawUserAgent = string;
-
-// Core log data combining user input and internal context, passed to the Normalizer before processing.
-export type RawLogData = {
-  timestamp: RawTimestamp;
-  id: RawId;
-  level: RawLevel;
-  scope: RawScope;
-  message: RawMessage;
-  meta?: RawMeta;
+/** Options for `child` method in Logger */
+export type ChildOptions = {
+  level?: Level;
+  scope?: RawScope | string; // String or array of strings
   context?: RawContext;
+  normalizerConfig?: NormalizerConfig;
+  formatterConfig?: FormatterConfig;
 };
 
-export type RawCoreLogData = Omit<RawLogData, "meta" | "context"> & {
-  pid?: RawPid;
-  hostname?: RawHostname;
+/** Options for `log` method in Logger */
+export type LogOptions = {
+  id?: string;
+  level: Level;
+  message: string;
+  meta?: RawMeta;
+  options?: LogRuntimeOptions;
 };
 
-// Input passed to the Normalizer — includes both log data and config
-export type RawPayload = RawLogData & {
-  pid?: RawPid;
-  hostname?: RawHostname;
-} & {
-  normalizerConfig: NormalizerConfig;
-  formatterConfig: FormatterConfig;
-} & { raw: RawCoreLogData };
+/** Log method bound to a level */
+export type BoundLogMethod = (
+  message: RawMessage,
+  meta?: RawMeta,
+  options?: LogRuntimeOptions,
+) => void;
 
-export type ReadyPayload = NormalizedPayload | FormattedPayload;
+/** Extra data passed at log call time. */
+export type LogRuntimeOptions = {
+  scope?: RawScope | string; // String or array of strings
+  context?: RawContext;
+  normalizerConfig?: NormalizerConfig;
+  formatterConfig?: FormatterConfig;
+};

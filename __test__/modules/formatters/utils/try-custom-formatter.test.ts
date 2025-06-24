@@ -8,7 +8,7 @@ jest.mock("@/internal", () => ({
 describe("tryCustomFormatter", () => {
   it("should return formatted result when formatter succeeds", () => {
     const result = tryCustomFormatter({
-      label: "test",
+      fieldKey: "test",
       input: 2,
       customFormatter: (n) => n * 2,
     });
@@ -18,7 +18,7 @@ describe("tryCustomFormatter", () => {
 
   it("should return undefined if no formatter is provided", () => {
     const result = tryCustomFormatter({
-      label: "test",
+      fieldKey: "test",
       input: 2,
       customFormatter: undefined,
     });
@@ -32,7 +32,7 @@ describe("tryCustomFormatter", () => {
     };
 
     const result = tryCustomFormatter({
-      label: "test",
+      fieldKey: "test",
       input: "anything",
       customFormatter: formatter,
     });

@@ -17,7 +17,7 @@ export const writeToStreamAsync = async (
     if (!ok) {
       stream.once("drain", resolve);
     } else {
-      resolve();
+      process.nextTick(resolve);
     }
   });
 };

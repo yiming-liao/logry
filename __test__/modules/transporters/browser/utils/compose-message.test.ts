@@ -1,4 +1,4 @@
-import type { BrowserFormattedPayload } from "@/modules/formatters";
+import type { FormattedPayload } from "@/shared/types/log-payload";
 import { composeMessage } from "@/modules/transporters/browser/utils/compose-message";
 
 describe("composeMessage", () => {
@@ -16,7 +16,7 @@ describe("composeMessage", () => {
           lineBreaksBefore: 0,
         },
       },
-    } as BrowserFormattedPayload;
+    } as FormattedPayload;
 
     expect(composeMessage(payload)).toBe("");
   });
@@ -35,7 +35,7 @@ describe("composeMessage", () => {
           lineBreaksBefore: 2,
         },
       },
-    } as BrowserFormattedPayload;
+    } as FormattedPayload;
 
     expect(composeMessage(payload)).toBe("\n\n%c2025-06-19 10:00:00%cHello");
   });
@@ -54,7 +54,7 @@ describe("composeMessage", () => {
           lineBreaksBefore: 1,
         },
       },
-    } as BrowserFormattedPayload;
+    } as FormattedPayload;
 
     const result = composeMessage(payload);
     expect(result).toBe(
@@ -74,7 +74,7 @@ describe("composeMessage", () => {
       formatterConfig: {
         browser: { lineBreaksBefore: 0 },
       },
-    } as unknown as BrowserFormattedPayload;
+    } as unknown as FormattedPayload;
 
     expect(composeMessage(payload)).toBe("%c2025-06-19 10:00:00%cTest");
   });
@@ -91,7 +91,7 @@ describe("composeMessage", () => {
       formatterConfig: {
         browser: { lineBreaksBefore: 0 },
       },
-    } as BrowserFormattedPayload;
+    } as FormattedPayload;
 
     expect(composeMessage(payload)).toBe("");
   });

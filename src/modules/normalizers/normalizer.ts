@@ -1,7 +1,6 @@
-import type { RawPayload } from "@/core/logger/types";
-import type { BaseNormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
-import type { NormalizedPayload } from "@/modules/normalizers/types";
+import type { NodeNormalizerConfig } from "@/modules/normalizers/types";
 import type { Platform } from "@/shared/types";
+import type { NormalizedPayload, RawPayload } from "@/shared/types/log-payload";
 import {
   normalizeTimestamp,
   normalizeId,
@@ -10,21 +9,14 @@ import {
   normalizeMessage,
   normalizeMeta,
   normalizeContext,
-} from "@/modules/normalizers/parts";
-import { normalizeHostname } from "@/modules/normalizers/parts/normalize-hostname";
-import { normalizePid } from "@/modules/normalizers/parts/normalize-pid";
+} from "@/modules/normalizers/fields";
+import { normalizeHostname } from "@/modules/normalizers/fields/normalize-hostname";
+import { normalizePid } from "@/modules/normalizers/fields/normalize-pid";
 
 export class Normalizer {
-  /**
-   * Normalize raw log payload according to platform config.
-   * Returns a standardized log object for further processing.
-   * @param platform Platform type, e.g. "node" or "browser"
-   * @param payload Raw log payload with all possible fields
-   * @returns Normalized log payload
-   */
-  normalize({
-    platform = "node",
-    rawPayload: {
+  normalize<P extends Platform>(
+    platform: P,
+    {
       timestamp,
       id,
       level,
@@ -37,43 +29,39 @@ export class Normalizer {
       normalizerConfig,
       formatterConfig,
       raw,
-    },
-  }: {
-    platform?: Platform;
-    rawPayload: RawPayload;
-  }): NormalizedPayload {
-    let config: BaseNormalizerConfig = {};
-
-    if (platform === "node") {
-      config = normalizerConfig.node || {};
-    } else if (platform === "browser") {
-      config = normalizerConfig.browser || {};
-    }
-
+    }: RawPayload,
+  ): NormalizedPayload {
     const {
       timestamp: timestampOptions,
       id: idOptions,
       level: levelOptions,
-      pid: pidOptions,
-      hostname: hostnameOptions,
       scope: scopeOptions,
       message: messageOptions,
       meta: metaOptions,
       context: contextOptions,
-    } = config;
+    } = normalizerConfig[platform] || {};
+
+    const nodeConfig = normalizerConfig[platform] as
+      | NodeNormalizerConfig
+      | undefined;
+
+    // Node-specific field options
+    const pidOptions = platform === "node" ? nodeConfig?.pid : undefined;
+    const hostnameOptions =
+      platform === "node" ? nodeConfig?.hostname : undefined;
 
     return {
-      timestamp: normalizeTimestamp(timestamp, timestampOptions),
-      id: normalizeId(id, idOptions),
-      level: normalizeLevel(level, levelOptions),
-      ...(pid ? { pid: normalizePid(pid, pidOptions) } : {}),
+      timestamp: normalizeTimestamp(timestamp, raw, timestampOptions),
+      id: normalizeId(id, raw, idOptions),
+      level: normalizeLevel(level, raw, levelOptions),
+      scope: normalizeScope(scope, raw, scopeOptions),
+      message: normalizeMessage(message, raw, messageOptions),
+      meta: normalizeMeta(meta, raw, metaOptions),
+      context: normalizeContext(context, raw, contextOptions),
+      ...(pid ? { pid: normalizePid(pid, raw, pidOptions) } : {}),
       ...(hostname
-        ? { hostname: normalizeHostname(hostname, hostnameOptions) }
+        ? { hostname: normalizeHostname(hostname, raw, hostnameOptions) }
         : {}),
-      scope: normalizeScope(scope, scopeOptions),
-      message: normalizeMessage(message, messageOptions),
-      meta: normalizeMeta(meta, metaOptions),
-      context: normalizeContext(context, contextOptions),
       normalizerConfig,
       formatterConfig,
       raw,

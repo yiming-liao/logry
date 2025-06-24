@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { FormatFieldOptions } from "@/modules/formatters/types";
+import type { FormattedStructuredField } from "@/shared/types/log-fields";
+import type { UtilModule } from "@/shared/utils/node/lazy-modules";
+import { resolveFormatFieldOptions } from "@/modules/formatters/utils/resolve-format-field-options";
 import { printObject } from "@/modules/transporters/node/utils/print-object";
 import { writeToStreamAsync } from "@/modules/transporters/node/utils/write-to-stream-async";
 
@@ -5,71 +10,95 @@ jest.mock("@/modules/transporters/node/utils/write-to-stream-async", () => ({
   writeToStreamAsync: jest.fn(),
 }));
 
+jest.mock("@/modules/formatters/utils/resolve-format-field-options", () => ({
+  resolveFormatFieldOptions: jest.fn(),
+}));
+
 describe("printObject", () => {
+  const stream = {
+    write: jest.fn().mockReturnValue(true),
+    once: jest.fn(),
+  } as any;
+
+  const fakeInspect = jest.fn((obj: any) => JSON.stringify(obj, null, 2));
+  const getUtil = async (): Promise<UtilModule> => ({ inspect: fakeInspect });
+
+  const baseOptions: FormatFieldOptions<"node", "meta", "structured"> = {
+    prefix: "--- START ---",
+    suffix: "--- END ---",
+    lineBreaks: 1,
+    indent: 2,
+    depth: 2,
+    colors: false,
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(console, "dir").mockImplementation(() => {});
+    (resolveFormatFieldOptions as jest.Mock).mockReturnValue(baseOptions);
   });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
+  it("should print formatted object with prefix and suffix", async () => {
+    const fieldValue: FormattedStructuredField = { foo: "bar" };
+
+    await printObject({
+      getUtil,
+      stream,
+      fieldKey: "meta",
+      fieldValue,
+      options: baseOptions,
+    });
+
+    expect(resolveFormatFieldOptions).toHaveBeenCalled();
+    expect(fakeInspect).toHaveBeenCalledWith(
+      fieldValue,
+      expect.objectContaining({ depth: 2, colors: false }),
+    );
+
+    expect(writeToStreamAsync).toHaveBeenCalledWith("\n", stream);
+    expect(writeToStreamAsync).toHaveBeenCalledWith("--- START ---\n", stream);
+    expect(writeToStreamAsync).toHaveBeenCalledWith(
+      expect.stringContaining('"foo": "bar"'),
+      stream,
+    );
+    expect(writeToStreamAsync).toHaveBeenCalledWith("--- END ---\n", stream);
   });
 
-  it("should return immediately if obj is not an object or null", async () => {
-    const getUtil = jest.fn();
+  it("should not print if fieldValue is null", async () => {
+    await printObject({
+      getUtil,
+      stream,
+      fieldKey: "meta",
+      fieldValue: null as any,
+      options: baseOptions,
+    });
 
-    await printObject(getUtil, null);
-    await printObject(getUtil, 123);
-    await printObject(getUtil, "string");
-    await printObject(getUtil, false);
-
-    expect(getUtil).not.toHaveBeenCalled();
     expect(writeToStreamAsync).not.toHaveBeenCalled();
   });
 
-  it("should write line breaks if lineBreaks > 0", async () => {
-    const getUtil = jest.fn().mockResolvedValue(undefined);
+  it("should not print if fieldValue is a string", async () => {
+    await printObject({
+      getUtil,
+      stream,
+      fieldKey: "meta",
+      fieldValue: "hello" as any,
+      options: baseOptions,
+    });
 
-    const obj = { a: 1 };
-
-    await printObject(getUtil, obj, { lineBreaks: 3 });
-
-    expect(writeToStreamAsync).toHaveBeenCalledWith("\n\n\n");
+    expect(writeToStreamAsync).not.toHaveBeenCalled();
   });
 
-  it("should call console.dir if util is undefined", async () => {
-    const getUtil = jest.fn().mockResolvedValue(undefined);
+  it("should fallback to console.dir if util is undefined", async () => {
+    const spy = jest.spyOn(console, "dir").mockImplementation(() => {});
 
-    const obj = { a: 1 };
+    await printObject({
+      getUtil: async () => undefined,
+      stream,
+      fieldKey: "meta",
+      fieldValue: { foo: "bar" },
+      options: baseOptions,
+    });
 
-    await printObject(getUtil, obj);
-
-    expect(console.dir).toHaveBeenCalledWith(obj, {});
-    expect(writeToStreamAsync).not.toHaveBeenCalledWith(
-      expect.stringContaining("a: 1"),
-    );
-  });
-
-  it("should write inspected string with indent when util is available", async () => {
-    const inspectedStr = "line1\nline2";
-
-    const utilMock = {
-      inspect: jest.fn().mockReturnValue(inspectedStr),
-    };
-
-    const getUtil = jest.fn().mockResolvedValue(utilMock);
-
-    const obj = { a: 1 };
-
-    await printObject(getUtil, obj, { depth: 4, indent: 2 });
-
-    const expectedIndented =
-      inspectedStr
-        .split("\n")
-        .map((line) => "  " + line)
-        .join("\n") + "\n";
-
-    expect(utilMock.inspect).toHaveBeenCalledWith(obj, { depth: 4 });
-    expect(writeToStreamAsync).toHaveBeenCalledWith(expectedIndented);
+    expect(spy).toHaveBeenCalledWith({ foo: "bar" }, expect.anything());
+    spy.mockRestore();
   });
 });

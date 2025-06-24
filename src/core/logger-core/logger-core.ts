@@ -1,14 +1,14 @@
+import type { HandlerManagerConfig } from "@/core/handler-manager";
 import type {
   LevelChangeCallback,
   LoggerCoreOptions,
 } from "@/core/logger-core/logger-core-types";
-import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
-import type { HandlerConfig } from "@/modules/handlers";
-import type { NormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
+import type { FormatterConfig } from "@/modules/formatters/types";
+import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
+import { HandlerManager } from "@/core/handler-manager";
 import { internalLog } from "@/internal";
-import { HandlerManager } from "@/modules/handlers";
-import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
+import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
 
 /**
@@ -26,44 +26,30 @@ export class LoggerCore {
   private readonly initialLevel: Level;
   /** Optional configuration for formatting log output */
   private readonly formatterConfig?: FormatterConfig;
-  /** Optional configuration for normalizing log payloads */
+  /** Optional configuration for normalizing log output */
   private readonly normalizerConfig?: NormalizerConfig;
   /** Optional configuration for log handlers */
-  private readonly handlerConfig?: HandlerConfig;
+  private readonly handlerManagerConfig?: HandlerManagerConfig;
   /** Manages all log handlers */
   public readonly handlerManager: HandlerManager;
   // A set to keep all registered callbacks which listen to level changes.
   private levelChangeCallbacks: Set<LevelChangeCallback> = new Set();
 
-  /**
-   * Constructs a new LoggerCore instance.
-   *
-   * @param id - Unique identifier for the logger (defaults to DEFAULT_LOGGER_ID)
-   * @param level - Initial log level (defaults to DEFAULT_LOG_LEVEL)
-   * @param formatterConfig - Optional configuration for formatting logs
-   * @param normalizerConfig - Optional configuration for normalizing logs
-   * @param handlerConfig - Optional configuration for setting up log handlers
-   *
-   * @throws Will throw an error if the provided level is invalid
-   */
   constructor({
     id = DEFAULT_LOGGER_ID,
-    level = DEFAULT_LOG_LEVEL,
+    level = DEFAULT_LOGGER_LEVEL,
     formatterConfig,
     normalizerConfig,
-    handlerConfig,
-  }: LoggerCoreOptions) {
+    handlerManagerConfig,
+  }: LoggerCoreOptions = {}) {
     this.id = id;
     assertValidLevel(level);
     this.level = level;
     this.initialLevel = level;
     this.normalizerConfig = normalizerConfig;
     this.formatterConfig = formatterConfig;
-    this.handlerConfig = handlerConfig;
-    this.handlerManager = new HandlerManager();
-    if (handlerConfig) {
-      this.handlerManager.setConfig(handlerConfig);
-    }
+    this.handlerManagerConfig = handlerManagerConfig;
+    this.handlerManager = new HandlerManager(handlerManagerConfig);
   }
 
   /** Dynamically update the current log level. */

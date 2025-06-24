@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logry | Custom formats example</title>
+    <link rel="icon" type="image/x-icon" href="/logry-logo-rounded.png" />
+  </head>
+
+  <body class="bg">
+    <script type="module">
+      // import { logry } from "https://cdn.jsdelivr.net/npm/logry/dist/index.js";
+      import { logry } from "/dist/index.js";
+      import { format1, format2, format3 } from "./browser-custom-formats.js";
+
+      const meta = {
+        system: "thrusters",
+        stage: 1,
+        health: { main: "ok", backup: "ok" },
+      };
+
+      const logger = logry({
+        level: "trace",
+        scope: ["api", "v1"],
+        formatterConfig: { browser: { context: { hide: false } } },
+      });
+
+      logger.error("🚀 Launching app...", meta, {
+        formatterConfig: { browser: format1 },
+      });
+
+      logger.error("🚀 Launching app...", meta, {
+        formatterConfig: { browser: format2 },
+      });
+
+      logger.error("🚀 Launching app...", meta, {
+        formatterConfig: { browser: format3 },
+      });
+    </script>
+
+    <p
+      style="
+        color: antiquewhite;
+        font-size: larger;
+        font-family:
+          &quot;Gill Sans&quot;, &quot;Gill Sans MT&quot;, Calibri,
+          &quot;Trebuchet MS&quot;, sans-serif;
+        margin: auto;
+        padding-bottom: 240px;
+      "
+    >
+      ✨ Hit F12 to see the result
+    </p>
+
+    <style>
+      .bg {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        background-image:
+          radial-gradient(circle at 15% 25%, rgba(199, 212, 213, 0.08) 0%),
+          radial-gradient(circle at 70% 80%, rgba(142, 173, 183, 0.12) 0%),
+          radial-gradient(circle at 85% 10%, rgba(0, 80, 120, 0.12) 0%),
+          linear-gradient(140deg, #031522 0%);
+      }
+    </style>
+  </body>
+</html>

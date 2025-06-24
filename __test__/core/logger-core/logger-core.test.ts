@@ -1,8 +1,8 @@
 import type { Level } from "@/shared/types";
 import { LoggerCore } from "@/core/logger-core/logger-core";
 import { internalLog } from "@/internal";
-import { HandlerManager } from "@/modules/handlers/handler-manager";
-import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
+import { HandlerManager } from "@/core/handler-manager/handler-manager";
+import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
 
 jest.mock("@/internal", () => ({
   internalLog: jest.fn(),
@@ -22,7 +22,7 @@ describe("LoggerCore", () => {
   it("should create instance with default values", () => {
     const logger = new LoggerCore({});
     expect(logger.id).toBe(DEFAULT_LOGGER_ID);
-    expect(logger.level).toBe(DEFAULT_LOG_LEVEL);
+    expect(logger.level).toBe(DEFAULT_LOGGER_LEVEL);
   });
 
   it("should create instance with custom values", () => {
@@ -64,12 +64,12 @@ describe("LoggerCore", () => {
     expect(logger.level).toBe("warn");
   });
 
-  it("should call handlerManager.setConfig if handlerConfig is provided", () => {
-    const handlerConfig = {};
+  it("should call handlerManager.setConfig if handlerManagerConfig is provided", () => {
+    const handlerManagerConfig = {};
     spySetConfig.mockClear();
-    new LoggerCore({ handlerConfig });
+    new LoggerCore({ handlerManagerConfig: handlerManagerConfig });
     expect(spySetConfig).toHaveBeenCalled();
-    expect(spySetConfig).toHaveBeenCalledWith(handlerConfig);
+    expect(spySetConfig).toHaveBeenCalledWith(handlerManagerConfig);
   });
 
   // 新增部分：測試 levelChangeCallbacks 的功能

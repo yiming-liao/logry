@@ -1,11 +1,8 @@
-import type { BrowserFormattedPayload } from "@/modules/formatters";
-import {
-  DEFAULT_CONTEXT_LINE_BREAKS,
-  DEFAULT_META_LINE_BREAKS,
-} from "@/modules/formatters/browser/constants";
+import type { FormattedPayload } from "@/shared/types/log-payload";
+import { DEFAULT_BROWSER_FORMAT_OPTIONS_MAP } from "@/modules/formatters/constants/default-browser-format-options-map";
 import { composeConsoleArgs } from "@/modules/transporters/browser/utils/compose-console-args";
 
-const mockPayload: BrowserFormattedPayload = {
+const mockPayload: FormattedPayload = {
   timestamp: "12:00",
   id: "abc123",
   level: "info",
@@ -29,7 +26,16 @@ const mockPayload: BrowserFormattedPayload = {
     },
   },
   normalizerConfig: {},
-  raw: { timestamp: 0, id: "", level: "info", scope: [], message: "" },
+  raw: {
+    timestamp: 0,
+    id: "",
+    level: "info",
+    scope: [],
+    message: "",
+    hasMeta: true,
+    hasContext: true,
+  },
+  withAnsiStyle: {},
 };
 
 describe("composeConsoleArgs", () => {
@@ -94,11 +100,15 @@ describe("composeConsoleArgs", () => {
     // Default line breaks should be used
     expect(result).toContainEqual({ metaObj: true });
     expect(result).toContainEqual({ ctxObj: true });
-    if (DEFAULT_META_LINE_BREAKS > 0) {
-      expect(result).toContainEqual("\n".repeat(DEFAULT_META_LINE_BREAKS));
+    if (DEFAULT_BROWSER_FORMAT_OPTIONS_MAP.meta.lineBreaks! > 0) {
+      expect(result).toContainEqual(
+        "\n".repeat(DEFAULT_BROWSER_FORMAT_OPTIONS_MAP.meta.lineBreaks!),
+      );
     }
-    if (DEFAULT_CONTEXT_LINE_BREAKS > 0) {
-      expect(result).toContainEqual("\n".repeat(DEFAULT_CONTEXT_LINE_BREAKS));
+    if (DEFAULT_BROWSER_FORMAT_OPTIONS_MAP.context.lineBreaks! > 0) {
+      expect(result).toContainEqual(
+        "\n".repeat(DEFAULT_BROWSER_FORMAT_OPTIONS_MAP.context.lineBreaks!),
+      );
     }
   });
 });

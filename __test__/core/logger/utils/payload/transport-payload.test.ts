@@ -1,11 +1,14 @@
-import type { RawPayload } from "@/core/logger/types";
 import type { Transporter } from "@/modules/transporters/types";
+import type { RawPayload } from "@/shared/types/log-payload";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";
-import { isBrowser, isNode } from "@/shared/utils/platform";
+import { isBrowser } from "@/shared/utils/is-browser";
+import { isNode } from "@/shared/utils/is-node";
 
-jest.mock("@/shared/utils/platform", () => ({
-  isNode: jest.fn(),
+jest.mock("@/shared/utils/is-browser", () => ({
   isBrowser: jest.fn(),
+}));
+jest.mock("@/shared/utils/is-node", () => ({
+  isNode: jest.fn(),
 }));
 
 const rawPayload: RawPayload = {
@@ -22,6 +25,8 @@ const rawPayload: RawPayload = {
     level: "info",
     scope: [],
     message: "",
+    hasContext: false,
+    hasMeta: false,
   },
 };
 

@@ -1,8 +1,6 @@
-import type {
-  TimestampStyle,
-  ScopeSeparator,
-  LevelStyle,
-} from "@/modules/normalizers";
+import type { LevelStyle } from "@/modules/normalizers/fields/normalize-level";
+import type { ScopeSeparator } from "@/modules/normalizers/fields/normalize-scope";
+import type { TimestampStyle } from "@/modules/normalizers/fields/normalize-timestamp";
 import type { Level } from "@/shared/types";
 
 // Timestamp

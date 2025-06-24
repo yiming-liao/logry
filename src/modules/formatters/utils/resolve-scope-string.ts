@@ -1,5 +1,4 @@
-import type { RawScope } from "@/core/logger/types";
-import type { NormalizedScope } from "@/modules/normalizers/types";
+import type { NormalizedScope, RawScope } from "@/shared/types/log-fields";
 
 export type ResolveScopeStringOptions = {
   /** Full normalized scope string, e.g. "user.auth.login" */

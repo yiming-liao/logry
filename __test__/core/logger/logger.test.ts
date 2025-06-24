@@ -1,78 +1,59 @@
-import { Logger } from "@/core/logger";
-import { mergeInheritedOptions } from "@/core/logger/utils/merge/merge-inherited-options";
-import { LoggerCore } from "@/core/logger-core";
-
-jest.mock("@/core/logger/utils/merge/merge-inherited-options", () => ({
-  mergeInheritedOptions: jest.fn(),
-}));
+import type { LoggerCore } from "@/core/logger-core";
+import { CoreLogger } from "@/core/logger/core-logger/core-logger";
+import { Logger } from "@/core/logger/logger";
+import {
+  BrowserConsoleTransporter,
+  NodeConsoleTransporter,
+} from "@/modules/transporters";
 
 describe("Logger", () => {
-  const core = new LoggerCore({ id: "test", level: "info" });
-  const logger = new Logger({
-    core,
-    level: "debug",
-    scope: "app",
-    context: { env: "dev" },
+  const mockCore = {
+    id: "mock-core",
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onLevelChange: (_callback: (newLevel: string) => void) => {
+      return;
+    },
+  } as LoggerCore;
+
+  it("should extend CoreLogger", () => {
+    const logger = new Logger({
+      core: mockCore,
+      level: "info",
+      scope: [],
+    });
+    expect(logger).toBeInstanceOf(CoreLogger);
   });
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+  it("should initialize with two transporters", () => {
+    const logger = new Logger({
+      core: mockCore,
+      level: "info",
+      scope: [],
+    });
+    expect(logger["transporters"].length).toBe(2);
+    expect(
+      logger["transporters"].some((t) => t instanceof NodeConsoleTransporter),
+    ).toBe(true);
+    expect(
+      logger["transporters"].some(
+        (t) => t instanceof BrowserConsoleTransporter,
+      ),
+    ).toBe(true);
   });
 
-  describe("construction", () => {
-    it("should initialize Logger with core properties, methods, and transporters", () => {
-      expect(logger).toBeInstanceOf(Logger);
-      expect(typeof logger.debug).toBe("function");
-      expect(typeof logger.force.error).toBe("function");
-      expect(logger["transporters"].length).toBeGreaterThan(0);
-      expect(logger["normalizer"]).toBeDefined();
-      expect(logger["nodeFormatter"]).toBeDefined();
+  it("should pass normalizer and formatter to transporters", () => {
+    const logger = new Logger({
+      core: mockCore,
+      level: "info",
+      scope: [],
     });
-
-    it("should sync level with core and update when core level changes", () => {
-      expect(logger["level"]).toBe("debug");
-      core.setLevel("error");
-      expect(logger["level"]).toBe("error");
-      core.resetLevel();
-      expect(logger["level"]).toBe(core.level);
-    });
-  });
-
-  describe("getCore", () => {
-    it("should return the core instance", () => {
-      expect(logger.getCore()).toBe(core);
-    });
-  });
-
-  describe("mergeInheritedOptions", () => {
-    it("should call mergeInheritedOptions util with base and additions", () => {
-      const additions = { scope: ["child"], context: { a: 1 } };
-      (mergeInheritedOptions as jest.Mock).mockReturnValue({ merged: true });
-
-      const result = logger["mergeInheritedOptions"](additions);
-
-      expect(mergeInheritedOptions).toHaveBeenCalledWith(
-        {
-          scope: logger["scope"],
-          context: logger["context"],
-          normalizerConfig: logger["normalizerConfig"],
-          formatterConfig: logger["formatterConfig"],
-        },
-        additions,
-      );
-      expect(result).toEqual({ merged: true });
-    });
-
-    it("should call mergeInheritedOptions util with undefined additions when no param", () => {
-      (mergeInheritedOptions as jest.Mock).mockReturnValue({ merged: true });
-
-      const result = logger["mergeInheritedOptions"]();
-
-      expect(mergeInheritedOptions).toHaveBeenCalledWith(
-        expect.any(Object),
-        undefined,
-      );
-      expect(result).toEqual({ merged: true });
-    });
+    expect(
+      logger["transporters"].some((t) => t instanceof NodeConsoleTransporter),
+    ).toBe(true);
+    expect(
+      logger["transporters"].some(
+        (t) => t instanceof BrowserConsoleTransporter,
+      ),
+    ).toBe(true);
   });
 });

@@ -1,12 +1,12 @@
 import type { GetOrCreateLoggerOptions } from "@/core/factory/get-or-create-logger-types";
 import { coreMap } from "@/core/factory/core-map";
-import { Logger } from "@/core/logger/logger";
-import { mergeFormatterConfig } from "@/core/logger/utils/merge/merge-formatter-config";
-import { mergeNormalizerConfig } from "@/core/logger/utils/merge/merge-normalizer-config";
+import { Logger } from "@/core/logger";
+import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merge-formatter-config";
+import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
 import { LoggerCore } from "@/core/logger-core";
 import { internalLog, getCallSite } from "@/internal";
-import { loggerPresets } from "@/presets";
-import { DEFAULT_LOGGER_ID, DEFAULT_LOG_LEVEL } from "@/shared/constants";
+import { logryPresets } from "@/presets";
+import { DEFAULT_LOGGER_ID, DEFAULT_LOGGER_LEVEL } from "@/shared/constants";
 
 /**
  * Creates or retrieves a Logger by ID.
@@ -24,7 +24,7 @@ export const getOrCreateLogger = ({
   context,
   formatterConfig,
   normalizerConfig,
-  handlerConfig,
+  handlerManagerConfig,
   preset,
 }: GetOrCreateLoggerOptions = {}): Logger => {
   const existingCore = coreMap.get(id);
@@ -34,21 +34,21 @@ export const getOrCreateLogger = ({
   if (!existingCore) {
     if (preset) {
       normalizerConfig = mergeNormalizerConfig(
-        loggerPresets[preset]?.normalizerConfig,
+        logryPresets[preset]?.normalizerConfig,
         normalizerConfig,
       );
       formatterConfig = mergeFormatterConfig(
-        loggerPresets[preset]?.formatterConfig,
+        logryPresets[preset]?.formatterConfig,
         formatterConfig,
       );
     }
 
     const newCore = new LoggerCore({
       id,
-      level: level ?? DEFAULT_LOG_LEVEL,
+      level: level ?? DEFAULT_LOGGER_LEVEL,
       formatterConfig,
       normalizerConfig,
-      handlerConfig,
+      handlerManagerConfig,
     });
 
     coreMap.set(id, newCore);
@@ -67,7 +67,7 @@ export const getOrCreateLogger = ({
   if (
     formatterConfig !== undefined ||
     normalizerConfig !== undefined ||
-    handlerConfig !== undefined ||
+    handlerManagerConfig !== undefined ||
     level !== undefined ||
     preset !== undefined
   ) {

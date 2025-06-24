@@ -1,14 +1,14 @@
-import type { FormatterConfig } from "@/modules/formatters/formatter-config-types";
-import type { HandlerConfig } from "@/modules/handlers/handler-manager";
-import type { NormalizerConfig } from "@/modules/normalizers/normalizer-config-types";
+import type { HandlerManagerConfig } from "@/core/handler-manager";
+import type { FormatterConfig } from "@/modules/formatters/types";
+import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
 
-export interface LoggerCoreOptions {
+export type LoggerCoreOptions = {
   id?: string;
   level?: Level;
   formatterConfig?: FormatterConfig;
   normalizerConfig?: NormalizerConfig;
-  handlerConfig?: HandlerConfig;
-}
+  handlerManagerConfig?: HandlerManagerConfig;
+};
 
 export type LevelChangeCallback = (newLevel: Level) => void;

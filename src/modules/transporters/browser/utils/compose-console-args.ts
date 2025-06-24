@@ -1,9 +1,5 @@
-import type { BrowserFormattedPayload } from "@/modules/formatters";
-import {
-  DEFAULT_CONTEXT_LINE_BREAKS,
-  DEFAULT_META_LINE_BREAKS,
-} from "@/modules/formatters/browser/constants";
-
+import type { FormattedPayload } from "@/shared/types/log-payload";
+import { DEFAULT_BROWSER_FORMAT_OPTIONS_MAP } from "@/modules/formatters/constants/default-browser-format-options-map";
 /**
  * Compose arguments for console.log with styles, meta, and context.
  *
@@ -12,14 +8,14 @@ import {
  * @returns An array of arguments for console.log.
  */
 export const composeConsoleArgs = (
-  payload: BrowserFormattedPayload,
+  payload: FormattedPayload,
   consoleMessage: string,
 ): unknown[] => {
   const { meta, context, cssStyles, formatterConfig } = payload;
   const browserConfig = formatterConfig.browser;
 
   const isMetaValidString = typeof meta === "string" && meta !== "";
-  const isContexValidtString = typeof context === "string" && context !== "";
+  const isContextValidString = typeof context === "string" && context !== "";
 
   // Base console arguments: message plus style strings
   const consoleArgs: unknown[] = [
@@ -44,14 +40,16 @@ export const composeConsoleArgs = (
   if (isMetaValidString) {
     consoleArgs.push(cssStyles.meta);
   }
-  if (isContexValidtString) {
+  if (isContextValidString) {
     consoleArgs.push(cssStyles.context);
   }
 
   // Add meta with line breaks if meta is not string
   if (!isMetaValidString && meta !== "") {
     const lineBreaks = "\n".repeat(
-      browserConfig?.meta?.lineBreaks ?? DEFAULT_META_LINE_BREAKS,
+      browserConfig?.meta?.lineBreaks ??
+        DEFAULT_BROWSER_FORMAT_OPTIONS_MAP.meta?.lineBreaks ??
+        0,
     );
     if (lineBreaks) {
       consoleArgs.push(lineBreaks);
@@ -60,9 +58,11 @@ export const composeConsoleArgs = (
   }
 
   // Add context with line breaks if context is not string
-  if (!isContexValidtString && context !== "") {
+  if (!isContextValidString && context !== "") {
     const lineBreaks = "\n".repeat(
-      browserConfig?.context?.lineBreaks ?? DEFAULT_CONTEXT_LINE_BREAKS,
+      browserConfig?.context?.lineBreaks ??
+        DEFAULT_BROWSER_FORMAT_OPTIONS_MAP.context?.lineBreaks ??
+        0,
     );
     if (lineBreaks) {
       consoleArgs.push(lineBreaks);

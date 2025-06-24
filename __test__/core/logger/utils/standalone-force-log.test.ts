@@ -1,8 +1,8 @@
-import type { FormatterConfig } from "@/modules/formatters";
-import type { NormalizerConfig } from "@/modules/normalizers";
+import type { FormatterConfig } from "@/modules/formatters/types";
+import type { NormalizerConfig } from "@/modules/normalizers/types";
+import { standaloneLog } from "@/core/logger/standalone-log/standalone-log";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";
-import { standaloneForceLog } from "@/core/logger/utils/standalone-force-log";
 
 jest.mock("@/core/logger/utils/payload/build-payload");
 jest.mock("@/core/logger/utils/payload/transport-payload");
@@ -16,7 +16,7 @@ describe("standaloneForceLog", () => {
     const mockBuildPayload = buildPayload as jest.Mock;
     mockBuildPayload.mockReturnValue({ fake: "payload" });
 
-    standaloneForceLog({
+    standaloneLog({
       level: "info",
       message: "test message",
       meta: { key: "value" },
@@ -46,7 +46,7 @@ describe("standaloneForceLog", () => {
     (buildPayload as jest.Mock).mockReturnValue(fakePayload);
     const mockTransportPayload = transportPayload as jest.Mock;
 
-    standaloneForceLog({
+    standaloneLog({
       level: "error",
       message: "error message",
     });
@@ -61,7 +61,7 @@ describe("standaloneForceLog", () => {
   it("should convert scope to array if given a string", () => {
     (buildPayload as jest.Mock).mockReturnValue({ fake: "payload" });
 
-    standaloneForceLog({
+    standaloneLog({
       level: "warn",
       message: "warning message",
       options: {
@@ -80,7 +80,7 @@ describe("standaloneForceLog", () => {
     (buildPayload as jest.Mock).mockReturnValue({ fake: "payload" });
 
     expect(() =>
-      standaloneForceLog({
+      standaloneLog({
         level: "debug",
         message: "debug message",
       }),

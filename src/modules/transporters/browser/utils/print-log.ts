@@ -1,4 +1,4 @@
-import type { BrowserFormattedPayload } from "@/modules/formatters";
+import type { FormattedPayload } from "@/shared/types/log-payload";
 import { composeConsoleArgs } from "@/modules/transporters/browser/utils/compose-console-args";
 import { composeMessage } from "@/modules/transporters/browser/utils/compose-message";
 
@@ -7,7 +7,7 @@ import { composeMessage } from "@/modules/transporters/browser/utils/compose-mes
  *
  * @param payload - The formatted payload with message and styling info.
  */
-export const printLog = (payload: BrowserFormattedPayload): void => {
+export const printLog = (payload: FormattedPayload): void => {
   // Create the console message string
   const consoleMessage = composeMessage(payload);
 

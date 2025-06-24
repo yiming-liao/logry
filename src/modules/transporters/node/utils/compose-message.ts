@@ -1,4 +1,5 @@
-import type { NodeFormattedPayload } from "@/modules/formatters";
+import type { FormattedPayload } from "@/shared/types/log-payload";
+import { extractStyledFields } from "@/modules/transporters/node/utils/extract-styled-fields";
 
 /**
  * Compose a log line by concatenating core payload fields and process info.
@@ -9,31 +10,34 @@ import type { NodeFormattedPayload } from "@/modules/formatters";
  * @returns Final console log message with newline.
  */
 export const composeMessage = (
-  payload: NodeFormattedPayload,
-  withAnsiStyle: boolean = false,
+  payload: FormattedPayload,
+  useAnsiStyle?: boolean,
 ): string => {
   const { timestamp, id, level, scope, message, meta, context, pid, hostname } =
-    withAnsiStyle ? payload.withAnsiStyle : payload;
+    extractStyledFields(
+      payload,
+      payload.formatterConfig.node || {},
+      useAnsiStyle,
+    );
 
-  const parts = [timestamp, id, level];
+  const fieldValues = [timestamp, id, level];
 
   if (payload.raw.pid) {
-    parts.push(pid);
+    fieldValues.push(pid);
   }
   if (payload.raw.hostname) {
-    parts.push(hostname);
+    fieldValues.push(hostname);
   }
 
-  // Compose ordered parts
-  parts.push(scope, message);
+  fieldValues.push(scope, message);
 
   if (typeof meta === "string") {
-    parts.push(meta);
+    fieldValues.push(meta);
   }
   if (typeof context === "string") {
-    parts.push(context);
+    fieldValues.push(context);
   }
 
   // Join and end with newline
-  return `${parts.join("")}\n`;
+  return `${fieldValues.join("")}\n`;
 };
