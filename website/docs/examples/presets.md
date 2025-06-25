@@ -12,7 +12,7 @@ Explore how different presets can customize and enhance your logging experience 
 
 - Node.js - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/presets/node.ts)
 
-- Browser - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/presets/browser.html) ｜ Hit F12 to see it in DevTools 👀
+- Browser - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/presets/browser.html) ｜ Press F12 to view the output in DevTools 👀
 
 - Edge - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/presets/edge.ts)
 

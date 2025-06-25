@@ -12,7 +12,7 @@ These examples demonstrate how to quickly get started with logging in each platf
 
 - Node.js - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/basic/node.ts)
 
-- Browser - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/basic/browser.html) ｜ Hit F12 to see it in DevTools 👀
+- Browser - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/basic/browser.html) ｜ Press F12 to view the output in DevTools 👀
 
 - Edge - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/basic/edge.ts)
 

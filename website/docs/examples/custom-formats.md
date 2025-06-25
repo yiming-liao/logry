@@ -12,7 +12,7 @@ Discover how you can tailor your logging output to fit your unique needs with hi
 
 - Node.js - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/custom-formats/node.ts)
 
-- Browser - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/custom-formats/browser.html) ｜ Hit F12 to see it in DevTools 👀
+- Browser - [**View example code on GitHub**](https://github.com/yiming-liao/logry/blob/main/examples/custom-formats/browser.html) ｜ Press F12 to view the output in DevTools 👀
 
 <!-- Preview in devtools -->
 <BrowserCustomFormats/>
