@@ -17,6 +17,7 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 
 [![NPM version](https://img.shields.io/npm/v/logry?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/logry)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/logry?style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/package/logry)
+[![Install Size](https://img.shields.io/badge/install%20size-217KB-000000?style=flat&colorA=000000&colorB=000000)](https://packagephobia.com/result?p=logry) <!-- Manually change the install size -->
 [![Coverage Status](https://img.shields.io/coveralls/github/yiming-liao/logry.svg?branch=main&style=flat&colorA=000000&colorB=000000)](https://coveralls.io/github/yiming-liao/logry?branch=main)
 [![TypeScript](https://img.shields.io/badge/TypeScript-%E2%9C%94-blue?style=flat&colorA=000000&colorB=000000)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/npm/l/logry?style=flat&colorA=000000&colorB=000000)](LICENSE)
@@ -29,8 +30,8 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 
 </div>
 
-> Logging across fullstack apps is _messy_.  
-> **Logry** keeps it simple — zero config, out-of-the-box and perfect for modern JavaScript and monorepos.
+> Fullstack logging is a mess.  
+> **Logry** cleans it up — zero config, zero drama.
 
 ---
 
@@ -278,6 +279,18 @@ For example, if the level is set to `warn`, only `warn`, `error`, and `fatal` lo
 // Initialize a logger with a preferred level (for initial filtering)
 const logger = logry({ id: "my-app", level: "debug" });
 ```
+
+#### Bypass the log level filter with force
+
+Normally, the logger will only output messages at or above the configured level.  
+However, you can force a log to be emitted regardless of the current level:
+
+```ts
+logger.force.error("Something went wrong!");
+logger.force.info("This will show even if level is set to 'warn'");
+```
+
+> ⚠️ Use this with care—`force` is designed for exceptional situations where logs must be guaranteed to appear.
 
 <!-- Back To Top -->
 <div align="right">
