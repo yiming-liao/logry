@@ -69,7 +69,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: "img/social-card.jpg",
+    image: "img/social-card.png",
     navbar: {
       title: "Logry",
       logo: {
@@ -79,15 +79,15 @@ const config: Config = {
       items: [
         {
           type: "doc",
-          docId: "introduction/getting-started",
+          docId: "introduction/quick-start",
           position: "right",
-          label: "Getting Started",
+          label: "🚀 Quick Start",
         },
         {
           type: "doc",
-          docId: "introduction/quick-start",
+          docId: "examples/handlers",
           position: "right",
-          label: "Quick Start",
+          label: "✨ Integrations",
         },
         // { to: "/blog", label: "Blog", position: "left" },
         {

@@ -19,6 +19,9 @@ logger.addHandler(handler, id?, position?); // Adds a handler, returns the assig
 logger.removeHandler(id); // Removes the handler by ID
 ```
 
+> **Want to see Handlers in action?**  
+> Check out the [✨ Handlers & Integrations](../examples/handlers.md) for practical code samples and integration tips.
+
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="20" height="20" /> Creating Custom Handlers with BaseHandler
 
 You can create custom handlers _from scratch_ by implementing your own `handle()` method,  

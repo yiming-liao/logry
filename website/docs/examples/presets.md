@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-title: Presets
+title: Using Presets
 ---
 
 import BrowserPresets from '../../src/components/examples/browser-presets'
 
-# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="36" height="36" /> Presets
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="36" height="36" /> Using Presets
 
 This section showcases various **preset configurations** of Logry for Node.js, Browser, and Edge environments.  
 Explore how different presets can customize and enhance your logging experience effortlessly.

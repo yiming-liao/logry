@@ -107,3 +107,8 @@ const logger = logry({
 ```
 
 </details>
+
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Joystick.png" alt="Joystick" width="25" height="25" /> Connect with the Outside World
+
+**Want to send your logs to files, Slack, or other services?**  
+ Check out the [✨ Handlers & Integrations](../examples/handlers.md) to see how Logry integrates with real-world outputs.
