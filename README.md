@@ -17,7 +17,6 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 
 [![NPM version](https://img.shields.io/npm/v/logry?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/logry)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/logry?style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/package/logry)
-[![Install Size](https://img.shields.io/badge/install%20size-217KB-000000?style=flat&colorA=000000&colorB=000000)](https://packagephobia.com/result?p=logry) <!-- Manually change the install size -->
 [![Coverage Status](https://img.shields.io/coveralls/github/yiming-liao/logry.svg?branch=main&style=flat&colorA=000000&colorB=000000)](https://coveralls.io/github/yiming-liao/logry?branch=main)
 [![TypeScript](https://img.shields.io/badge/TypeScript-%E2%9C%94-blue?style=flat&colorA=000000&colorB=000000)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/npm/l/logry?style=flat&colorA=000000&colorB=000000)](LICENSE)
