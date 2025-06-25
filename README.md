@@ -42,10 +42,10 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 - [🚀 Quick Start](#-quick-start)
 - [🌠 Presets](#-presets)
 - [☄️ Core Concepts](#-core-concepts)
-  - [✨ Log Level](#-log-level)
-  - [✨ Child Loggers](#-child-loggers)
-  - [✨ Logger Core](#-logger-core)
-  - [✨ Handler Manager](#-handler-manager)
+  - [📝 Log Level](#-log-level)
+  - [🧸 Child Loggers](#-child-loggers)
+  - [🗿 Logger Core](#-logger-core)
+  - [🎛️ Handler Manager](#-handler-manager)
 - [🏛️ Architecture](#-architecture)
   - [🌊 Log Pipeline](#-log-pipeline)
   - [🛫 Transporter](#-transporter)
@@ -154,7 +154,7 @@ logger.info("User logged in"); // ❌ This won't be shown, 'info' is lower than 
 logger.warn("User login warning"); // ✅ This will be shown
 ```
 
-- Basic Logger Setup for Development
+A quick and easy setup to start logging right away:
 
 ```ts
 import { logry } from "logry";
@@ -165,7 +165,10 @@ const logger = logry({
 });
 ```
 
-- Full Custom Logger Setup
+<details>
+<summary> ✨ <strong>Want a more customized setup?</strong></summary>
+
+A fully customizable logger setup when you need more control and personality:
 
 ```ts
 import { logry } from "logry";
@@ -207,6 +210,8 @@ const logger = logry({
   },
 });
 ```
+
+</details>
 
 <!-- Back To Top -->
 <div align="right">
@@ -252,7 +257,7 @@ Presets are fixed for now.
 **Logry** is built with modularity, precision, and developer experience in mind.  
 Here are the key concepts that define how it works:
 
-### ✨ Log Level
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Memo.png" alt="Memo" width="16" height="16" /> Log Level
 
 **Logry** supports **seven log levels**, ordered from most critical to most verbose:
 
@@ -275,7 +280,7 @@ For example, if the level is set to `warn`, only `warn`, `error`, and `fatal` lo
 > If a core with the same ID exists, those configs will be ignored, and a warning will be logged.
 
 ```ts
-// Initialize a logger with a preferred level (for initial filtering)
+// Initialize a logger with a preferred level
 const logger = logry({ id: "my-app", level: "debug" });
 ```
 
@@ -298,7 +303,7 @@ logger.force.info("This will show even if level is set to 'warn'");
 
 </div>
 
-### ✨ Child Loggers
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Teddy%20Bear.png" alt="Teddy Bear" width="16" height="16" /> Child Loggers
 
 In **Logry**, every logger instance is lightweight and modular.  
 You can freely create **child loggers** that inherit settings from their parent — while overriding only what you need.
@@ -319,7 +324,7 @@ const authLogger = logger.child({
 
 #### Child Logger Inheritance
 
-Child loggers inherit settings using **shallow merging (first-level only)**:
+Child loggers inherit settings by merging properties differently depending on their type:
 
 - `scope`: _Appended_  
    **["main"]** + **"auth"** → **["main", "auth"]**
@@ -339,16 +344,24 @@ This keeps child loggers **flexible and contextual**, without needing to re-spec
 
 </div>
 
-### ✨ Logger Core
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Moai.png" alt="Moai" width="16" height="16" /> Logger Core
 
 The core engine responsible for managing log levels, shared identity (id), and optional configurations for formatting, normalization, and handlers.
 
 - Multiple logger instances can share a single core by specifying the same id, enabling centralized and synchronized log level management across instances.
 - It supports dynamic runtime control of log verbosity:
+
   - `setLevel(level)`: updates the active log level
   - `resetLevel()`: restore to the initial log level
 
-This allows flexible adjustment of log output without needing to recreate logger instances.
+- <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Factory.png" alt="Factory" width="16" height="16" /> When calling `logry()`, the system checks the Logger Core map by id.  
+  If found, it returns a Logger linked to that core; otherwise, it creates a new core and returns a Logger.
+
+> ⚠️ Note: Core configurations are fixed per **LoggerCore** identified by **id**.  
+> Creating a logger with an existing id ignores new core-level options and logs a warning.
+
+> ℹ️ Note: In **Edge** runtime environments, the Logger Core concept is intentionally not available.  
+> This design aligns with the stateless and ephemeral nature of Edge environments.
 
 <!-- Back To Top -->
 <div align="right">
@@ -357,7 +370,7 @@ This allows flexible adjustment of log output without needing to recreate logger
 
 </div>
 
-### ✨ Handler Manager
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Control%20Knobs.png" alt="Control Knobs" width="16" height="16" /> Handler Manager
 
 Every Logger instance is paired with a dedicated **HandlerManager**,  
 an internal module inherited from its **LoggerCore**.
@@ -416,8 +429,8 @@ Building on the architecture described above,
 When you call any logging method on your logger instance (e.g. **info()**, **error()**),  
 it triggers two parallel paths internally:
 
-- 🛫 Platform Transporter: Normalizes, formats, and outputs logs to the console, optimized for the running environment.
-- 👔 HandlerManager: Runs additional handlers for side effects like writing files, sending logs remotely, or custom integrations.
+- <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane%20Departure.png" alt="Airplane Departure" width="12" height="12" /> Platform Transporter: Normalizes, formats, and outputs logs to the console, optimized for the running environment.
+- <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Control%20Knobs.png" alt="Control Knobs" width="12" height="12" /> HandlerManager: Runs additional handlers for side effects like writing files, sending logs remotely, or custom integrations.
 
 ```
                 Logger.log()
@@ -479,7 +492,7 @@ logry.info("Hello from anywhere");
 ```
 
 > In Node.js, logs go to the terminal. In the browser, they appear in the browser console.  
-> ✨ No extra configuration required.
+> ⚡️ No extra configuration required.
 
 #### Platform-Specific Variants
 
@@ -579,29 +592,33 @@ For example:
 > It can be set globally in **logry(...)**, scoped to a **logger.child(...)**, or **overridden per log method**:
 
 ```ts
-normalizerConfig: {
-  node: {
-    timestamp: {
-      style: "iso",
-      useUTC: true,
+const logger = logry({
+  // ...
+  normalizerConfig: {
+    node: {
+      timestamp: {
+        style: "iso", // Use full ISO format for timestamp in Node.js
+        useUTC: true, // Display timestamp in UTC timezone
+      },
+      level: {
+        style: "upper", // Show log level in uppercase (e.g., "ERROR")
+      },
+      meta: {
+        errorStackLines: 10, // Limit error stack trace to 10 lines
+      },
     },
-    level: {
-      style: "upper",
-    },
-    meta: {
-      errorStackLines: 10,
+    browser: {
+      timestamp: {
+        style: "pretty", // Use a more human-friendly timestamp format in browsers
+        useUTC: false, // Display timestamp in local timezone
+      },
+      level: {
+        style: "lower", // Show log level in lowercase (e.g., "error")
+      },
     },
   },
-  browser: {
-    timestamp: {
-      style: "pretty",
-      useUTC: false,
-    },
-    level: {
-      style: "lower",
-    },
-  },
-},
+  // ...
+});
 ```
 
 <!-- Back To Top -->
@@ -635,6 +652,14 @@ Each part has its own formatter. All formatters support optional style customiza
 
 #### Customization
 
+Common format options apply to all formatter parts and include:
+
+- `hide?: boolean;`
+- `prefix?: string;`
+- `suffix?: string;`
+- `lineBreaks?: number;`
+- `spaceAfter?: number;`
+
 Every formatter supports a customFormatter function, letting you override default behavior:
 
 ```ts
@@ -651,12 +676,12 @@ You can also fine-tune behavior using extra options per part.
 
 | Platform  | Part      | Extra Options Available                                    |
 | --------- | --------- | ---------------------------------------------------------- |
-| `Node.js` | ALL       | ansiStyle                                                  |
-| -         | `scope`   | showOnlyLatest, seperator                                  |
+| `Node.js` | ALL       | ansiStyle, useAnsiStyle                                    |
+| -         | `scope`   | showOnlyLatest, separator                                  |
 | -         | `meta`    | format, indent, all InspectOptions (for format: **"raw"**) |
 | -         | `context` | format, indent, all InspectOptions (for format: **"raw"**) |
 | `Browser` | ALL       | cssStyle                                                   |
-| -         | `scope`   | showOnlyLatest, seperator                                  |
+| -         | `scope`   | showOnlyLatest, separator                                  |
 | -         | `meta`    | format, indent                                             |
 | -         | `context` | format, indent                                             |
 
@@ -686,28 +711,32 @@ For example:
 > It can be set globally in **logry(...)**, scoped to a **logger.child(...)**, or **overridden per log method**:
 
 ```ts
-formatterConfig: {
-  node: {
-    timestamp: {
-      ansiStyle: "\x1b[33m",
+const logger = logry({
+  // ...
+  formatterConfig: {
+    node: {
+      timestamp: {
+        ansiStyle: "\x1b[33m", // Yellow text for timestamp in Node.js
+      },
+      meta: {
+        depth: null, // Show full depth for meta in Node.js
+      },
+      lineBreaksAfter: 2, // Add extra spacing after logs
     },
-    meta: {
-      depth: null,
+    browser: {
+      timestamp: {
+        cssStyle: "font-weight: bold; color: orange;", // Bold orange timestamp in browsers
+      },
+      meta: {
+        prefix: "META | ", // Prefix meta with label in browsers
+      },
+      level: {
+        hide: true, // Hide level field in browsers
+      },
     },
-    lineBreaksAfter: 2,
   },
-  browser: {
-    timestamp: {
-      cssStyle: "font-weight: bold; color: orange;",
-    },
-    meta: {
-      prefix: "META | ",
-    },
-    level: {
-      hide: true,
-    },
-  },
-},
+  // ...
+});
 ```
 
 <!-- Back To Top -->
@@ -717,7 +746,7 @@ formatterConfig: {
 
 </div>
 
-### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Package.png" alt="Package" width="25" height="25" /> Handlers
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Joystick.png" alt="Joystick" width="25" height="25" /> Handlers
 
 Handlers are modular units that define **_where_** and **_how_** a log should be delivered,  
 whether to a console, file, or third-party service.
@@ -738,7 +767,7 @@ logger.removeHandler(id); // Removes the handler by ID
 You can create custom handlers _from scratch_ by implementing your own `handle()` method,  
 or **extend** Logry’s built-in **BaseHandler** to simplify the process.
 
-🧱 This class provides core functionalities such as payload **normalization**, **formatting**, and **JSON serialization**,  
+🧱 **BaseHandler** provides core functionalities such as payload **normalization**, **formatting**, and **JSON serialization**,  
 plus a safe execution flow, so you only need to focus on implementing the actual log delivery logic.
 
 The key method to implement is:
@@ -758,6 +787,8 @@ Here are some useful protected methods you can use inside your custom handler:
 Example implementation:
 
 ```ts
+import { NodeHandler } from "logry/handlers"; // 📦 Use built-in handler classes from the "logry/handlers" module.
+
 class MyCustomHandler extends BaseHandler {
   async handle(rawPayload: RawPayload) {
     const normalized = this.normalize(rawPayload);
@@ -767,6 +798,8 @@ class MyCustomHandler extends BaseHandler {
     await sendToExternalService(message);
   }
 }
+
+logger.addHandler(new MyCustomHandler()); // Register the custom handler
 ```
 
 ### Platform-Specific Handlers
@@ -783,6 +816,8 @@ that helps you generate the final log message string based on your formatter con
 Example implementation:
 
 ```ts
+import { NodeHandler } from "logry/handlers"; // 📦 Use built-in base handlers from the "logry/handlers" module.
+
 class MyCustomHandler extends NodeHandler {
   async handle(rawPayload: RawPayload) {
     const message = await this.compose(payload); // Async only in Node.js to append pid and hostname
@@ -819,14 +854,14 @@ inspectLoggerCores();
 
 Helps you verify how loggers are created and linked.
 
-#### inspecthandlerManagerConfig(logger)
+#### inspectHandlerManagerConfig(logger)
 
 Show the resolved handler config for a given logger.
 
 ```ts
-import { inspecthandlerManagerConfig } from "logry/devtools";
+import { inspectHandlerManagerConfig } from "logry/devtools";
 
-inspecthandlerManagerConfig(myLogger);
+inspectHandlerManagerConfig(myLogger);
 ```
 
 Good for checking which rules and tasks are active.
