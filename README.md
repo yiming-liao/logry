@@ -83,6 +83,7 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 Here’s how logs look in Node.js vs. the browser:
 
 <table width="100%">
+  <tbody>
   <tr>
     <td align="center" width="50%">
       <img src="logry-node.png" alt="Logry node" width="95%" /><br/>
@@ -93,6 +94,7 @@ Here’s how logs look in Node.js vs. the browser:
       <em>Console output in Browser</em>
     </td>
   </tr>
+  </tbody>
 </table>
 
 > <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Kissing%20Cat.png" alt="Kissing Cat" width="16" height="16" /> Not your style? No worries! It’s fully customizable.
