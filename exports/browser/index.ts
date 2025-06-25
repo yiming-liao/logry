@@ -1,14 +1,14 @@
-import { getOrCreateUniversalLogger } from "@/core/factory";
-import { universalStandaloneLog } from "@/core/logger/standalone-log";
+import { getOrCreateBrowserLogger } from "@/core/factory";
+import { browserStandaloneLog } from "@/core/logger/standalone-log";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
 // ─────────────────────────────────────────────────────────────
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { UniversalLogger as Logger } from "@/core/logger";
-export { getOrCreateUniversalLogger, resetCoreMap } from "@/core/factory";
-export const logry = getOrCreateUniversalLogger;
+export { BrowserLogger as Logger } from "@/core/logger";
+export { getOrCreateBrowserLogger, resetCoreMap } from "@/core/factory";
+export const logry = getOrCreateBrowserLogger;
 
 // ─────────────────────────────────────────────────────────────
 // 🧬 Core Types
@@ -29,7 +29,6 @@ export type {
 export { Normalizer } from "@/modules/normalizers";
 export type {
   NormalizerConfig,
-  NodeNormalizerConfig,
   BrowserNormalizerConfig,
   EdgeNormalizerConfig,
 } from "@/modules/normalizers/types";
@@ -38,7 +37,6 @@ export type {
 export { Formatter } from "@/modules/formatters";
 export type {
   FormatterConfig,
-  NodeFormatterConfig,
   BrowserFormatterConfig,
   EdgeFormatterConfig,
 } from "@/modules/formatters/types";
@@ -72,7 +70,7 @@ export type { LoggerPreset, LoggerPresetConfig } from "@/presets";
 // 🎯 Force Logging Methods
 // ─────────────────────────────────────────────────────────────
 
-export const force = createForceMethods(universalStandaloneLog);
+export const force = createForceMethods(browserStandaloneLog);
 export const trace = force.trace;
 export const debug = force.debug;
 export const info = force.info;

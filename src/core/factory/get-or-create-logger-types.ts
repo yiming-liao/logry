@@ -1,4 +1,8 @@
 import type { HandlerManagerConfig } from "@/core/handler-manager";
+import type {
+  CoreLogger,
+  CoreLoggerConstructorOptions,
+} from "@/core/logger/core-logger";
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { LoggerPreset } from "@/presets/types";
@@ -14,4 +18,5 @@ export type GetOrCreateLoggerOptions = {
   normalizerConfig?: NormalizerConfig;
   handlerManagerConfig?: HandlerManagerConfig;
   preset?: LoggerPreset;
+  Logger?: new (options: CoreLoggerConstructorOptions) => CoreLogger;
 };

@@ -1,1 +1,7 @@
-export { Logger } from "./logger";
+export {
+  UniversalLogger,
+  NodeLogger,
+  BrowserLogger,
+  EdgeLogger,
+  createEdgeLogger,
+} from "./platform";

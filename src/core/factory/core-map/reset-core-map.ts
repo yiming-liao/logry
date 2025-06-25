@@ -1,4 +1,4 @@
-import { coreMap } from "@/core/factory/core-map";
+import { coreMap } from "@/core/factory/core-map/core-map";
 
 /**
  * Clears and resets the core logger Map by removing all stored logger core instances.

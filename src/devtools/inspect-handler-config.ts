@@ -1,9 +1,9 @@
-import type { Logger } from "@/core/logger";
+import type { UniversalLogger } from "@/core/logger";
 
 /**
  * Inspect the resolved handler configuration of a Logger instance.
  */
-export function inspecthandlerManagerConfig(logger: Logger): void {
+export function inspecthandlerManagerConfig(logger: UniversalLogger): void {
   const config = logger["handlerManager"].getConfig?.();
   if (!config) {
     console.warn(

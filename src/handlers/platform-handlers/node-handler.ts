@@ -4,7 +4,7 @@ import type { Platform } from "@/shared/types";
 import type { RawPayload } from "@/shared/types/log-payload";
 import { BaseHandler } from "@/handlers/base-handler";
 import { composeMessage } from "@/modules/transporters/node/utils/compose-message";
-import { appendProcessFields } from "@/shared/utils/node/append-process-fields";
+import { appendProcessFields as append } from "@/shared/utils/node/append-process-fields";
 import { getOs } from "@/shared/utils/node/lazy-modules";
 
 /**
@@ -24,8 +24,10 @@ export abstract class NodeHandler extends BaseHandler {
   }
 
   /** Append process-related fields (e.g., pid, hostname) into the raw payload. */
-  protected async preparePayload(rawPayload: RawPayload): Promise<RawPayload> {
-    return appendProcessFields(getOs, rawPayload);
+  protected async appendProcessFields(
+    rawPayload: RawPayload,
+  ): Promise<RawPayload> {
+    return append(getOs, rawPayload);
   }
 
   /** Normalize, format, and compose raw payload into a string. */
@@ -33,7 +35,7 @@ export abstract class NodeHandler extends BaseHandler {
     rawPayload: RawPayload,
     useAnsiColor = false,
   ): Promise<string> {
-    const appendedPayload = await this.preparePayload(rawPayload);
+    const appendedPayload = await this.appendProcessFields(rawPayload);
     const normalized = this.normalize(appendedPayload);
     const formatted = this.format(normalized);
     return composeMessage(formatted, useAnsiColor);

@@ -1,12 +1,12 @@
-import { createEdgeLogger } from "@/core/logger/edge-logger/create-edge-logger";
-import { edgeStandaloneLog } from "@/core/logger/standalone-log/edge-standalone-log";
+import { createEdgeLogger } from "@/core/logger/platform";
+import { edgeStandaloneLog } from "@/core/logger/standalone-log";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
 // ─────────────────────────────────────────────────────────────
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { EdgeLogger } from "@/core/logger/edge-logger";
+export { EdgeLogger } from "@/core/logger/platform/edge-logger";
 export const logry = createEdgeLogger;
 
 // ─────────────────────────────────────────────────────────────

@@ -1,10 +1,10 @@
 {
   "name": "logry",
-  "version": "1.0.1",
-  "description": "A clean, lightweight, cross-platform logging library for Node.js and modern browsers, fully typed and customizable with scoped loggers, formatter pipelines, and modular handlers offering full flexibility for custom processing and delivery.",
+  "version": "1.1.1",
+  "description": "A lightweight, extensible logger for universal JavaScript runtimes like Node.js, browsers, and Edge. Includes scoped loggers, formatter pipelines, and modular handlers for file logging, remote delivery, or custom use.",
   "author": "Yiming Liao",
   "license": "MIT",
-  "homepage": "https://github.com/yiming-liao/logry#readme",
+  "homepage": "https://yiming-liao.github.io/logry/docs/introduction/getting-started/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yiming-liao/logry.git"
@@ -43,9 +43,30 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./handlers": {
+      "types": "./dist/handlers/index.d.ts",
+      "import": "./dist/handlers/index.js",
+      "require": "./dist/handlers/index.cjs"
+    },
+    "./node": {
+      "types": "./dist/node/index.d.ts",
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.cjs"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.ts",
+      "import": "./dist/browser/index.js",
+      "require": "./dist/browser/index.cjs"
+    },
+    "./edge": {
+      "types": "./dist/edge/index.d.ts",
+      "import": "./dist/edge/index.js",
+      "require": "./dist/edge/index.cjs"
     }
   },
-  "module": "dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
@@ -71,7 +92,6 @@
     "@types/jest": "^29.5.14",
     "chalk": "^5.4.1",
     "coveralls": "^3.1.1",
-    "dotenv": "^16.5.0",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",
@@ -80,6 +100,8 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.5.3",
+    "string-width": "^7.2.0",
+    "strip-ansi": "^7.1.0",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "tsup": "^8.4.0",

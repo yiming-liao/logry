@@ -1,3 +1,8 @@
+export { coreMap, resetCoreMap } from "./core-map";
 export { getOrCreateLogger } from "./get-or-create-logger";
-export { resetCoreMap } from "./reset-core-map";
-export { coreMap } from "./core-map";
+
+export {
+  getOrCreateUniversalLogger,
+  getOrCreateNodeLogger,
+  getOrCreateBrowserLogger,
+} from "./platform";

@@ -1,7 +1,7 @@
 import type { GetOrCreateLoggerOptions } from "@/core/factory/get-or-create-logger-types";
 import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merge-formatter-config";
 import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
-import { EdgeLogger } from "@/core/logger/edge-logger";
+import { EdgeLogger } from "@/core/logger/platform/edge-logger";
 import { logryPresets } from "@/presets";
 
 export const createEdgeLogger = ({

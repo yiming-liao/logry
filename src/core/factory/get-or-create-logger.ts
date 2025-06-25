@@ -1,8 +1,8 @@
 import type { GetOrCreateLoggerOptions } from "@/core/factory/get-or-create-logger-types";
-import { coreMap } from "@/core/factory/core-map";
-import { Logger } from "@/core/logger";
+import { coreMap } from "@/core/factory/core-map/core-map";
 import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merge-formatter-config";
 import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
+import { CoreLogger } from "@/core/logger/core-logger";
 import { LoggerCore } from "@/core/logger-core";
 import { internalLog, getCallSite } from "@/internal";
 import { logryPresets } from "@/presets";
@@ -26,7 +26,8 @@ export const getOrCreateLogger = ({
   normalizerConfig,
   handlerManagerConfig,
   preset,
-}: GetOrCreateLoggerOptions = {}): Logger => {
+  Logger = CoreLogger,
+}: GetOrCreateLoggerOptions = {}): CoreLogger => {
   const existingCore = coreMap.get(id);
 
   // If no LoggerCore exists with the given ID, create one and store it.
