@@ -30,7 +30,7 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 </div>
 
 > Fullstack logging is a mess.  
-> **Logry** cleans it up — zero config, zero drama.
+> **Logry** cleans it up — universal, zero config, and out-of-the-box ready.
 
 ---
 
