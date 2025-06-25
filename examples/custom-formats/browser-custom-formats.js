@@ -1,4 +1,6 @@
 export const format1 = {
+  lineBreaksBefore: 1,
+  lineBreaksAfter: 3,
   timestamp: {
     cssStyle: "color: #81a1c1; font-style: italic;",
   },
@@ -66,6 +68,8 @@ export const format1 = {
 };
 
 export const format2 = {
+  lineBreaksBefore: 1,
+  lineBreaksAfter: 2,
   timestamp: {
     cssStyle: `
       background: #1e293b;
@@ -156,6 +160,8 @@ export const format2 = {
 };
 
 export const format3 = {
+  lineBreaksBefore: 1,
+  lineBreaksAfter: 2,
   timestamp: {
     cssStyle: `
       font-style: italic;

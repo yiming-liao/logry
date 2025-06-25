@@ -26,7 +26,7 @@ class PrettySlackHandler extends NodeHandler {
   }
 
   async handle(payload: RawPayload) {
-    payload = await this.preparePayload(payload);
+    payload = await this.appendProcessFields(payload);
     const { timestamp, id, level, pid, hostname, scope, message, meta } =
       this.normalize(payload);
 

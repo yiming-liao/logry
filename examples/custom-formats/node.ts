@@ -11,11 +11,11 @@ npx tsx examples/custom-formats/node.ts
 
 */
 
-import type { FormatterConfig } from "../../dist";
+import type { FormatterConfig } from "logry";
 import chalk from "chalk";
+import { logry } from "logry";
 import stringWidth from "string-width";
 import stripAnsi from "strip-ansi";
-import { logry } from "../../dist";
 
 const getCardStyle = (
   label: string,

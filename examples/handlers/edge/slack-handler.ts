@@ -15,7 +15,7 @@ delete (globalThis as any).process;
 delete (globalThis as any).window;
 delete (globalThis as any).document;
 
-import { type RawPayload, logry, EdgeHandler } from "../../../dist/edge"; // 📦 Use Edge-specific module. (Includes EdgeHandler)
+import { type RawPayload, logry, EdgeHandler } from "logry/edge"; // 📦 Use Edge-specific module. (Includes EdgeHandler)
 
 // ════════════════════ Implementing a Custom Handler ════════════════════
 
