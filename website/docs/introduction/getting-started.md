@@ -31,17 +31,20 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 
 Here’s how logs look in Node.js vs. the browser:
 
+<!-- Screenshots preview -->
 <table width="100%">
-  <tr>
-    <td align="center" width="50%">
-      <img src="/logry/img/logry-node.png" alt="Logry node" width="95%" /><br/>
-      <em>Console output in Node.js</em>
-    </td>
-    <td align="center" width="50%">
-      <img src="/logry/img/logry-browser.png" alt="Logry browser" width="95%" /><br/>
-      <em>Console output in Browser</em>
-    </td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" width="50%">
+        <img src="/logry/img/logry-node.png" alt="Logry node" width="95%" /><br/>
+        <em>Console output in Node.js</em>
+      </td>
+      <td align="center" width="50%">
+        <img src="/logry/img/logry-browser.png" alt="Logry browser" width="95%" /><br/>
+        <em>Console output in Browser</em>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- Preview in devtools -->
