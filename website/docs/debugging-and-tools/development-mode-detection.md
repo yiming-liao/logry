@@ -1,8 +1,9 @@
 ---
 sidebar_position: 2
+title: Development Mode Detection
 ---
 
-# Development Mode Detection
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Construction.png" alt="Construction" width="36" height="36" /> Development Mode Detection
 
 This function detects whether the runtime is in development mode.  
  It is primarily used to control internal logging and error reporting within the library, such as internal-log and internal-error messages.

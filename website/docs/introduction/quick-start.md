@@ -1,64 +1,57 @@
 ---
 sidebar_position: 2
+title: Quick Start
 ---
 
-# Quick Start
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="36" height="36" /> Quick Start
 
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" /> **Installation**
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Triangular%20Flag.png" alt="Triangular Flag" width="20" height="20" /> Installation
 
 ```bash
 npm install logry
 ```
 
-Or use _yarn_
+or use **yarn**
 
 ```bash
 yarn add logry
 ```
 
-<h3>Using Static Logger Methods</h3>
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="20" height="20" /> Using Static Logger Methods
 
 The easiest way to use **Logry** is by calling its static logging methods.  
-They work instantly without a logger instance, ignore level restrictions, and default to the **“pretty”** preset for clean outpu
+They work instantly without a logger instance, ignore level restrictions, and default to the **“pretty”** preset for clean output
 
-```typescript
+```ts
 import { trace, debug, info, warn, error, fatal } from "logry";
 
 info("👋🏼 Hi there! Welcome to Logry!");
 
-// 2nd argument is metadata for additional details
-warn("User session is about to expire", { user: "John Doe" });
+warn("User session is about to expire", { user: "John Doe" }); // second argument is metadata (meta)
 
-// Error with full error object
-error("Unexpected error occurred", new Error("Something went wrong"));
+error("Unexpected error occurred", new Error("Something went wrong")); // you can also pass an Error
 ```
 
-<h3>Creating a Custom Logger Instance</h3>
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="20" height="20" /> Creating a Custom Logger Instance
 
 You can create a logger by calling **logry()**.  
 By default, the log level is set to **"warn"**, so only logs with levels **"warn"**, **"error"**, and **"fatal"** will be shown.  
 If you don’t specify an ID, the logger will use **"default"** as its identifier automatically.
 
-```typescript
+```ts
 import { logry } from "logry";
 
 // Create a custom logger instance (defaults to id: 'default' and level: 'warn')
 const logger = logry();
 
-// ❌ This won't be shown — 'info' is lower than the default 'warn' level
-logger.info("User logged in");
+logger.info("User logged in"); // ❌ This won't be shown, 'info' is lower than the default 'warn' level
 
-// ✅ This will be shown — 'warn' and above are allowed
-logger.warn("User login warning");
-
-// Inspect internal core (optional)
-console.log(logger.getCore());
-// -> LoggerCore { id: 'default', level: 'warn', ... }
+logger.warn("User login warning"); // ✅ This will be shown
 ```
 
-- Basic Logger Setup for Development
+A quick and easy setup to start logging right away:
 
-```typeScript
+```ts
 import { logry } from "logry";
 
 const logger = logry({
@@ -67,9 +60,12 @@ const logger = logry({
 });
 ```
 
-- Full Custom Logger Setup
+<details>
+<summary> ✨ <strong>Want a more customized setup?</strong></summary>
 
-```typescript
+A fully customizable logger setup when you need more control and personality:
+
+```ts
 import { logry } from "logry";
 
 const logger = logry({
@@ -77,7 +73,7 @@ const logger = logry({
   level: "info",
   scope: ["auth", "api"],
   context: { env: "production", appVersion: "2.5.1" },
-  preset: "verbose", // "json" | "pretty" | "pretty-multi-line" | "minimal" | "verbose"
+  preset: "verbose", // "pretty" | "pretty-expanded" | "minimal" | "verbose"
   normalizerConfig: {
     node: {
       timestamp: { style: "iso" },
@@ -90,8 +86,12 @@ const logger = logry({
   },
   formatterConfig: {
     node: {
-      id: { ansiColor: "\x1b[35m" },
-      message: { customFormatter: ({ part }) => "\n" + part.toUpperCase() },
+      id: { ansiStyle: "\x1b[35m" },
+      message: {
+        customFormatter: ({ fieldValue }) => ({
+          fieldValue: "\n" + fieldValue.toUpperCase(),
+        }),
+      },
       // ...
     },
     browser: {
@@ -100,10 +100,10 @@ const logger = logry({
       // ...
     },
   },
-  handlerConfig: {
-    onError: (error: unknown, handlerId: string) =>
-      console.log(handlerId, error),
+  handlerManagerConfig: {
     // ...
   },
 });
 ```
+
+</details>

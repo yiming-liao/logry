@@ -1,25 +1,33 @@
 ---
 sidebar_position: 1
+title: Getting Started
 ---
 
-# Getting Started
+import GettingStartedExample from '../../src/components/getting-started-example'
 
-Welcome to **Logry** — A clean, lightweight, cross-platform logger that just works on both Node.js and modern browsers.  
-Fully typed, deeply customizable, and built for the monorepo era.
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Milky Way" width="36" height="36" /> Getting Started
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="25" height="25" /> Features at a Glance
+✨ Welcome to **Logry** —  
+A lightweight, extensible logger for universal JavaScript runtimes like Node.js, browsers, and Edge.  
+Includes scoped loggers, formatter pipelines, and modular handlers for file logging, remote delivery, or custom use.
 
-- **⚡ Zero-dependency & Type-safe — Written in TypeScript with no runtime bloat**
-- **🌍 Environment Agnostic — Use the same logger in SSR, API routes, and the browser**
-- **🎨 Customizable Output — Control every part of the log format — or write your own**
-- **🧠 Context Support — Inject trace data like requestId, userId and pass it down**
-- **🪵 Scoped Loggers — Organize output with nested scopes like auth > login > error**
-- **🧩 Composable Architecture — Swap in custom normalizers, formatters, and transporters**
-- **🛠 Plugin-ready Core — Register your own handlers via a flexible hook system**
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="20" height="20" /> Features at a Glance
+
+- 🌍 **Environment Agnostic** — Works across universal JavaScript runtimes including server, API, browser, Edge, and beyond
+
+- ⚡️ **Zero Dependency & Lightning Fast** — Zero dependencies, fully typed, minimal runtime overhead
+
+- 🎨 **Flexible Formatter Pipeline** — Customize every step from normalization to formatting with full control
+
+- 📦 **Plugin-Ready Core** — Easily extendable with custom handlers and lifecycle hooks to build your own logging workflows
+
+- 🔍 **Contextual Logging** — Supports separate meta and context data for flexible and clear log enrichment
+
+- 🌳 **Scoped Loggers** — Organize and filter logs with nested, hierarchical scopes
 
 ---
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /> Output Preview
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="20" height="20" /> Output Preview
 
 Here’s how logs look in Node.js vs. the browser:
 
@@ -35,3 +43,9 @@ Here’s how logs look in Node.js vs. the browser:
     </td>
   </tr>
 </table>
+
+<!-- Preview in devtools -->
+<GettingStartedExample/>
+
+> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Party%20Popper.png" alt="Party Popper" width="16" height="16" /> Hit F12 and catch logry in the act.  
+> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Kissing%20Cat.png" alt="Kissing Cat" width="16" height="16" /> Not your style? No worries! It’s fully customizable.
