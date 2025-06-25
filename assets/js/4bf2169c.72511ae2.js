@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunklogry_doc=self.webpackChunklogry_doc||[]).push([[7388],{6011:o=>{o.exports=JSON.parse('{"metadata":{"permalink":"/logry/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
