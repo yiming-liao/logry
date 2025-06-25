@@ -3,7 +3,7 @@ import type { UniversalLogger } from "@/core/logger";
 /**
  * Inspect the resolved handler configuration of a Logger instance.
  */
-export function inspecthandlerManagerConfig(logger: UniversalLogger): void {
+export function inspectHandlerManagerConfig(logger: UniversalLogger): void {
   const config = logger["handlerManager"].getConfig?.();
   if (!config) {
     console.warn(
