@@ -10,7 +10,7 @@ import tseslint from "typescript-eslint";
 export default defineConfig([
   // ignores
   {
-    ignores: ["dist/**", "coverage/**"],
+    ignores: ["dist/**", "coverage/**", "website"],
   },
   // basic js
   {
