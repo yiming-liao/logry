@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" id="top" >
   <a href="https://yiming-liao.github.io/logry/docs/introduction/getting-started">
     <img src="logry-logo-rounded.png" alt="Logry node" width="100" height="100" />
   </a>
@@ -71,7 +71,12 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 
 - 🌳 **Scoped Loggers** — Organize and filter logs with nested, hierarchical scopes
 
----
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /> Output Preview
 
@@ -91,6 +96,13 @@ Here’s how logs look in Node.js vs. the browser:
 </table>
 
 > <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Kissing%20Cat.png" alt="Kissing Cat" width="16" height="16" /> Not your style? No worries! It’s fully customizable.
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ---
 
@@ -196,6 +208,13 @@ const logger = logry({
 });
 ```
 
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
+
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Shooting%20Star.png" alt="Shooting Star" width="25" height="25" /> Presets
@@ -218,6 +237,13 @@ const logger = logry({ preset: "pretty" });
 
 Presets are fixed for now.  
 🎯 Custom presets may come in future versions.
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ---
 
@@ -253,6 +279,13 @@ For example, if the level is set to `warn`, only `warn`, `error`, and `fatal` lo
 const logger = logry({ id: "my-app", level: "debug" });
 ```
 
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
+
 ### ✨ Child Loggers
 
 In **Logry**, every logger instance is lightweight and modular.  
@@ -287,6 +320,13 @@ Child loggers inherit settings using **shallow merging (first-level only)**:
 
 This keeps child loggers **flexible and contextual**, without needing to re-specify everything.
 
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
+
 ### ✨ Logger Core
 
 The core engine responsible for managing log levels, shared identity (id), and optional configurations for formatting, normalization, and handlers.
@@ -297,6 +337,13 @@ The core engine responsible for managing log levels, shared identity (id), and o
   - `resetLevel()`: restore to the initial log level
 
 This allows flexible adjustment of log output without needing to recreate logger instances.
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ### ✨ Handler Manager
 
@@ -324,6 +371,13 @@ and provides robust strategies for flushing, cleanup, and error recovery.
   - Reports errors with handler ID and payload context via **onError**
 - 🧼 Resource cleanup
   - **dispose()** cancels flush strategies, removes all handlers, and clears internal states
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ---
 
@@ -369,6 +423,13 @@ it triggers two parallel paths internally:
      │ FileHandler │ SendRemoteHandler │ CustomHandler │ ...
      └─────────────┴───────────────────┴───────────────┘
 ```
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane%20Departure.png" alt="Airplane Departure" width="20" height="20" /> Transporter
 
@@ -443,6 +504,13 @@ logry.info("Hello from the Edge");
 > 🔮 Unlike traditional loggers that mix console output with side-effects,  
 > **Logry** keeps things clean and focused.  
 > Transporters handle console output only; for other log deliveries, use Handlers.
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Shuffle%20Tracks%20Button.png" alt="Shuffle Tracks Button" width="25" height="25" /> Normalizer
 
@@ -523,6 +591,13 @@ normalizerConfig: {
   },
 },
 ```
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
 
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Artist%20Palette.png" alt="Artist Palette" width="20" height="20" /> Formatter
 
@@ -623,6 +698,13 @@ formatterConfig: {
 },
 ```
 
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
+
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Package.png" alt="Package" width="25" height="25" /> Handlers
 
 Handlers are modular units that define **_where_** and **_how_** a log should be delivered,  
@@ -700,6 +782,13 @@ class MyCustomHandler extends NodeHandler {
 > This makes it easy to build reliable and composable handlers,  
 > whether you write files, send to remote servers, or push logs to cloud ingestion pipelines ☁️
 
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
+
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Hammer%20and%20Wrench.png" alt="Hammer and Wrench" width="25" height="25" /> Devtools
@@ -730,6 +819,13 @@ inspecthandlerManagerConfig(myLogger);
 
 Good for checking which rules and tasks are active.
 
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
+
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Construction.png" alt="Construction" width="25" height="25" /> Development Mode Detection
@@ -748,3 +844,10 @@ This function detects whether the runtime is in development mode.
   - Defaults to false (production) if undefined.
 
 This setup assumes Node defaults to development mode for easier local testing, while browsers default to production to avoid unnecessary debug logs.
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
