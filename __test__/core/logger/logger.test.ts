@@ -1,6 +1,6 @@
 import type { LoggerCore } from "@/core/logger-core";
 import { CoreLogger } from "@/core/logger/core-logger/core-logger";
-import { Logger } from "@/core/logger/logger";
+import { UniversalLogger } from "@/core/logger/platform/univesal-logger/universal-logger";
 import {
   BrowserConsoleTransporter,
   NodeConsoleTransporter,
@@ -16,7 +16,7 @@ describe("Logger", () => {
   } as LoggerCore;
 
   it("should extend CoreLogger", () => {
-    const logger = new Logger({
+    const logger = new UniversalLogger({
       core: mockCore,
       level: "info",
       scope: [],
@@ -25,7 +25,7 @@ describe("Logger", () => {
   });
 
   it("should initialize with two transporters", () => {
-    const logger = new Logger({
+    const logger = new UniversalLogger({
       core: mockCore,
       level: "info",
       scope: [],
@@ -42,7 +42,7 @@ describe("Logger", () => {
   });
 
   it("should pass normalizer and formatter to transporters", () => {
-    const logger = new Logger({
+    const logger = new UniversalLogger({
       core: mockCore,
       level: "info",
       scope: [],

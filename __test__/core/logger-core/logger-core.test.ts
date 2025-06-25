@@ -1,7 +1,7 @@
 import type { Level } from "@/shared/types";
+import { HandlerManager } from "@/core/handler-manager/handler-manager";
 import { LoggerCore } from "@/core/logger-core/logger-core";
 import { internalLog } from "@/internal";
-import { HandlerManager } from "@/core/handler-manager/handler-manager";
 import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
 
 jest.mock("@/internal", () => ({

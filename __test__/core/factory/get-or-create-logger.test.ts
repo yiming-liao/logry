@@ -1,7 +1,7 @@
 import type { LoggerPreset } from "@/presets/types";
 import { coreMap } from "@/core/factory";
 import { getOrCreateLogger } from "@/core/factory";
-import { Logger } from "@/core/logger";
+import { CoreLogger } from "@/core/logger/core-logger";
 import { LoggerCore } from "@/core/logger-core";
 import { internalLog } from "@/internal";
 import { logryPresets } from "@/presets";
@@ -23,7 +23,7 @@ describe("getOrCreateLogger", () => {
 
     expect(core).toBeDefined();
     expect(core).toBeInstanceOf(LoggerCore);
-    expect(logger).toBeInstanceOf(Logger);
+    expect(logger).toBeInstanceOf(CoreLogger);
     expect(logger.getCore()).toBe(core);
   });
 
@@ -87,7 +87,7 @@ describe("getOrCreateLogger with preset", () => {
     const core = coreMap.get("preset-test");
     expect(core).toBeDefined();
     expect(core).toBeInstanceOf(LoggerCore);
-    expect(logger).toBeInstanceOf(Logger);
+    expect(logger).toBeInstanceOf(CoreLogger);
 
     expect(core?.["formatterConfig"]).toMatchObject(
       logryPresets[presetName as LoggerPreset].formatterConfig,

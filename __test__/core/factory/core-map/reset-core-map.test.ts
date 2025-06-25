@@ -1,6 +1,6 @@
 import { resetCoreMap, getOrCreateLogger } from "@/core/factory";
 
-describe("resetLoggerFactory", () => {
+describe("resetCoreMap", () => {
   it("should reset the logger factory and remove all logger cores", () => {
     const logger1 = getOrCreateLogger({ id: "reset-test" });
 
