@@ -90,7 +90,7 @@ or use **yarn**
 yarn add logry
 ```
 
-> Just playing in HTML? Load logry with a script tag:
+> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Label.png" alt="Label" width="16" height="16" /> Use in plain HTML with this script:
 
 ```html
 <!-- Use logry in any static HTML page via jsDelivr -->
@@ -102,24 +102,24 @@ yarn add logry
 
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="16" height="16" /> Using Static Logger Methods
 
-The easiest way to use **Logry** is by calling its static logging methods.  
-They work instantly without a logger instance, ignore level restrictions, and default to the **“pretty”** preset for clean output
+They work instantly, ignore level restrictions, and use the default “pretty” preset for clean output.
 
 ```ts
 import { trace, debug, info, warn, error, fatal } from "logry";
 
-info("👋🏼 Hi there! Welcome to Logry!");
+info("👋🏼 Hi there!");
 
-warn("User session is about to expire", { user: "John Doe" }); // second argument is metadata (meta)
+// second argument is metadata (meta)
+warn("Who are you?", { name: "Logry" });
 
-error("Unexpected error occurred", new Error("Something went wrong")); // you can also pass an Error
+// you can also pass an Error
+error("Uh-oh!", new Error("Lost in the code"));
 ```
 
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="16" height="16" /> Creating a Custom Logger Instance
 
-You can create a logger by calling **logry()**.  
-By default, the log level is set to **"warn"**, so only logs with levels **"warn"**, **"error"**, and **"fatal"** will be shown.  
-If you don’t specify an ID, the logger will use **"default"** as its identifier automatically.
+Call `logry()` to create a logger.  
+The default level is `warn`, so only **warn**, **error**, and **fatal** logs are shown.
 
 ```ts
 import { logry } from "logry";
@@ -127,9 +127,11 @@ import { logry } from "logry";
 // Create a custom logger instance (defaults to id: 'default' and level: 'warn')
 const logger = logry();
 
-logger.info("User logged in"); // ❌ This won't be shown, 'info' is lower than the default 'warn' level
+// ❌ This won't be shown, 'info' is lower than the default 'warn' level
+logger.info("User logged in");
 
-logger.warn("User login warning"); // ✅ This will be shown
+// ✅ This will be shown
+logger.warn("User login warning");
 ```
 
 A quick and easy setup to start logging right away:
