@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: Handlers & Integrations
+title: ✨ Handlers & Integrations
 ---
 
 import BrowserBasic from '../../src/components/examples/browser-basic'

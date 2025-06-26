@@ -17,7 +17,6 @@ export const baseStandaloneLog = ({
   options = {},
 }: StandaloneLogOptions): RawPayload => {
   const scope = options.scope || [];
-  const context = options.context || {};
 
   // Build the initial payload with all necessary fields
   const rawPayload = buildPayload({
@@ -27,7 +26,7 @@ export const baseStandaloneLog = ({
     message,
     meta,
     scope: Array.isArray(scope) ? scope : [scope],
-    context,
+    context: options.context,
     normalizerConfig: options.normalizerConfig || {},
     formatterConfig: options.formatterConfig || {},
   });
