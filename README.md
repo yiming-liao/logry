@@ -54,11 +54,11 @@ Here’s how logs look in Node.js vs. the browser:
   <tbody>
   <tr>
     <td align="center" width="50%">
-      <img src="logry-node.png" alt="Logry node" width="95%" /><br/>
+      <img src="logry-node-preview.gif" alt="Logry node" width="95%" /><br/>
       <em>Console output in Node.js</em>
     </td>
     <td align="center" width="50%">
-      <img src="logry-browser.png" alt="Logry browser" width="95%" /><br/>
+      <img src="logry-browser-preview.gif" alt="Logry browser" width="95%" /><br/>
       <em>Console output in Browser</em>
     </td>
   </tr>
