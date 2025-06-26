@@ -12,7 +12,7 @@ import type { RawContext } from "@/shared/types/log-fields";
 export type GetOrCreateLoggerOptions = {
   id?: string;
   level?: Level;
-  scope?: string[];
+  scope?: string | string[];
   context?: RawContext;
   formatterConfig?: FormatterConfig;
   normalizerConfig?: NormalizerConfig;
