@@ -20,6 +20,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-%E2%9C%94-blue?style=flat&colorA=000000&colorB=000000)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/npm/l/logry?style=flat&colorA=000000&colorB=000000)](LICENSE)
 
+![Platform](https://img.shields.io/badge/Platform:-Node.js%20%7C%20Browser%20%7C%20Edge-lightgrey?style=flat&colorA=000000&colorB=000000)
+
 </div>
 
 <div align="center">
