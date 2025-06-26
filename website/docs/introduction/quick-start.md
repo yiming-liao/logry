@@ -17,6 +17,16 @@ or use **yarn**
 yarn add logry
 ```
 
+> Just playing in HTML? Load logry with a script tag:
+
+```html
+<!-- Use logry in any static HTML page via jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/logry@1.1.2/dist/browser-lite/index.global.min.js"></script>
+<script>
+  logry.info("Hey! I'm here!");
+</script>
+```
+
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="20" height="20" /> Using Static Logger Methods
 
 The easiest way to use **Logry** is by calling its static logging methods.  

@@ -120,6 +120,16 @@ or use **yarn**
 yarn add logry
 ```
 
+> Just playing in HTML? Load logry with a script tag:
+
+```html
+<!-- Use logry in any static HTML page via jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/logry@1.1.2/dist/browser-lite/index.global.min.js"></script>
+<script>
+  logry.info("Hey! I'm here!");
+</script>
+```
+
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" /> Quick Start
