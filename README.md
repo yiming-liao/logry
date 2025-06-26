@@ -8,8 +8,7 @@
 
 <div align="center">
   
-A lightweight, extensible logger for universal JavaScript runtimes like Node.js, browsers, and Edge.  
-Includes scoped loggers, formatter pipelines, and modular handlers for file logging, remote delivery, or custom use.
+ Your go-to logger that’s small but mighty, universal across JavaScript runtimes.
 
 </div>
 
@@ -29,54 +28,23 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 
 </div>
 
-> Fullstack logging is a mess.  
-> **Logry** cleans it up — universal, zero config, and out-of-the-box ready.
+> _Lightweight. Customizable. Ready-to-go._  
+> _Console-first. The rest? You decide._
 
 ---
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Books.png" alt="Books" width="25" height="25" /> Outline
 
-- [😎 Features at a Glance](#-features-at-a-glance)
-- [🌟 Output Preview](#-output-preview)
-- [🚩 Installation](#-installation)
-- [🚀 Quick Start](#-quick-start)
-- [🌠 Presets](#-presets)
-- [☄️ Core Concepts](#-core-concepts)
-  - [📝 Log Level](#-log-level)
-  - [🧸 Child Loggers](#-child-loggers)
-  - [🗿 Logger Core](#-logger-core)
-  - [🎛️ Handler Manager](#-handler-manager)
-- [🏛️ Architecture](#-architecture)
-  - [🌊 Log Pipeline](#-log-pipeline)
-  - [🛫 Transporter](#-transporter)
-  - [🔀 Normalizer](#-normalizer)
-  - [🎨 Formatter](#-formatter)
-  - [🕹 Handlers](#-handlers)
-- [🛠️ Devtools](#-devtools)
-- [🚧 Development Mode Detection](#-development-mode-detection)
+- [Output Preview](#-output-preview)
+- [Quick Start 🚀](#-quick-start)
+- [Features at a Glance](#-features-at-a-glance)
+- [Presets](#-presets)
+- [Core Concepts](#-core-concepts)
+- [Architecture](#-architecture)
+- [Devtools](#-devtools)
+- [Development Mode Detection](#-development-mode-detection)
 
 ---
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="25" height="25" /> Features at a Glance
-
-- 🌍 **Environment Agnostic** — Works across universal JavaScript runtimes including server, API, browser, Edge, and beyond
-
-- ⚡️ **Zero Dependency & Lightning Fast** — Zero dependencies, fully typed, minimal runtime overhead
-
-- 🎨 **Flexible Formatter Pipeline** — Customize every step from normalization to formatting with full control
-
-- 📦 **Plugin-Ready Core** — Easily extendable with custom handlers and lifecycle hooks to build your own logging workflows
-
-- 🔍 **Contextual Logging** — Supports separate meta and context data for flexible and clear log enrichment
-
-- 🌳 **Scoped Loggers** — Organize and filter logs with nested, hierarchical scopes
-
-<!-- Back To Top -->
-<div align="right">
-
-[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
-
-</div>
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /> Output Preview
 
@@ -108,7 +76,9 @@ Here’s how logs look in Node.js vs. the browser:
 
 ---
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Triangular%20Flag.png" alt="Triangular Flag" width="25" height="25" /> Installation
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" /> Quick Start
+
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Triangular%20Flag.png" alt="Triangular Flag" width="16" height="16" /> Installation
 
 ```bash
 npm install logry
@@ -130,11 +100,7 @@ yarn add logry
 </script>
 ```
 
----
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" /> Quick Start
-
-### Using Static Logger Methods
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="16" height="16" /> Using Static Logger Methods
 
 The easiest way to use **Logry** is by calling its static logging methods.  
 They work instantly without a logger instance, ignore level restrictions, and default to the **“pretty”** preset for clean output
@@ -149,7 +115,7 @@ warn("User session is about to expire", { user: "John Doe" }); // second argumen
 error("Unexpected error occurred", new Error("Something went wrong")); // you can also pass an Error
 ```
 
-### Creating a Custom Logger Instance
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="16" height="16" /> Creating a Custom Logger Instance
 
 You can create a logger by calling **logry()**.  
 By default, the log level is set to **"warn"**, so only logs with levels **"warn"**, **"error"**, and **"fatal"** will be shown.  
@@ -178,7 +144,7 @@ const logger = logry({
 ```
 
 <details>
-<summary> ✨ <strong>Want a more customized setup?</strong></summary>
+<summary> 💭 <strong>Want a more customized setup?</strong></summary>
 
 A fully customizable logger setup when you need more control and personality:
 
@@ -224,6 +190,34 @@ const logger = logry({
 ```
 
 </details>
+
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Joystick.png" alt="Joystick" width="20" height="20" /> Connect with the Outside World
+
+**Want to send your logs to files, Slack, or other services?**  
+ Check out the [✨ Handlers & Integrations](https://yiming-liao.github.io/logry/docs/examples/handlers) to see how **Logry** integrates with real-world outputs.
+
+<!-- Back To Top -->
+<div align="right">
+
+[<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Upwards%20Button.png" alt="Upwards Button" width="25" height="25" />](#top)
+
+</div>
+
+---
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="25" height="25" /> Features at a Glance
+
+- 🌍 **Environment Agnostic** — Works across universal JavaScript runtimes including server, API, browser, Edge, and beyond
+
+- ⚡️ **Zero Dependency & Lightning Fast** — Zero dependencies, fully typed, minimal runtime overhead
+
+- 🎨 **Flexible Formatter Pipeline** — Customize every step from normalization to formatting with full control
+
+- 📦 **Plugin-Ready Core** — Easily extendable with custom handlers and lifecycle hooks to build your own logging workflows
+
+- 🔍 **Contextual Logging** — Supports separate meta and context data for flexible and clear log enrichment
+
+- 🌳 **Scoped Loggers** — Organize and filter logs with nested, hierarchical scopes
 
 <!-- Back To Top -->
 <div align="right">
