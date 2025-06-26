@@ -7,12 +7,36 @@ import GettingStartedExample from '../../src/components/getting-started-example'
 
 # <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Milky Way" width="36" height="36" /> Getting Started
 
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="20" height="20" /> Welcome to **Logry** —  
-A lightweight, extensible logger for universal JavaScript runtimes like Node.js, browsers, and Edge.  
-Includes scoped loggers, formatter pipelines, and modular handlers for file logging, remote delivery, or custom use.
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="20" height="20" /> Welcome to **Logry**
 
-> Fullstack logging is a mess.  
-> **Logry** cleans it up — universal, zero config, and out-of-the-box ready. <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/High%20Voltage.png" alt="High Voltage" width="25" height="25" />
+Your go-to logger that’s small but mighty, universal across JavaScript runtimes.
+
+> _Lightweight. Customizable. Ready-to-go._ <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/High%20Voltage.png" alt="High Voltage" width="20" height="20" />  
+> _Console-first. The rest? You decide._
+
+---
+
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="20" height="20" /> Output Preview
+
+Here’s how logs look in Node.js vs. the browser:
+
+<!-- Screenshots preview -->
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="center" width="50%">
+        <img src="/logry/img/logry-node-preview.gif" alt="Logry node" width="95%" /><br/>
+        <em>Console output in Node.js</em>
+      </td>
+      <td align="center" width="50%">
+        <img src="/logry/img/logry-browser-preview.gif" alt="Logry browser" width="95%" /><br/>
+        <em>Console output in Browser</em>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+---
 
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Sunglasses.png" alt="Smiling Face with Sunglasses" width="20" height="20" /> Features at a Glance
 
@@ -29,26 +53,6 @@ Includes scoped loggers, formatter pipelines, and modular handlers for file logg
 - 🌳 **Scoped Loggers** — Organize and filter logs with nested, hierarchical scopes
 
 ---
-
-### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="20" height="20" /> Output Preview
-
-Here’s how logs look in Node.js vs. the browser:
-
-<!-- Screenshots preview -->
-<table width="100%">
-  <tbody>
-    <tr>
-      <td align="center" width="50%">
-        <img src="/logry/img/logry-node.png" alt="Logry node" width="95%" /><br/>
-        <em>Console output in Node.js</em>
-      </td>
-      <td align="center" width="50%">
-        <img src="/logry/img/logry-browser.png" alt="Logry browser" width="95%" /><br/>
-        <em>Console output in Browser</em>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
 <!-- Preview in devtools -->
 <GettingStartedExample/>

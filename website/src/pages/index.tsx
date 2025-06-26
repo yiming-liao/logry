@@ -34,11 +34,8 @@ function HomepageHeader() {
           className="hero__subtitle"
           style={{ color: "rgb(23, 23, 23)", fontFamily: "Georgia, serif" }}
         >
-          {/* {siteConfig.tagline} */}A lightweight, extensible logger for
-          universal JavaScript runtimes like Node.js, browsers, and Edge.
-          <br />
-          Includes scoped loggers, formatter pipelines, and modular handlers for
-          file logging, remote delivery, or custom use.
+          {/* {siteConfig.tagline} */}Your go-to logger that’s small but mighty,
+          universal across JavaScript runtimes.
         </p>
         <div className={styles.buttons}>
           <Link

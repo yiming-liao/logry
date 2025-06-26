@@ -9,21 +9,6 @@ Common log methods available on the logger instance, such as `fatal()`, `error()
 
 > `logry(options?: BoundLogMethod): void`
 
-| Parameter | Type                | Description                       |
-| --------- | ------------------- | --------------------------------- |
-| `message` | `RawMessage`        | The main log message              |
-| `meta`    | `RawMeta`           | Additional metadata               |
-| `options` | `LogRuntimeOptions` | Runtime options for this log call |
-
-### LogRuntimeOptions
-
-| Parameter           | Type                 | Description                           |
-| ------------------- | -------------------- | ------------------------------------- |
-| `scope?`            | `RawScope \| string` | Scope(s) to categorize or filter logs |
-| `context?`          | `RawContext`         | Additional contextual information     |
-| `normalizerConfig?` | `NormalizerConfig`   | Configuration for normalizer          |
-| `formatterConfig?`  | `FormatterConfig`    | Configuration for formatter           |
-
 ### Example
 
 ```ts
@@ -40,3 +25,20 @@ logger.error(
   },
 );
 ```
+
+### Parameters
+
+| Parameter | Type                | Description                       |
+| --------- | ------------------- | --------------------------------- |
+| `message` | `RawMessage`        | The main log message              |
+| `meta`    | `RawMeta`           | Additional metadata               |
+| `options` | `LogRuntimeOptions` | Runtime options for this log call |
+
+### LogRuntimeOptions
+
+| Parameter           | Type                 | Description                           |
+| ------------------- | -------------------- | ------------------------------------- |
+| `scope?`            | `RawScope \| string` | Scope(s) to categorize or filter logs |
+| `context?`          | `RawContext`         | Additional contextual information     |
+| `normalizerConfig?` | `NormalizerConfig`   | Configuration for normalizer          |
+| `formatterConfig?`  | `FormatterConfig`    | Configuration for formatter           |

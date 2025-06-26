@@ -7,6 +7,23 @@ title: logry()
 
 > `logry(options?: GetOrCreateLoggerOptions): UniversalLogger`
 
+### Example
+
+```ts
+const logger = logry({
+  id: "my-logger",
+  level: "info",
+  scope: ["app", "ui"],
+  context: { apiVersion: 2 },
+  normalizerConfig: { node: { timestamp: { style: "iso" } } },
+  formatterConfig: { node: { id: { ansiStyle: "\x1b[35m" } } },
+  handlerManagerConfig: { flushTimeout: 5000 },
+  preset: "minimal",
+});
+```
+
+### Parameters
+
 | Parameter               | Type                   | Description                          | Default            |
 | ----------------------- | ---------------------- | ------------------------------------ | ------------------ |
 | `id?`                   | `string`               | Identifier for the logger core       | Randomly generated |
@@ -24,18 +41,3 @@ title: logry()
 - Import from **"logry/node"**: `logry(options?: GetOrCreateLoggerOptions): NodeLogger`
 
 - Import from **"logry/browser"**: `logry(options?: GetOrCreateLoggerOptions): BrowserLogger`
-
-### Example
-
-```ts
-const logger = logry({
-  id: "my-logger",
-  level: "info",
-  scope: ["app", "ui"],
-  context: { apiVersion: 2 },
-  normalizerConfig: { node: { timestamp: { style: "iso" } } },
-  formatterConfig: { node: { id: { ansiStyle: "\x1b[35m" } } },
-  handlerManagerConfig: { flushTimeout: 5000 },
-  preset: "minimal",
-});
-```

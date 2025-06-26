@@ -19,6 +19,22 @@ All three platform configs share the same structure for most fields such as leve
 The only difference is:
 node includes additional fields like **pid** and **hostname**, which are only available in Node.js environments.
 
+### Example
+
+```ts
+const logger = logry({
+  normalizerConfig: {
+    node: {
+      timestamp: { style: "iso", useUTC: false, showTimeOnly: true },
+      id: { customNormalizer: ({ fieldValue }) => `@${fieldValue}` },
+      level: { style: "title" },
+      scope: { separator: "." },
+      meta: { errorStackLines: 5 },
+    },
+  },
+});
+```
+
 ### Platform NormalizerConfig Fields
 
 | Field        | Options                                             |
