@@ -49,4 +49,13 @@ export default defineConfig([
     outDir: "dist/edge",
     platform: "neutral",
   },
+
+  {
+    ...base,
+    entry: ["exports/browser-lite/index.ts"],
+    outDir: "dist/browser-lite",
+    format: ["iife"],
+    platform: "browser",
+    globalName: "logry",
+  },
 ]);

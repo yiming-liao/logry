@@ -6,7 +6,7 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { EdgeLogger } from "@/core/logger/platform/edge-logger";
+export { EdgeLogger } from "@/core/logger/platform";
 export const logry = createEdgeLogger;
 
 // ─────────────────────────────────────────────────────────────

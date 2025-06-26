@@ -30,7 +30,6 @@ export { Normalizer } from "@/modules/normalizers";
 export type {
   NormalizerConfig,
   NodeNormalizerConfig,
-  EdgeNormalizerConfig,
 } from "@/modules/normalizers/types";
 
 // --- 🎨 Formatters ---
@@ -38,7 +37,6 @@ export { Formatter } from "@/modules/formatters";
 export type {
   FormatterConfig,
   NodeFormatterConfig,
-  EdgeFormatterConfig,
 } from "@/modules/formatters/types";
 
 // ─────────────────────────────────────────────────────────────

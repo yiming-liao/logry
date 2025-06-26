@@ -1,4 +1,4 @@
-import { getOrCreateBrowserLogger } from "@/core/factory";
+import { createBrowserLiteLogger } from "@/core/logger/platform";
 import { browserStandaloneLog } from "@/core/logger/standalone-log";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
@@ -6,9 +6,8 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { BrowserLogger as Logger } from "@/core/logger";
-export { getOrCreateBrowserLogger, resetCoreMap } from "@/core/factory";
-export const logry = getOrCreateBrowserLogger;
+export { BrowserLiteLogger } from "@/core/logger/platform";
+export const createLogger = createBrowserLiteLogger;
 
 // ─────────────────────────────────────────────────────────────
 // 🧬 Core Types
