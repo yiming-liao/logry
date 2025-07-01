@@ -3,7 +3,7 @@ import { getOrCreateLogger } from "@/core/factory/get-or-create-logger";
 import { UniversalLogger } from "@/core/logger";
 
 export const getOrCreateUniversalLogger = (
-  options?: GetOrCreateLoggerOptions,
+  options?: Omit<GetOrCreateLoggerOptions, "Logger">,
 ) => {
   return getOrCreateLogger({ ...options, Logger: UniversalLogger });
 };
