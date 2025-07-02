@@ -3,13 +3,12 @@ import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
 import type { RawContext } from "@/shared/types/log-fields";
 import type { RawPayload } from "@/shared/types/log-payload";
-import { internalError } from "@/internal";
 
 export type BuildPayloadOptions = {
   timestamp?: number;
   level: Level;
   id?: string;
-  message: string;
+  message?: string;
   meta?: unknown;
   scope: string[];
   context?: RawContext;
@@ -25,20 +24,13 @@ export const buildPayload = ({
   timestamp = Date.now(),
   level,
   id = "",
-  message,
+  message = "",
   meta,
   scope,
   context,
   normalizerConfig,
   formatterConfig,
 }: BuildPayloadOptions): RawPayload => {
-  // Reject empty or whitespace-only messages
-  if (!message?.trim()) {
-    return internalError({
-      message: "Message is required and cannot be empty.",
-    });
-  }
-
   return {
     timestamp,
     level,

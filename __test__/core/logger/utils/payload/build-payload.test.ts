@@ -1,10 +1,5 @@
 import type { BuildPayloadOptions } from "@/core/logger/utils/payload/build-payload";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
-import { internalError } from "@/internal";
-
-jest.mock("@/internal/internal-error", () => ({
-  internalError: jest.fn(() => ({ __error: true })),
-}));
 
 describe("buildPayload", () => {
   const base: BuildPayloadOptions = {
@@ -38,14 +33,6 @@ describe("buildPayload", () => {
   it("should use provided timestamp if given", () => {
     const payload = buildPayload({ ...base, timestamp: 9999 });
     expect(payload.timestamp).toBe(9999);
-  });
-
-  it("should call internalError if message is empty", () => {
-    const payload = buildPayload({ ...base, message: "   " });
-    expect(internalError).toHaveBeenCalledWith({
-      message: "Message is required and cannot be empty.",
-    });
-    expect(payload).toEqual({ __error: true });
   });
 
   it("should handle optional meta and context", () => {

@@ -5,7 +5,7 @@ import { buildPayload } from "@/core/logger/utils/payload/build-payload";
 
 export type StandaloneLogOptions = {
   level: Level;
-  message: string;
+  message?: string;
   meta?: unknown;
   options?: LogRuntimeOptions;
 };

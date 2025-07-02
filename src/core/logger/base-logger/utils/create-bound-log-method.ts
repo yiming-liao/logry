@@ -1,9 +1,6 @@
-import type {
-  BoundLogMethod,
-  LogOptions,
-  LogRuntimeOptions,
-} from "@/core/logger/types";
+import type { BoundLogMethod, LogOptions } from "@/core/logger/types";
 import type { Level } from "@/shared/types";
+import { parseLogArgs } from "@/core/logger/base-logger/utils/parse-log-args";
 import { shouldLog } from "@/core/logger/utils/should-log";
 
 /**
@@ -21,7 +18,8 @@ export const createBoundLogMethod = (
   level: Level,
   id?: string,
 ): BoundLogMethod => {
-  return (message: string, meta?: unknown, options?: LogRuntimeOptions) => {
+  return (...args: unknown[]) => {
+    const { message, meta, options } = parseLogArgs(args);
     // Check if the message level passes the filter
     if (shouldLog({ effectiveLevel, level })) {
       log({ level, message, meta, options, id });

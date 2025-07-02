@@ -35,7 +35,7 @@ describe("createForceMethods", () => {
       options: undefined,
     });
 
-    methods.info("info message", undefined, { context: {} });
+    methods.info("info message", { context: {} });
     expect(mockLog).toHaveBeenCalledWith({
       level: "info",
       message: "info message",
