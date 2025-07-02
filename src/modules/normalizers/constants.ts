@@ -6,7 +6,7 @@ import type { Level } from "@/shared/types";
 // Timestamp
 export const DEFAULT_TIMESTAMP_STYLE: TimestampStyle = "pretty";
 export const DEFAULT_USE_UTC = false;
-export const DEFAULT_SHOW_TIME_ONLY = false;
+export const DEFAULT_SHOW_TIME_ONLY = true;
 
 // Level
 export const DEFAULT_LEVEL_STYLE: LevelStyle = "upper";

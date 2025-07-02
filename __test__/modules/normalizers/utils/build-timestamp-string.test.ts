@@ -1,19 +1,19 @@
 import { buildTimestampString } from "@/modules/normalizers/utils/build-timestamp-string";
 
 describe("buildTimestampString", () => {
-  const baseDate = new Date("2024-06-04T12:30:45Z");
+  const baseDate = new Date("2024-06-04T12:30:45.123Z");
   const baseMs = baseDate.getTime();
 
-  it("should return full UTC date and time when useUTC is true", () => {
+  it("should return full UTC date and time with milliseconds when useUTC is true", () => {
     const result = buildTimestampString({
       timestamp: baseMs,
       useUTC: true,
       showTimeOnly: false,
     });
-    expect(result).toBe("2024-06-04 12:30:45");
+    expect(result).toBe("2024-06-04 12:30:45.123");
   });
 
-  it("should return full local date and time when useUTC is false", () => {
+  it("should return full local date and time with milliseconds when useUTC is false", () => {
     const result = buildTimestampString({
       timestamp: baseMs,
       useUTC: false,
@@ -29,21 +29,27 @@ describe("buildTimestampString", () => {
       .padStart(2, "0")}:${local
       .getMinutes()
       .toString()
-      .padStart(2, "0")}:${local.getSeconds().toString().padStart(2, "0")}`;
+      .padStart(
+        2,
+        "0",
+      )}:${local.getSeconds().toString().padStart(2, "0")}.${local
+      .getMilliseconds()
+      .toString()
+      .padStart(3, "0")}`;
 
     expect(result).toBe(expected);
   });
 
-  it("should return only UTC time when showTimeOnly is true", () => {
+  it("should return only UTC time with milliseconds when showTimeOnly is true", () => {
     const result = buildTimestampString({
       timestamp: baseMs,
       useUTC: true,
       showTimeOnly: true,
     });
-    expect(result).toBe("12:30:45");
+    expect(result).toBe("12:30:45.123");
   });
 
-  it("should return only local time when showTimeOnly is true and useUTC is false", () => {
+  it("should return only local time with milliseconds when showTimeOnly is true and useUTC is false", () => {
     const result = buildTimestampString({
       timestamp: baseMs,
       useUTC: false,
@@ -54,7 +60,13 @@ describe("buildTimestampString", () => {
     const expected = `${local.getHours().toString().padStart(2, "0")}:${local
       .getMinutes()
       .toString()
-      .padStart(2, "0")}:${local.getSeconds().toString().padStart(2, "0")}`;
+      .padStart(
+        2,
+        "0",
+      )}:${local.getSeconds().toString().padStart(2, "0")}.${local
+      .getMilliseconds()
+      .toString()
+      .padStart(3, "0")}`;
 
     expect(result).toBe(expected);
   });

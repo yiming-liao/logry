@@ -35,11 +35,7 @@ export const logryPresets: Record<LoggerPreset, LoggerPresetConfig> = {
   },
   // ═══════════════════════════[ minimal ]═══════════════════════════
   minimal: {
-    normalizerConfig: {
-      node: { timestamp: { showTimeOnly: true } },
-      browser: { timestamp: { showTimeOnly: true } },
-      edge: { timestamp: { showTimeOnly: true } },
-    },
+    normalizerConfig: {},
     formatterConfig: {
       node: {
         id: { hide: true },

@@ -35,7 +35,7 @@ describe("normalizeTimestamp", () => {
     expect(buildTimestampString).toHaveBeenCalledWith({
       timestamp,
       useUTC: false,
-      showTimeOnly: false,
+      showTimeOnly: true,
     });
     expect(result).toBe("mocked-pretty-string");
   });
@@ -51,7 +51,7 @@ describe("normalizeTimestamp", () => {
     expect(buildTimestampString).toHaveBeenCalledWith({
       timestamp,
       useUTC: false,
-      showTimeOnly: false,
+      showTimeOnly: true,
     });
     expect(result).toBe("mocked-pretty-string");
   });
