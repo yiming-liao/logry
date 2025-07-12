@@ -28,7 +28,7 @@ describe("EdgeConsoleTransporter", () => {
     });
 
     const mockConsoleLog = jest
-      .spyOn(console, "log")
+      .spyOn(console, "info")
       .mockImplementation(() => {});
 
     const normalizer: Normalizer = {

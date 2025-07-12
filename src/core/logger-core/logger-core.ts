@@ -25,11 +25,11 @@ export class LoggerCore {
   /** The initial log level set during construction */
   private readonly initialLevel: Level;
   /** Optional configuration for formatting log output */
-  private readonly formatterConfig?: FormatterConfig;
+  public readonly formatterConfig?: FormatterConfig;
   /** Optional configuration for normalizing log output */
-  private readonly normalizerConfig?: NormalizerConfig;
+  public readonly normalizerConfig?: NormalizerConfig;
   /** Optional configuration for log handlers */
-  private readonly handlerManagerConfig?: HandlerManagerConfig;
+  public readonly handlerManagerConfig?: HandlerManagerConfig;
   /** Manages all log handlers */
   public readonly handlerManager: HandlerManager;
   // A set to keep all registered callbacks which listen to level changes.

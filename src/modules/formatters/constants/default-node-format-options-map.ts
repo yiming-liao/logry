@@ -65,7 +65,7 @@ export const DEFAULT_NODE_FORMAT_OPTIONS_MAP: {
     ansiStyle: undefined,
     format: "raw",
     indent: 4,
-    depth: 3,
+    compact: false,
     colors: true,
   } as FormatFieldOptions<P, "meta", "structured">,
   context: {
@@ -77,7 +77,7 @@ export const DEFAULT_NODE_FORMAT_OPTIONS_MAP: {
     ansiStyle: undefined,
     format: "raw",
     indent: 4,
-    depth: 3,
+    compact: false,
     colors: true,
   } as FormatFieldOptions<P, "context", "structured">,
   pid: {

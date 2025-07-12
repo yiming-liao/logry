@@ -17,8 +17,8 @@ export const logryPresets: Record<LoggerPreset, LoggerPresetConfig> = {
       node: {
         level: { enableAlignment: false },
         message: { lineBreaks: 1, prefix: " ".repeat(4) },
-        meta: { depth: null, compact: false },
-        context: { depth: null, compact: false },
+        meta: { compact: false },
+        context: { compact: false },
         lineBreaksAfter: 1,
       },
       browser: {
@@ -65,13 +65,11 @@ export const logryPresets: Record<LoggerPreset, LoggerPresetConfig> = {
         message: { lineBreaks: 1, prefix: " ".repeat(4) },
         meta: {
           prefix: " ".repeat(4) + `${ANSI_GRAY}meta:${ANSI_RESET}`,
-          depth: null,
           compact: false,
         },
         context: {
           prefix: " ".repeat(4) + `${ANSI_GRAY}context:${ANSI_RESET}`,
           hide: false,
-          depth: null,
           compact: false,
         },
         lineBreaksAfter: 1,

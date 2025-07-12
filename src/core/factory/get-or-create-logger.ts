@@ -4,7 +4,6 @@ import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merg
 import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
 import { CoreLogger } from "@/core/logger/core-logger";
 import { LoggerCore } from "@/core/logger-core";
-import { internalLog, getCallSite } from "@/internal";
 import { logryPresets } from "@/presets";
 import { DEFAULT_LOGGER_ID, DEFAULT_LOGGER_LEVEL } from "@/shared/constants";
 
@@ -60,21 +59,6 @@ export const getOrCreateLogger = ({
       context,
       formatterConfig,
       normalizerConfig,
-    });
-  }
-
-  // Warn if core-level configs are passed but the core already exists,
-  // since existing core config cannot be overridden.
-  if (
-    formatterConfig !== undefined ||
-    normalizerConfig !== undefined ||
-    handlerManagerConfig !== undefined ||
-    level !== undefined ||
-    preset !== undefined
-  ) {
-    internalLog({
-      type: "warn",
-      message: `LoggerCore with id "${id}" already exists. Passed core-level config will be ignored.\n → ${getCallSite()}`,
     });
   }
 

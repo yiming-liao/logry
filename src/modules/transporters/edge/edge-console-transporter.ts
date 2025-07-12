@@ -1,7 +1,7 @@
 import type { Formatter } from "@/modules/formatters";
 import type { Normalizer } from "@/modules/normalizers";
 import type { Transporter } from "@/modules/transporters/types";
-import type { Platform } from "@/shared/types";
+import type { Level, Platform } from "@/shared/types";
 import type { RawPayload } from "@/shared/types/log-payload";
 import { composeMessage } from "@/modules/transporters/edge/utils/compose-message";
 
@@ -32,6 +32,22 @@ export class EdgeConsoleTransporter implements Transporter {
 
     const composed = composeMessage(formatted);
 
-    console.log(composed);
+    const levelToConsoleMethod: Record<Level, (msg: string) => void> = {
+      fatal: console.error,
+      error: console.error,
+      warn: console.warn,
+      info: console.info,
+      debug: console.log,
+      trace: console.trace,
+      silent: () => {},
+    };
+
+    const consoleMethod = levelToConsoleMethod[rawPayload.level] ?? console.log;
+
+    if (typeof consoleMethod === "function") {
+      consoleMethod(composed);
+    } else {
+      console.log(composed);
+    }
   }
 }

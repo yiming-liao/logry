@@ -16,7 +16,13 @@ export class CoreLogger extends HandlerLogger {
     normalizerConfig,
     formatterConfig,
   }: CoreLoggerConstructorOptions) {
-    super({ level, scope, context, normalizerConfig, formatterConfig });
+    super({
+      level: level || core?.level,
+      scope,
+      context,
+      normalizerConfig: normalizerConfig || core.normalizerConfig,
+      formatterConfig: formatterConfig || core.formatterConfig,
+    });
     this.core = core;
     this.level = level || core?.level;
     // Bind log method
