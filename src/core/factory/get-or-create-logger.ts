@@ -1,5 +1,6 @@
 import type { GetOrCreateLoggerOptions } from "@/core/factory/get-or-create-logger-types";
 import { coreMap } from "@/core/factory/core-map/core-map";
+import { loggerMap } from "@/core/factory/logger-map";
 import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merge-formatter-config";
 import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
 import { CoreLogger } from "@/core/logger/core-logger";
@@ -27,11 +28,12 @@ export const getOrCreateLogger = ({
   preset,
   Logger = CoreLogger,
 }: GetOrCreateLoggerOptions = {}): CoreLogger => {
-  const existingCore = coreMap.get(id);
+  let core = coreMap.get(id);
+  let logger = loggerMap.get(id);
 
   // If no LoggerCore exists with the given ID, create one and store it.
   // Then, create a Logger instance using the new core and configs.
-  if (!existingCore) {
+  if (!core) {
     if (preset) {
       normalizerConfig = mergeNormalizerConfig(
         logryPresets[preset]?.normalizerConfig,
@@ -43,7 +45,7 @@ export const getOrCreateLogger = ({
       );
     }
 
-    const newCore = new LoggerCore({
+    core = new LoggerCore({
       id,
       level: level ?? DEFAULT_LOGGER_LEVEL,
       formatterConfig,
@@ -51,17 +53,19 @@ export const getOrCreateLogger = ({
       handlerManagerConfig,
     });
 
-    coreMap.set(id, newCore);
+    coreMap.set(id, core);
+  }
 
-    return new Logger({
-      core: newCore,
+  if (!logger) {
+    logger = new Logger({
+      core,
       scope,
       context,
       formatterConfig,
       normalizerConfig,
     });
+    loggerMap.set(id, logger);
   }
 
-  // Return a new Logger instance with the existing core and given scope/context.
-  return new Logger({ core: existingCore, scope, context });
+  return logger;
 };

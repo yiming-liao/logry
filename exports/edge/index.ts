@@ -1,4 +1,4 @@
-import { createEdgeLogger } from "@/core/logger/platform";
+import { getOrCreateEdgeLogger } from "@/core/factory/platform";
 import { edgeStandaloneLog } from "@/core/logger/standalone-log";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
@@ -6,8 +6,13 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { EdgeLogger } from "@/core/logger/platform";
-export const logry = createEdgeLogger;
+export { EdgeLogger as Logger } from "@/core/logger/platform";
+export {
+  getOrCreateEdgeLogger,
+  resetCoreMap,
+  resetLoggerMap,
+} from "@/core/factory";
+export const logry = getOrCreateEdgeLogger;
 
 // ─────────────────────────────────────────────────────────────
 // 🕹 Handlers

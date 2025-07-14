@@ -7,7 +7,11 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // ─────────────────────────────────────────────────────────────
 
 export { NodeLogger as Logger } from "@/core/logger";
-export { getOrCreateNodeLogger, resetCoreMap } from "@/core/factory";
+export {
+  getOrCreateNodeLogger,
+  resetCoreMap,
+  resetLoggerMap,
+} from "@/core/factory";
 export const logry = getOrCreateNodeLogger;
 
 // ─────────────────────────────────────────────────────────────

@@ -7,7 +7,11 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // ─────────────────────────────────────────────────────────────
 
 export { BrowserLogger as Logger } from "@/core/logger";
-export { getOrCreateBrowserLogger, resetCoreMap } from "@/core/factory";
+export {
+  getOrCreateBrowserLogger,
+  resetCoreMap,
+  resetLoggerMap,
+} from "@/core/factory";
 export const logry = getOrCreateBrowserLogger;
 
 // ─────────────────────────────────────────────────────────────

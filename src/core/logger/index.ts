@@ -3,5 +3,4 @@ export {
   NodeLogger,
   BrowserLogger,
   EdgeLogger,
-  createEdgeLogger,
 } from "./platform";
