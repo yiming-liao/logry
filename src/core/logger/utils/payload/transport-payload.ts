@@ -2,6 +2,7 @@ import type { Transporter } from "@/modules/transporters/types";
 import type { Platform } from "@/shared/types";
 import type { RawPayload } from "@/shared/types/log-payload";
 import { isBrowser } from "@/shared/utils/is-browser";
+import { isEdge } from "@/shared/utils/is-edge";
 import { isNode } from "@/shared/utils/is-node";
 
 type TransportPayloadOptions = {
@@ -26,6 +27,8 @@ export const transportPayload = ({
     platform = "node";
   } else if (isBrowser()) {
     platform = "browser";
+  } else if (isEdge()) {
+    platform = "edge";
   }
 
   if (!platform) {

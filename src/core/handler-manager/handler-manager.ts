@@ -16,8 +16,6 @@ import { internalLog } from "@/internal";
 export class HandlerManager {
   /** List of registered handlers with unique IDs */
   private handlers: { id: string; handler: Handler }[] = [];
-  /** Auto-increment counter for unnamed handlers */
-  private idCounter = 0;
   /** Pending async handler tasks mapped to their IDs */
   private pendingTasks = new Map<Promise<void>, string>();
 
@@ -70,32 +68,26 @@ export class HandlerManager {
     return this.handlers.find((h) => h.id === id);
   }
 
-  /** Generate unique id */
-  private generateUniqueId(): string {
-    let id = `handler-${this.idCounter++}`;
-    while (this.handlers.some((h) => h.id === id)) {
-      id = `handler-${this.idCounter++}`;
-    }
-    return id;
-  }
-
   /** Registers a new handler (inserted at start or end) */
   public addHandler(
     handler: Handler,
-    id?: string,
+    id: string,
     position: AddHandlerPosition = "end",
-  ): string {
-    const fallbackId = id ?? this.generateUniqueId();
+  ): boolean {
+    if (this.handlers.some((h) => h.id === id)) {
+      return false;
+    }
+
     // Insert handler at the start or end of the list
     if (position === "start") {
-      this.handlers.unshift({ id: fallbackId, handler });
+      this.handlers.unshift({ id, handler });
     } else {
-      this.handlers.push({ id: fallbackId, handler });
+      this.handlers.push({ id, handler });
     }
     // Optional lifecycle init
-    initHandler({ handler, id: fallbackId, onError: this.onError });
+    initHandler({ handler, id, onError: this.onError });
     // Return id
-    return fallbackId;
+    return true;
   }
 
   /** Executes all handlers with the given log payload */

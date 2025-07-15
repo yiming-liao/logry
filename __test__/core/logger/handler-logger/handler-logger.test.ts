@@ -13,6 +13,8 @@ describe("HandlerLogger", () => {
     });
   });
 
+  const id = "test-handler";
+
   describe("getHandlers()", () => {
     it("should get all handlers", () => {
       const logger = new HandlerLogger({});
@@ -32,8 +34,7 @@ describe("HandlerLogger", () => {
     it("should add and get handler", () => {
       const logger = new HandlerLogger({});
       const handler = createMockHandler();
-      const id = logger.addHandler(handler, "test-handler");
-
+      logger.addHandler(handler, id);
       const gotten = logger.getHandler(id);
       expect(gotten).toBeDefined();
       expect(gotten?.id).toBe(id);
@@ -45,7 +46,7 @@ describe("HandlerLogger", () => {
     it("should add handler", () => {
       const logger = new HandlerLogger({});
       const handler = createMockHandler();
-      const id = logger.addHandler(handler, "test-handler");
+      logger.addHandler(handler, id);
       const handlers = logger["handlerManager"]["handlers"];
       expect(handlers.find((h) => h.id === id)?.handler).toBe(handler);
     });
@@ -55,7 +56,8 @@ describe("HandlerLogger", () => {
     it("should remove handler", () => {
       const logger = new HandlerLogger({});
       const handler = createMockHandler();
-      const id = logger.addHandler(handler, "to-remove");
+      const id = "to-remove";
+      logger.addHandler(handler, id);
       logger.removeHandler(id);
 
       const gotten = logger.getHandler(id);

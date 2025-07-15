@@ -9,7 +9,9 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 export { NodeLogger as Logger } from "@/core/logger";
 export {
   getOrCreateNodeLogger,
+  coreMap,
   resetCoreMap,
+  loggerMap,
   resetLoggerMap,
 } from "@/core/factory";
 export const logry = getOrCreateNodeLogger;
@@ -60,7 +62,11 @@ export type {
 // ─────────────────────────────────────────────────────────────
 // 🛠️ Dev Tools
 // ─────────────────────────────────────────────────────────────
-export { inspectLoggerCores, inspectHandlerManagerConfig } from "@/devtools";
+export {
+  inspectLoggers,
+  inspectLoggerCores,
+  inspectHandlerManagerConfig,
+} from "@/devtools";
 
 // ─────────────────────────────────────────────────────────────
 // 🎨 Presets

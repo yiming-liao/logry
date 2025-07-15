@@ -9,7 +9,9 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 export { EdgeLogger as Logger } from "@/core/logger/platform";
 export {
   getOrCreateEdgeLogger,
+  coreMap,
   resetCoreMap,
+  loggerMap,
   resetLoggerMap,
 } from "@/core/factory";
 export const logry = getOrCreateEdgeLogger;
@@ -67,7 +69,11 @@ export type {
 // 🛠️ Dev Tools
 // ─────────────────────────────────────────────────────────────
 
-export { inspectLoggerCores, inspectHandlerManagerConfig } from "@/devtools";
+export {
+  inspectLoggers,
+  inspectLoggerCores,
+  inspectHandlerManagerConfig,
+} from "@/devtools";
 
 // ─────────────────────────────────────────────────────────────
 // 🎨 Presets

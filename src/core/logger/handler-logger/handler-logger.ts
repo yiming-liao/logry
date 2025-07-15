@@ -41,9 +41,9 @@ export class HandlerLogger extends BaseLogger {
   /** Add a log handler */
   public addHandler(
     handler: Handler,
-    id?: string,
+    id: string,
     position?: AddHandlerPosition,
-  ): string {
+  ): boolean {
     return this.handlerManager.addHandler(handler, id, position);
   }
 

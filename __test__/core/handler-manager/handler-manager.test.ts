@@ -24,11 +24,13 @@ describe("HandlerManager", () => {
     jest.clearAllMocks();
   });
 
+  const id = "myhandler";
+
   describe("addHandler", () => {
     it("should add handler to end with generated id", () => {
       const manager = new HandlerManager();
       const handler = jest.fn();
-      const id = manager.addHandler(handler);
+      manager.addHandler(handler, id);
       const handlers = manager.getHandlers();
       expect(handlers[0].handler).toBe(handler);
       expect(handlers[0].id).toBe(id);
@@ -53,7 +55,7 @@ describe("HandlerManager", () => {
     it("should return correct handler by id", () => {
       const manager = new HandlerManager();
       const handler = jest.fn();
-      const id = manager.addHandler(handler);
+      manager.addHandler(handler, id);
       const result = manager.getHandler(id);
       expect(result).toBeDefined();
       expect(result?.handler).toBe(handler);
@@ -68,7 +70,7 @@ describe("HandlerManager", () => {
   describe("removeHandler", () => {
     it("should remove handler by id", () => {
       const manager = new HandlerManager();
-      const id = manager.addHandler(() => {});
+      manager.addHandler(() => {}, id);
       expect(manager.removeHandler(id)).toBe(true);
       expect(manager.getHandler(id)).toBeUndefined();
     });
@@ -83,7 +85,7 @@ describe("HandlerManager", () => {
     it("should run all handlers and track tasks", async () => {
       const manager = new HandlerManager();
       const handler = jest.fn(() => Promise.resolve());
-      manager.addHandler(handler);
+      manager.addHandler(handler, id);
       manager.runHandlers({
         level: "info",
         message: "msg",
@@ -101,7 +103,7 @@ describe("HandlerManager", () => {
     it("should flush all tasks with default timeout", async () => {
       const manager = new HandlerManager();
       const task = Promise.resolve();
-      manager.addHandler(() => task);
+      manager.addHandler(() => task, id);
       manager.runHandlers({
         level: "info",
         message: "flush",
@@ -138,7 +140,7 @@ describe("HandlerManager", () => {
       const handler = { dispose };
       (isHandlerClass as unknown as jest.Mock).mockReturnValue(true);
       const manager = new HandlerManager();
-      manager.addHandler(handler as unknown as HandlerClass);
+      manager.addHandler(handler as unknown as HandlerClass, id);
       await manager.dispose();
       expect(dispose).toHaveBeenCalled();
       expect(manager.getHandlers().length).toBe(0);
@@ -147,7 +149,7 @@ describe("HandlerManager", () => {
     it("should ignore dispose if handler is not a class", async () => {
       (isHandlerClass as unknown as jest.Mock).mockReturnValue(false);
       const manager = new HandlerManager();
-      manager.addHandler(() => {});
+      manager.addHandler(() => {}, id);
       await manager.dispose();
       expect(manager.getHandlers().length).toBe(0);
     });
