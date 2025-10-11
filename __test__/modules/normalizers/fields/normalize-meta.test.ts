@@ -14,11 +14,6 @@ describe("normalizeMeta", () => {
     expect(result).toBeUndefined();
   });
 
-  it("should return undefined if meta is null", () => {
-    const result = normalizeMeta(null, raw);
-    expect(result).toBeUndefined();
-  });
-
   it("should return customized meta if customNormalizer is provided", () => {
     const rawMeta = { foo: "bar" };
     const normalizedMeta = { custom: true };

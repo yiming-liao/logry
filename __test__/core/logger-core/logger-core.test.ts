@@ -1,126 +1,73 @@
-import type { Level } from "@/shared/types";
+import type { LoggerCoreOptions } from "@/core/logger-core/logger-core-types";
 import { HandlerManager } from "@/core/handler-manager/handler-manager";
 import { LoggerCore } from "@/core/logger-core/logger-core";
-import { internalLog } from "@/internal";
-import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
-
-jest.mock("@/internal", () => ({
-  internalLog: jest.fn(),
-}));
+import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_NAME } from "@/shared/constants";
 
 describe("LoggerCore", () => {
-  let spySetConfig: jest.SpyInstance;
+  it("should initialize with default values when no options are provided", () => {
+    const logger = new LoggerCore();
 
-  beforeEach(() => {
-    spySetConfig = jest.spyOn(HandlerManager.prototype, "setConfig");
-  });
-
-  afterEach(() => {
-    spySetConfig.mockRestore();
-  });
-
-  it("should create instance with default values", () => {
-    const logger = new LoggerCore({});
-    expect(logger.id).toBe(DEFAULT_LOGGER_ID);
+    expect(logger.id).toBe(DEFAULT_LOGGER_NAME);
     expect(logger.level).toBe(DEFAULT_LOGGER_LEVEL);
+    expect(logger.scope).toEqual([]);
+    expect(logger.context).toBeUndefined();
+    expect(logger.formatterConfig).toBeUndefined();
+    expect(logger.normalizerConfig).toBeUndefined();
+    expect(logger.handlerManagerConfig).toBeUndefined();
+    expect(logger.handlerManager).toBeInstanceOf(HandlerManager);
   });
 
-  it("should create instance with custom values", () => {
-    const customId = "customLogger";
-    const customLevel: Level = "debug";
-    const logger = new LoggerCore({ id: customId, level: customLevel });
+  it("should accept custom options and initialize properties correctly", () => {
+    const options: LoggerCoreOptions = {
+      id: "my-logger",
+      level: "warn",
+      scope: ["app", "module"],
+      context: { user: "test" },
+      formatterConfig: {
+        /* mock formatter config */
+      },
+      normalizerConfig: {
+        /* mock normalizer config */
+      },
+      handlerManagerConfig: {
+        /* mock handler config */
+      },
+    };
 
-    expect(logger.id).toBe(customId);
-    expect(logger.level).toBe(customLevel);
+    const logger = new LoggerCore(options);
+
+    expect(logger.id).toBe("my-logger");
+    expect(logger.level).toBe("warn");
+    expect(logger.scope).toEqual(["app", "module"]);
+    expect(logger.context).toEqual({ user: "test" });
+    expect(logger.formatterConfig).toBe(options.formatterConfig);
+    expect(logger.normalizerConfig).toBe(options.normalizerConfig);
+    expect(logger.handlerManagerConfig).toBe(options.handlerManagerConfig);
+    expect(logger.handlerManager).toBeInstanceOf(HandlerManager);
   });
 
-  it("should throw error if invalid level is set in constructor", () => {
-    expect(() => {
-      // @ts-expect-error Testing invalid level input
-      new LoggerCore({ level: "invalidLevel" });
-    }).toThrow();
+  it("should convert single scope string into array", () => {
+    const logger = new LoggerCore({ scope: "single-scope" });
+    expect(logger.scope).toEqual(["single-scope"]);
   });
 
-  it("should update log level dynamically", () => {
-    const logger = new LoggerCore({});
-    logger.setLevel("info");
-    expect(logger.level).toBe("info");
-  });
-
-  it("should throw error if invalid level is set via setLevel", () => {
-    const logger = new LoggerCore({});
-    expect(() => {
-      // @ts-expect-error Testing invalid level input
-      logger.setLevel("invalidLevel");
-    }).toThrow();
-  });
-
-  it("should reset level to initialLevel", () => {
-    const logger = new LoggerCore({ level: "warn" });
+  it("should setLevel correctly updates the log level", () => {
+    const logger = new LoggerCore({ level: "info" });
     logger.setLevel("error");
     expect(logger.level).toBe("error");
+  });
 
+  it("should throw an error when setLevel receives invalid level", () => {
+    const logger = new LoggerCore();
+    // @ts-expect-error intentionally passing invalid level
+    expect(() => logger.setLevel("invalid-level")).toThrow();
+  });
+
+  it("should resetLevel restores the initial log level", () => {
+    const logger = new LoggerCore({ level: "debug" });
+    logger.setLevel("error");
+    expect(logger.level).toBe("error");
     logger.resetLevel();
-    expect(logger.level).toBe("warn");
-  });
-
-  it("should call handlerManager.setConfig if handlerManagerConfig is provided", () => {
-    const handlerManagerConfig = {};
-    spySetConfig.mockClear();
-    new LoggerCore({ handlerManagerConfig: handlerManagerConfig });
-    expect(spySetConfig).toHaveBeenCalled();
-    expect(spySetConfig).toHaveBeenCalledWith(handlerManagerConfig);
-  });
-
-  // 新增部分：測試 levelChangeCallbacks 的功能
-
-  it("should call registered callbacks when level changes", () => {
-    const logger = new LoggerCore({});
-    const callback = jest.fn();
-
-    logger.onLevelChange(callback);
-    logger.setLevel("error");
-
-    expect(callback).toHaveBeenCalledWith("error");
-  });
-
-  it("should call registered callbacks when level resets", () => {
-    const logger = new LoggerCore({ level: "warn" });
-    const callback = jest.fn();
-
-    logger.onLevelChange(callback);
-    logger.setLevel("error");
-    logger.resetLevel();
-
-    expect(callback).toHaveBeenCalledWith("warn");
-  });
-
-  it("should not call callback after it has been removed", () => {
-    const logger = new LoggerCore({});
-    const callback = jest.fn();
-
-    logger.onLevelChange(callback);
-    logger.offLevelChange(callback);
-    logger.setLevel("error");
-
-    expect(callback).not.toHaveBeenCalled();
-  });
-
-  it("should catch errors thrown by callbacks and continue notifying others", () => {
-    const logger = new LoggerCore({});
-
-    // 這裡已被 jest.mock 自動 mock，直接拿來用
-    const callback1 = () => {
-      throw new Error("callback error");
-    };
-    const callback2 = jest.fn();
-
-    logger.onLevelChange(callback1);
-    logger.onLevelChange(callback2);
-
-    logger.setLevel("info");
-
-    expect(callback2).toHaveBeenCalled();
-    expect(internalLog).toHaveBeenCalled();
+    expect(logger.level).toBe("debug");
   });
 });

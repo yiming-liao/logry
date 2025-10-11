@@ -1,17 +1,15 @@
-import type {
-  AdditionOptions,
-  BaseOptions,
-} from "@/core/logger/base-logger/utils/merge/merge-inherited-options";
-import { mergeInheritedOptions } from "@/core/logger/base-logger/utils/merge/merge-inherited-options";
+import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
+import { mergeWithCoreOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
+import { LoggerCore } from "@/core/logger-core";
 
-describe("mergeInheritedOptions", () => {
+describe("mergeWithCoreOptions", () => {
   it("should merge all fields correctly", () => {
-    const base: BaseOptions = {
+    const core = new LoggerCore({
       scope: ["base"],
       context: { user: "alice" },
       normalizerConfig: { node: { timestamp: { style: "raw" } } },
       formatterConfig: { browser: { scope: { showOnlyLatest: true } } },
-    };
+    });
 
     const additions: AdditionOptions = {
       scope: ["extra"],
@@ -20,7 +18,7 @@ describe("mergeInheritedOptions", () => {
       formatterConfig: { browser: { level: { hide: true } } },
     };
 
-    const result = mergeInheritedOptions(base, additions);
+    const result = mergeWithCoreOptions(core, additions);
 
     expect(result.scope).toEqual(["base", "extra"]);
     expect(result.context).toEqual({
@@ -42,14 +40,14 @@ describe("mergeInheritedOptions", () => {
   });
 
   it("should use base only when additions are empty", () => {
-    const base = {
+    const core = new LoggerCore({
       scope: ["only"],
       context: { env: "prod" },
       normalizerConfig: {},
       formatterConfig: {},
-    };
+    });
 
-    const result = mergeInheritedOptions(base);
+    const result = mergeWithCoreOptions(core);
 
     expect(result.scope).toEqual(["only"]);
     expect(result.context).toEqual({ env: "prod" });
@@ -57,25 +55,13 @@ describe("mergeInheritedOptions", () => {
     expect(result.formatterConfig).toEqual({});
   });
 
-  it("should handle missing base by falling back to default", () => {
-    const result = mergeInheritedOptions(undefined, {
-      scope: "foo",
-      context: { env: "dev" },
-    });
-
-    expect(result.scope).toEqual(["foo"]);
-    expect(result.context).toEqual({ env: "dev" });
-    expect(result.normalizerConfig).toEqual({});
-    expect(result.formatterConfig).toEqual({});
-  });
-
   it("should return new objects and not mutate inputs", () => {
-    const base: BaseOptions = {
+    const core = new LoggerCore({
       scope: ["log"],
       context: { a: 1 },
       normalizerConfig: { browser: { level: { style: "title" } } },
       formatterConfig: { node: { scope: { hide: true } } },
-    };
+    });
 
     const additions: AdditionOptions = {
       scope: "new",
@@ -84,13 +70,13 @@ describe("mergeInheritedOptions", () => {
       formatterConfig: { node: { scope: { hide: false } } },
     };
 
-    const result = mergeInheritedOptions(base, additions);
+    const result = mergeWithCoreOptions(core, additions);
 
-    expect(base.scope).toEqual(["log"]);
+    expect(core.scope).toEqual(["log"]);
     expect(additions.scope).toBe("new");
-    expect(result.scope).not.toBe(base.scope);
-    expect(result.context).not.toBe(base.context);
-    expect(result.normalizerConfig).not.toBe(base.normalizerConfig);
-    expect(result.formatterConfig).not.toBe(base.formatterConfig);
+    expect(result.scope).not.toBe(core.scope);
+    expect(result.context).not.toBe(core.context);
+    expect(result.normalizerConfig).not.toBe(core.normalizerConfig);
+    expect(result.formatterConfig).not.toBe(core.formatterConfig);
   });
 });
