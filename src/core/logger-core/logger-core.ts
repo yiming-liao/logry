@@ -1,14 +1,11 @@
 import type { HandlerManagerConfig } from "@/core/handler-manager";
-import type {
-  LevelChangeCallback,
-  LoggerCoreOptions,
-} from "@/core/logger-core/logger-core-types";
+import type { LoggerCoreOptions } from "@/core/logger-core/logger-core-types";
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
+import type { RawContext, RawScope } from "@/shared/types/log-fields";
 import { HandlerManager } from "@/core/handler-manager";
-import { internalLog } from "@/internal";
-import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_ID } from "@/shared/constants";
+import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_NAME } from "@/shared/constants";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
 
 /**
@@ -18,12 +15,16 @@ import { assertValidLevel } from "@/shared/utils/assert-valid-level";
  * It also holds optional configurations for formatting, normalization, and handlers.
  */
 export class LoggerCore {
-  /** Unique identifier for this logger instance */
+  /** Identify name for this logger instance */
   public readonly id: string;
   /** Current active log level */
   public level: Level;
   /** The initial log level set during construction */
   private readonly initialLevel: Level;
+  /** Scope labels for tagging logs */
+  public readonly scope: RawScope;
+  /** Global context metadata included in all logs */
+  public readonly context?: RawContext;
   /** Optional configuration for formatting log output */
   public readonly formatterConfig?: FormatterConfig;
   /** Optional configuration for normalizing log output */
@@ -32,22 +33,31 @@ export class LoggerCore {
   public readonly handlerManagerConfig?: HandlerManagerConfig;
   /** Manages all log handlers */
   public readonly handlerManager: HandlerManager;
-  // A set to keep all registered callbacks which listen to level changes.
-  private levelChangeCallbacks: Set<LevelChangeCallback> = new Set();
 
   constructor({
-    id = DEFAULT_LOGGER_ID,
+    id = DEFAULT_LOGGER_NAME,
     level = DEFAULT_LOGGER_LEVEL,
+    scope,
+    context,
     formatterConfig,
     normalizerConfig,
     handlerManagerConfig,
   }: LoggerCoreOptions = {}) {
+    // Name
     this.id = id;
+    // Level
     assertValidLevel(level);
     this.level = level;
     this.initialLevel = level;
+    // Scope
+    this.scope = scope ? (Array.isArray(scope) ? scope : [scope]) : []; // Ensure scope is always an array
+    // Context
+    this.context = context;
+    // Normalizer
     this.normalizerConfig = normalizerConfig;
+    // Formatter
     this.formatterConfig = formatterConfig;
+    // Handler
     this.handlerManagerConfig = handlerManagerConfig;
     this.handlerManager = new HandlerManager(handlerManagerConfig);
   }
@@ -56,38 +66,10 @@ export class LoggerCore {
   setLevel(level: Level) {
     assertValidLevel(level);
     this.level = level;
-    this.notifyLevelChange(level);
   }
 
   /** Resets the log level to its original value defined during construction. */
   resetLevel() {
     this.level = this.initialLevel;
-    this.notifyLevelChange(this.level);
-  }
-
-  /** Notify all registered callbacks of the current log level change. */
-  private notifyLevelChange(level: Level) {
-    for (const callback of this.levelChangeCallbacks) {
-      try {
-        callback(level);
-      } catch (error) {
-        internalLog({
-          type: "error",
-          tag: "Logger Core",
-          message: "levelChange callback error.",
-          error,
-        });
-      }
-    }
-  }
-
-  /** Register a callback function that will be invoked whenever the log level changes. */
-  onLevelChange(callback: LevelChangeCallback) {
-    this.levelChangeCallbacks.add(callback);
-  }
-
-  /** Unregister a previously registered level change callback. */
-  offLevelChange(callback: LevelChangeCallback) {
-    this.levelChangeCallbacks.delete(callback);
   }
 }

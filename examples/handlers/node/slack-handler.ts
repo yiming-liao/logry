@@ -11,7 +11,7 @@ npx tsx examples/handlers/node/slack-handler.ts
 
 import type { RawPayload } from "logry";
 import { logry } from "logry";
-import { NodeHandler } from "logry/handlers"; // 📦 Use built-in handler classes from the "logry/handlers" module.
+import { NodeHandler } from "logry"; // 📦 Use built-in handler classes from the "logry/handlers" module.
 
 // ════════════════════ Implementing a Custom Handler ════════════════════
 

@@ -1,5 +1,5 @@
 import { Normalizer } from "../../dist";
-import { rawPayload } from "./mock-data";
+import { rawPayload } from "./test-data";
 import { now } from "./now";
 
 const normalizer = new Normalizer();

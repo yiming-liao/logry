@@ -24,13 +24,6 @@ export default defineConfig([
 
   {
     ...base,
-    entry: ["exports/handlers/index.ts"],
-    outDir: "dist/handlers",
-    platform: "neutral",
-  },
-
-  {
-    ...base,
     entry: ["exports/node/index.ts"],
     outDir: "dist/node",
     platform: "node",
@@ -48,14 +41,5 @@ export default defineConfig([
     entry: ["exports/edge/index.ts"],
     outDir: "dist/edge",
     platform: "neutral",
-  },
-
-  {
-    ...base,
-    entry: ["exports/browser-lite/index.ts"],
-    outDir: "dist/browser-lite",
-    format: ["iife"],
-    platform: "browser",
-    globalName: "logry",
   },
 ]);

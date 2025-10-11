@@ -33,4 +33,4 @@ export const TITLECASE_LEVELS_MAP: Record<Level, string> = {
 export const DEFAULT_SCOPE_SEPARATOR: ScopeSeparator = " > ";
 
 // Meta
-export const DEFAULT_META_ERROR_STACK_LINES = 3;
+export const DEFAULT_META_ERROR_STACK_LINES = 4;

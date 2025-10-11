@@ -53,13 +53,9 @@ await new Promise((r) => setTimeout(r, 10));
  */
 console.log("\n══════════════════════════════[ Using Scope ]\n");
 
-debug("Fetching dashboard data", null, {
-  scope: "dashboard",
-});
+debug("Fetching dashboard data", { scope: "dashboard" });
 
-warn("Deprecated endpoint called", null, {
-  scope: ["api", "v1", "legacy"],
-});
+warn("Deprecated endpoint called", { scope: ["api", "v1", "legacy"] });
 
 await new Promise((r) => setTimeout(r, 10));
 /**

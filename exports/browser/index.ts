@@ -1,4 +1,3 @@
-import { getOrCreateBrowserLogger } from "@/core/factory";
 import { browserStandaloneLog } from "@/core/logger/standalone-log";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
@@ -6,15 +5,14 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { BrowserLogger as Logger } from "@/core/logger";
-export {
-  getOrCreateBrowserLogger,
-  coreMap,
-  resetCoreMap,
-  loggerMap,
-  resetLoggerMap,
-} from "@/core/factory";
-export const logry = getOrCreateBrowserLogger;
+export { BrowserLogger as Logger } from "@/core/logger/platform/browser-logger";
+export { createBrowserLogger as logry } from "@/core/factory/create-browser-logger";
+
+// ─────────────────────────────────────────────────────────────
+// 🕹 Handlers
+// ─────────────────────────────────────────────────────────────
+
+export { BaseHandler, BrowserHandler } from "@/handlers";
 
 // ─────────────────────────────────────────────────────────────
 // 🧬 Core Types
@@ -58,15 +56,6 @@ export type {
   HandlerFunction,
   HandlerClass,
 } from "@/core/handler-manager";
-
-// ─────────────────────────────────────────────────────────────
-// 🛠️ Dev Tools
-// ─────────────────────────────────────────────────────────────
-export {
-  inspectLoggers,
-  inspectLoggerCores,
-  inspectHandlerManagerConfig,
-} from "@/devtools";
 
 // ─────────────────────────────────────────────────────────────
 // 🎨 Presets

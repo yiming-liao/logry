@@ -1,14 +1,8 @@
-import type { LogRuntimeOptions } from "@/core/logger/types";
-import type { Level } from "@/shared/types";
+import type { LogOptions } from "@/core/logger/types";
 import type { RawPayload } from "@/shared/types/log-payload";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
 
-export type StandaloneLogOptions = {
-  level: Level;
-  message?: string;
-  meta?: unknown;
-  options?: LogRuntimeOptions;
-};
+export type StandaloneLogOptions = Omit<LogOptions, "id">;
 
 export const baseStandaloneLog = ({
   level,

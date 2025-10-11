@@ -47,7 +47,7 @@ Here are some useful protected methods you can use inside your custom handler:
 Example implementation:
 
 ```ts
-import { NodeHandler } from "logry/handlers"; // 📦 Use built-in base handlers from the "logry/handlers" module.
+import { NodeHandler } from "logry"; // 📦 Use built-in base handlers from the "logry/handlers" module.
 
 class MyCustomHandler extends BaseHandler {
   async handle(rawPayload: RawPayload) {
@@ -76,7 +76,7 @@ that helps you generate the final log message string based on your formatter con
 Example implementation:
 
 ```ts
-import { NodeHandler } from "logry/handlers"; // 📦 Use built-in base handlers from the "logry/handlers" module.
+import { NodeHandler } from "logry"; // 📦 Use built-in base handlers from the "logry/handlers" module.
 
 class MyCustomHandler extends NodeHandler {
   async handle(rawPayload: RawPayload) {

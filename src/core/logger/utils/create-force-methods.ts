@@ -1,4 +1,4 @@
-import type { BoundLogMethod, LogOptions } from "@/core/logger/types";
+import type { LogOverloads, LogOptions } from "@/core/logger/types";
 import type { Level } from "@/shared/types";
 import { parseLogArgs } from "@/core/logger/base-logger/utils/parse-log-args";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
@@ -13,12 +13,12 @@ import { assertValidLevel } from "@/shared/utils/assert-valid-level";
 export const createForceMethods = (
   log: (logOptions: LogOptions) => void,
   id?: string,
-): Record<Exclude<Level, "silent">, BoundLogMethod> => {
+): Record<Exclude<Level, "silent">, LogOverloads> => {
   // Create a bound log method for a specific level without filtering
-  const logWithLevel = (level: Level): BoundLogMethod => {
+  const logWithLevel = (level: Level): LogOverloads => {
     assertValidLevel(level);
     return (...args: unknown[]) => {
-      const { message, meta, options } = parseLogArgs(args);
+      const { message, meta, options } = parseLogArgs(...args);
       log({ level, message, meta, options, id });
     };
   };

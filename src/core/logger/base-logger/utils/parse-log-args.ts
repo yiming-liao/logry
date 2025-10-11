@@ -1,41 +1,38 @@
 import type { LogRuntimeOptions } from "@/core/logger/types";
+import type { RawMeta } from "@/shared/types/log-fields";
+
+// Type guard for LogRuntimeOptions
+const isLogRuntimeOptions = (obj: unknown): obj is LogRuntimeOptions => {
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return false;
+  return (
+    "scope" in obj ||
+    "context" in obj ||
+    "normalizerConfig" in obj ||
+    "formatterConfig" in obj
+  );
+};
 
 /**
  * Parses logger arguments into structured message, meta, and options.
+ * Can accept up to three arguments in any order:
+ * - string → message
+ * - object → meta
+ * - LogRuntimeOptions → runtime options
  */
 export const parseLogArgs = (
-  args: unknown[],
-): {
-  message?: string;
-  meta?: unknown;
-  options?: LogRuntimeOptions;
-} => {
+  ...args: unknown[]
+): { message?: string; meta?: RawMeta; options?: LogRuntimeOptions } => {
   let message: string | undefined;
-  let meta: unknown;
+  let meta: RawMeta | undefined;
   let options: LogRuntimeOptions | undefined;
 
   for (const arg of args) {
     if (typeof arg === "string") {
-      // Take first string as message
-      if (!message) {
-        message = arg;
-      }
+      if (!message) message = arg;
+    } else if (isLogRuntimeOptions(arg)) {
+      if (!options) options = arg;
     } else if (arg && typeof arg === "object" && !Array.isArray(arg)) {
-      const obj = arg as Record<string, unknown>;
-
-      const isMaybeOptions =
-        "scope" in obj ||
-        "context" in obj ||
-        "normalizerConfig" in obj ||
-        "formatterConfig" in obj;
-
-      if (isMaybeOptions && !options) {
-        // Identify as runtime options
-        options = obj as LogRuntimeOptions;
-      } else if (!meta) {
-        // Otherwise treat as meta
-        meta = obj;
-      }
+      if (!meta) meta = arg as RawMeta;
     }
   }
 

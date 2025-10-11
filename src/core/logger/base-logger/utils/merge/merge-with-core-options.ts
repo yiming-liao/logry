@@ -1,17 +1,11 @@
+import type { LoggerCore } from "@/core/logger-core";
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
-import type { RawContext, RawScope } from "@/shared/types/log-fields";
+import type { RawContext } from "@/shared/types/log-fields";
 import { mergeContexts } from "@/core/logger/base-logger/utils/merge/merge-contexts";
 import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merge-formatter-config";
 import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
 import { mergeScopes } from "@/core/logger/base-logger/utils/merge/merge-scopes";
-
-export type BaseOptions = {
-  scope?: RawScope;
-  context?: RawContext;
-  normalizerConfig?: NormalizerConfig;
-  formatterConfig?: FormatterConfig;
-};
 
 export type AdditionOptions = {
   scope?: string | string[];
@@ -21,25 +15,28 @@ export type AdditionOptions = {
 };
 
 /**
- * Merges base logging options with inherited additions.
+ * Merges options derived from a LoggerCore instance with additional overrides.
  *
- * @param base - Original inherited options.
- * @param additions - Additional options to merge in.
- * @returns Combined logger options.
+ * This function ensures that scope, context, normalizer, and formatter configs
+ * are merged in a consistent and type-safe way, preserving inheritance logic.
+ *
+ * @param core - The source LoggerCore instance providing base configurations.
+ * @param additions - Optional overrides to apply on top of the core.
+ * @returns Combined logging configuration for the next logger context.
  */
-export const mergeInheritedOptions = (
-  base: BaseOptions = { scope: [], normalizerConfig: {}, formatterConfig: {} },
+export const mergeWithCoreOptions = (
+  core: LoggerCore,
   additions: AdditionOptions = {},
 ) => {
   return {
-    scope: mergeScopes(base.scope, additions.scope),
-    context: mergeContexts(base.context, additions.context),
+    scope: mergeScopes(core.scope, additions.scope),
+    context: mergeContexts(core.context, additions.context),
     normalizerConfig: mergeNormalizerConfig(
-      base.normalizerConfig,
+      core.normalizerConfig,
       additions.normalizerConfig,
     ),
     formatterConfig: mergeFormatterConfig(
-      base.formatterConfig,
+      core.formatterConfig,
       additions.formatterConfig,
     ),
   };

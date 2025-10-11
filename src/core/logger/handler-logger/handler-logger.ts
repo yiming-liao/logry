@@ -4,32 +4,20 @@ import type { HandlerLoggerConstructorOptions } from "@/core/logger/handler-logg
 import type { RawPayload } from "@/shared/types/log-payload";
 import { HandlerManager } from "@/core/handler-manager";
 import { BaseLogger } from "@/core/logger/base-logger/base-logger";
-import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
 export class HandlerLogger extends BaseLogger {
-  // HandlerManager
   protected handlerManager: HandlerManager;
 
   constructor({
-    level,
-    scope = [],
-    context,
-    normalizerConfig,
-    formatterConfig,
     handlerManagerConfig,
+    ...rest
   }: HandlerLoggerConstructorOptions) {
-    super({ level, scope, context, normalizerConfig, formatterConfig });
-    const boundLog = this.log.bind(this);
-    // Update log methods according to level
-    this.updateLogMethods(boundLog, this.level);
-    // Initialize force log methods
-    this.force = createForceMethods(boundLog);
-    // HandlerManager
+    super({ ...rest });
     this.handlerManager = new HandlerManager(handlerManagerConfig);
   }
 
   /** Get all handlers (shallow copy) */
-  public getHandlers(): readonly { id: string; handler: Handler }[] {
+  public getHandlers(): ReadonlyArray<{ id: string; handler: Handler }> {
     return this.handlerManager.getHandlers();
   }
 

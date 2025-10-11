@@ -12,7 +12,7 @@ npx tsx examples/handlers/node/sentry-handler.ts
 import type { Level, RawPayload } from "logry";
 import * as Sentry from "@sentry/node";
 import { logry } from "logry";
-import { NodeHandler } from "logry/handlers"; // 📦 Use built-in handler classes from the "logry/handlers" module.
+import { NodeHandler } from "logry"; // 📦 Use built-in handler classes from the "logry/handlers" module.
 
 // ════════════════════ Implementing a Custom Handler ════════════════════
 
@@ -38,10 +38,10 @@ class SentryHandler extends NodeHandler {
 
   async handle(payload: RawPayload) {
     const { level, message, meta } = payload;
+    if (level === "silent") return;
+
     const sentryLevel = levelMap[level];
-    if (!sentryLevel) {
-      return;
-    }
+    if (!sentryLevel) return;
 
     Sentry.withScope((scope) => {
       scope.setLevel(sentryLevel);

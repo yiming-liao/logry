@@ -11,7 +11,7 @@ import type { FormatterConfig, RawPayload } from "logry";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { logry } from "logry";
-import { NodeHandler } from "logry/handlers"; // 📦 Use built-in handler classes from the "logry/handlers" module.
+import { NodeHandler } from "logry"; // 📦 Use built-in handler classes from the "logry/handlers" module.
 
 // ════════════════════ Implementing a Custom Handler ════════════════════
 

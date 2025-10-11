@@ -38,7 +38,7 @@ export class EdgeConsoleTransporter implements Transporter {
       warn: console.warn,
       info: console.info,
       debug: console.log,
-      trace: console.trace,
+      trace: console.log,
       silent: () => {},
     };
 

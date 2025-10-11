@@ -1,7 +1,7 @@
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
-import type { RawContext } from "@/shared/types/log-fields";
+import type { RawContext, RawMeta } from "@/shared/types/log-fields";
 import type { RawPayload } from "@/shared/types/log-payload";
 
 export type BuildPayloadOptions = {
@@ -9,7 +9,7 @@ export type BuildPayloadOptions = {
   level: Level;
   id?: string;
   message?: string;
-  meta?: unknown;
+  meta?: RawMeta;
   scope: string[];
   context?: RawContext;
   normalizerConfig: NormalizerConfig;

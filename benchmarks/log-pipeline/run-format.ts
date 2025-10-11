@@ -1,5 +1,5 @@
 import { Formatter } from "../../dist";
-import { normalizedPayload } from "./mock-data";
+import { normalizedPayload } from "./test-data";
 import { now } from "./now";
 
 const formatter = new Formatter();

@@ -1,118 +1,100 @@
 import type { BaseLoggerConstructorOptions } from "@/core/logger/base-logger/base-logger-types";
-import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge/merge-inherited-options";
-import type { BoundLogMethod, LogOptions } from "@/core/logger/types";
-import type { FormatterConfig } from "@/modules/formatters/types";
-import type { NormalizerConfig } from "@/modules/normalizers/types";
-import type { Transporter } from "@/modules/transporters/types";
+import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
+import type {
+  ChildOptions,
+  LogOverloads,
+  LogOptions,
+} from "@/core/logger/types";
+import type { Transporter } from "@/modules/transporters";
 import type { Level } from "@/shared/types";
-import type { RawContext, RawScope } from "@/shared/types/log-fields";
 import type { RawPayload } from "@/shared/types/log-payload";
-import { createBoundLogMethod } from "@/core/logger/base-logger/utils/create-bound-log-method";
-import { mergeInheritedOptions } from "@/core/logger/base-logger/utils/merge/merge-inherited-options";
+import { logAtLevel } from "@/core/logger/base-logger/utils/log-at-level";
+import { mergeWithCoreOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";
-import { Formatter } from "@/modules/formatters";
-import { Normalizer } from "@/modules/normalizers";
-import { DEFAULT_LOGGER_LEVEL } from "@/shared/constants";
+import { LoggerCore } from "@/core/logger-core";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
 
 export class BaseLogger {
-  protected level: Level;
-  protected readonly scope: RawScope = [];
-  protected readonly context?: RawContext;
-  // Normalizer
-  private readonly normalizerConfig: NormalizerConfig;
-  protected readonly normalizer: Normalizer;
-  // Formatter
-  private readonly formatterConfig: FormatterConfig;
-  protected readonly formatter: Formatter;
-  // Transporters
+  protected _core: LoggerCore;
   protected transporters: Transporter[] = [];
-  // Standard log methods
-  public trace!: BoundLogMethod;
-  public debug!: BoundLogMethod;
-  public info!: BoundLogMethod;
-  public warn!: BoundLogMethod;
-  public error!: BoundLogMethod;
-  public fatal!: BoundLogMethod;
-  // Force log methods (bypass level filtering)
-  public force: Record<Exclude<Level, "silent">, BoundLogMethod>;
+  public force: Record<Exclude<Level, "silent">, LogOverloads>; // Force log methods (bypass level filtering)
 
-  constructor({
+  constructor({ ...options }: BaseLoggerConstructorOptions) {
+    this._core = new LoggerCore(options); // Create LoggerCore
+    this.log = this.log.bind(this); // Bind log with `this`
+    this.force = createForceMethods(this.log, this._core.id); // Create force log methods
+  }
+
+  /** Get current logger config (read-only snapshot) */
+  public get core() {
+    return {
+      ...this._core,
+      scope: [...this._core.scope],
+      context: { ...this._core.context },
+      normalizerConfig: { ...this._core.normalizerConfig },
+      formatterConfig: { ...this._core.formatterConfig },
+      handlerManagerConfig: { ...this._core.handlerManagerConfig },
+    };
+  }
+
+  /** Create a child logger */
+  child({
+    id,
     level,
-    scope = [],
-    context,
-    normalizerConfig,
-    formatterConfig,
-  }: BaseLoggerConstructorOptions) {
-    this.level = level || DEFAULT_LOGGER_LEVEL;
-    this.scope = Array.isArray(scope) ? scope : [scope]; // Ensure scope is always an array
-    this.context = context;
-    // Normalizer
-    this.normalizerConfig = normalizerConfig || {};
-    this.normalizer = new Normalizer();
-    // Formatter
-    this.formatterConfig = formatterConfig || {};
-    this.formatter = new Formatter();
-    // Bind log method
-    const boundLog = this.log.bind(this);
-    // Update log methods according to level
-    this.updateLogMethods(boundLog, this.level);
-    // Initialize force log methods
-    this.force = createForceMethods(boundLog);
+    handlerManagerConfig,
+    ...rest
+  }: ChildOptions = {}): BaseLogger {
+    const mergedOptions = this.mergeOptions({ ...rest });
+    return new BaseLogger({
+      ...mergedOptions,
+      id,
+      level,
+      handlerManagerConfig,
+    });
   }
 
-  /** Bind standard log methods for each log level */
-  protected updateLogMethods(
-    boundLog: (logOptions: LogOptions) => void,
-    level: Level,
-    id?: string,
-  ) {
-    this.trace = createBoundLogMethod(boundLog, level, "trace", id);
-    this.debug = createBoundLogMethod(boundLog, level, "debug", id);
-    this.info = createBoundLogMethod(boundLog, level, "info", id);
-    this.warn = createBoundLogMethod(boundLog, level, "warn", id);
-    this.error = createBoundLogMethod(boundLog, level, "error", id);
-    this.fatal = createBoundLogMethod(boundLog, level, "fatal", id);
-  }
+  // Log methods for every levels (Exclude "silent")
+  public trace: LogOverloads = (...args: unknown[]) => {
+    logAtLevel({ level: "trace", log: this.log, core: this._core, args });
+  };
+  public debug: LogOverloads = (...args: unknown[]) => {
+    logAtLevel({ level: "debug", log: this.log, core: this._core, args });
+  };
+  public info: LogOverloads = (...args: unknown[]) => {
+    logAtLevel({ level: "info", log: this.log, core: this._core, args });
+  };
+  public warn: LogOverloads = (...args: unknown[]) => {
+    logAtLevel({ level: "warn", log: this.log, core: this._core, args });
+  };
+  public error: LogOverloads = (...args: unknown[]) => {
+    logAtLevel({ level: "error", log: this.log, core: this._core, args });
+  };
+  public fatal: LogOverloads = (...args: unknown[]) => {
+    logAtLevel({ level: "fatal", log: this.log, core: this._core, args });
+  };
 
-  /** Merge inherited options with runtime options */
-  protected mergeInheritedOptions = (additions?: AdditionOptions) => {
-    return mergeInheritedOptions(
-      {
-        scope: this.scope,
-        context: this.context,
-        normalizerConfig: this.normalizerConfig,
-        formatterConfig: this.formatterConfig,
-      },
-      additions,
-    );
+  /** Merge the current core options with given overrides */
+  protected mergeOptions = (additions?: AdditionOptions) => {
+    return mergeWithCoreOptions(this._core, additions);
   };
 
   /** Core log method, used by all level-specific methods */
   protected log({ id, level, message, meta, options }: LogOptions): void {
-    if (level === "silent") {
-      return;
-    }
+    if (level === "silent") return;
     assertValidLevel(level);
 
-    // Merge inherited options with runtime options.
-    const merged = this.mergeInheritedOptions({
-      scope: options?.scope,
-      context: options?.context,
-      formatterConfig: options?.formatterConfig,
-      normalizerConfig: options?.normalizerConfig,
-    });
-
-    // Build the log payload with all necessary data.
+    // Merge core options with runtime options
+    const mergedOptions = this.mergeOptions({ ...options });
+    // Build the log payload with all necessary data
     const rawPayload = buildPayload({
       timestamp: Date.now(),
       level,
       id,
       message,
       meta,
-      ...merged,
+      ...mergedOptions,
     });
 
     // Transport the payload
@@ -120,7 +102,7 @@ export class BaseLogger {
     this.afterTransport?.(rawPayload);
   }
 
-  /** Called after payload is transported. */
+  /** Called after payload is transported */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected afterTransport(_rawPayload: RawPayload): void {}
 }

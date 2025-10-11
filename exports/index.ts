@@ -1,4 +1,3 @@
-import { getOrCreateUniversalLogger } from "@/core/factory";
 import { universalStandaloneLog } from "@/core/logger/standalone-log";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
@@ -6,15 +5,19 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { UniversalLogger as Logger } from "@/core/logger";
+export { UniversalLogger as Logger } from "@/core/logger/platform/universal-logger";
+export { createUniversalLogger as logry } from "@/core/factory/create-universal-logger";
+
+// ─────────────────────────────────────────────────────────────
+// 🕹 Handlers
+// ─────────────────────────────────────────────────────────────
+
 export {
-  getOrCreateUniversalLogger,
-  coreMap,
-  resetCoreMap,
-  loggerMap,
-  resetLoggerMap,
-} from "@/core/factory";
-export const logry = getOrCreateUniversalLogger;
+  BaseHandler,
+  NodeHandler,
+  BrowserHandler,
+  EdgeHandler,
+} from "@/handlers";
 
 // ─────────────────────────────────────────────────────────────
 // 🧬 Core Types
@@ -62,15 +65,6 @@ export type {
   HandlerFunction,
   HandlerClass,
 } from "@/core/handler-manager";
-
-// ─────────────────────────────────────────────────────────────
-// 🛠️ Dev Tools
-// ─────────────────────────────────────────────────────────────
-export {
-  inspectLoggers,
-  inspectLoggerCores,
-  inspectHandlerManagerConfig,
-} from "@/devtools";
 
 // ─────────────────────────────────────────────────────────────
 // 🎨 Presets

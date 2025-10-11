@@ -1,4 +1,3 @@
-import { getOrCreateEdgeLogger } from "@/core/factory/platform";
 import { edgeStandaloneLog } from "@/core/logger/standalone-log";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 
@@ -6,21 +5,14 @@ import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 // 🚀 Entry Point
 // ─────────────────────────────────────────────────────────────
 
-export { EdgeLogger as Logger } from "@/core/logger/platform";
-export {
-  getOrCreateEdgeLogger,
-  coreMap,
-  resetCoreMap,
-  loggerMap,
-  resetLoggerMap,
-} from "@/core/factory";
-export const logry = getOrCreateEdgeLogger;
+export { EdgeLogger as Logger } from "@/core/logger/platform/edge-logger";
+export { createEdgeLogger as logry } from "@/core/factory/create-edge-logger";
 
 // ─────────────────────────────────────────────────────────────
 // 🕹 Handlers
 // ─────────────────────────────────────────────────────────────
 
-export { EdgeHandler } from "@/handlers";
+export { BaseHandler, EdgeHandler } from "@/handlers";
 
 // ─────────────────────────────────────────────────────────────
 // 🧬 Core Types
@@ -64,16 +56,6 @@ export type {
   HandlerFunction,
   HandlerClass,
 } from "@/core/handler-manager";
-
-// ─────────────────────────────────────────────────────────────
-// 🛠️ Dev Tools
-// ─────────────────────────────────────────────────────────────
-
-export {
-  inspectLoggers,
-  inspectLoggerCores,
-  inspectHandlerManagerConfig,
-} from "@/devtools";
 
 // ─────────────────────────────────────────────────────────────
 // 🎨 Presets
