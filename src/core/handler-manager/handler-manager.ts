@@ -3,10 +3,15 @@ import type {
   OnErrorCallback,
   HandlerManagerConfig,
 } from "@/core/handler-manager/handler-manager-config-types";
-import type { AddHandlerPosition, Handler } from "@/core/handler-manager/types";
+import type {
+  AddHandlerPosition,
+  Handler,
+  HandlerItem,
+} from "@/core/handler-manager/types";
 import type { RawPayload } from "@/shared/types/log-payload";
 import { DEFAULT_FLUSH_TIMEOUT } from "@/core/handler-manager/constants";
 import { executeHandler } from "@/core/handler-manager/utils/execute-handler";
+import { filterHandlersByPlatform } from "@/core/handler-manager/utils/filter-handlers-by-platform";
 import { flushTasksWithTimeout } from "@/core/handler-manager/utils/flush-tasks-with-timeout";
 import { initHandler } from "@/core/handler-manager/utils/init-handler";
 import { isHandlerClass } from "@/core/handler-manager/utils/is-handler-class";
@@ -15,7 +20,7 @@ import { internalLog } from "@/internal";
 
 export class HandlerManager {
   /** List of registered handlers with unique IDs */
-  private handlers: { id: string; handler: Handler }[] = [];
+  private handlers: HandlerItem[] = [];
   /** Pending async handler tasks mapped to their IDs */
   private pendingTasks = new Map<Promise<void>, string>();
 
@@ -59,12 +64,12 @@ export class HandlerManager {
   }
 
   /** Returns all registered handlers as a shallow copy */
-  public getHandlers(): readonly { id: string; handler: Handler }[] {
+  public getHandlers(): readonly HandlerItem[] {
     return [...this.handlers];
   }
 
   /** Get a handler by id */
-  public getHandler(id: string): { id: string; handler: Handler } | undefined {
+  public getHandler(id: string): HandlerItem | undefined {
     return this.handlers.find((h) => h.id === id);
   }
 
@@ -92,7 +97,7 @@ export class HandlerManager {
 
   /** Executes all handlers with the given log payload */
   public runHandlers(rawPayload: RawPayload): void {
-    for (const { id, handler } of this.handlers) {
+    for (const { id, handler } of filterHandlersByPlatform(this.handlers)) {
       const task = executeHandler({
         handler,
         id,

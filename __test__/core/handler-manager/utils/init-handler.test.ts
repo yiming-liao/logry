@@ -22,7 +22,7 @@ describe("initHandler", () => {
     const handler = { handle: () => {}, init: initMock };
     const onError = jest.fn();
 
-    initHandler({ handler, id: "id3", onError });
+    initHandler({ handler: handler as any, id: "id3", onError });
 
     // Wait for promise microtask queue to flush
     await new Promise(process.nextTick);
@@ -37,7 +37,7 @@ describe("initHandler", () => {
     const handler = { handle: () => {}, init: initMock };
     const onError = jest.fn();
 
-    initHandler({ handler, id: "id4", onError });
+    initHandler({ handler: handler as any, id: "id4", onError });
 
     await new Promise(process.nextTick);
 
@@ -50,7 +50,9 @@ describe("initHandler", () => {
     const initMock = jest.fn().mockRejectedValue(error);
     const handler = { handle: () => {}, init: initMock };
 
-    expect(() => initHandler({ handler, id: "id5" })).not.toThrow();
+    expect(() =>
+      initHandler({ handler: handler as any, id: "id5" }),
+    ).not.toThrow();
 
     // wait microtask queue, no unhandled rejection
     await new Promise(process.nextTick);

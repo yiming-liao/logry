@@ -19,6 +19,7 @@ describe("executeHandler", () => {
 
   it("should call class handler's handle method with rawPayload", async () => {
     const classHandler = {
+      platform: "node" as const,
       handle: jest.fn().mockResolvedValue(undefined),
     };
 
@@ -51,6 +52,7 @@ describe("executeHandler", () => {
   it("should catch error and call onError callback for class handler", async () => {
     const error = new Error("Handler error");
     const classHandler = {
+      platform: "node" as const,
       handle: jest.fn().mockRejectedValue(error),
     };
     const onError = jest.fn();

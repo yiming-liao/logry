@@ -1,3 +1,4 @@
+import type { HandlerClass } from "@/core/handler-manager";
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Platform } from "@/shared/types";
@@ -13,7 +14,7 @@ import { Normalizer } from "@/modules/normalizers";
  * Abstract base class for log handlers.
  * Handles normalization and JSON conversion.
  */
-export abstract class BaseHandler {
+export abstract class BaseHandler implements HandlerClass {
   abstract platform: Platform;
 
   /** Must be implemented by subclasses to handle final log delivery. */
