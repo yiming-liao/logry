@@ -33,7 +33,7 @@ export class NodeDiscordHandler extends NodeHandler {
         embeds: [
           {
             title: level,
-            description: `\`\`\`${message}\`\`\``,
+            description: `\`\`\`${message || " "}\`\`\``,
             color: getDiscordColor(level),
             fields: [
               {

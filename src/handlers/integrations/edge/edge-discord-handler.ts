@@ -33,7 +33,7 @@ export class EdgeDiscordHandler extends EdgeHandler {
         embeds: [
           {
             title: level,
-            description: `\`\`\`${message}\`\`\``,
+            description: `\`\`\`${message || " "}\`\`\``,
             color: getDiscordColor(level),
             fields: [
               {
