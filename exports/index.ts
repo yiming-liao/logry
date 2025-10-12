@@ -18,6 +18,8 @@ export {
   BrowserHandler,
   EdgeHandler,
 } from "@/handlers";
+export { NodeDiscordHandler } from "@/handlers/integrations/node/node-discord-handler";
+export { EdgeDiscordHandler } from "@/handlers/integrations/edge/edge-discord-handler";
 
 // ─────────────────────────────────────────────────────────────
 // 🧬 Core Types
