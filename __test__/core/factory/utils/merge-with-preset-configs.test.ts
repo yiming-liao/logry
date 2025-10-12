@@ -1,6 +1,6 @@
-import type { LoggerPreset } from "../../../../dist";
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
+import type { LoggerPreset } from "@/presets";
 import { mergeWithPresetConfigs } from "@/core/factory/utils/merge-with-preset-configs";
 import { logryPresets } from "@/presets";
 
