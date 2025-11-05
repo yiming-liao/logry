@@ -1,14 +1,14 @@
-import type { HandlerLoggerConstructorOptions } from "@/core/logger/handler-logger";
-import { HandlerLogger } from "@/core/logger/handler-logger";
+import type { ParentLoggerConstructorOptions } from "@/core/logger/parent-logger";
+import { ParentLogger } from "@/core/logger/parent-logger";
 import { Formatter } from "@/modules/formatters";
 import { Normalizer } from "@/modules/normalizers";
 import { EdgeConsoleTransporter } from "@/modules/transporters/edge";
 
-export class EdgeLogger extends HandlerLogger {
+export class EdgeLogger extends ParentLogger {
   constructor({
     handlerManagerConfig,
     ...rest
-  }: HandlerLoggerConstructorOptions) {
+  }: ParentLoggerConstructorOptions) {
     super({ handlerManagerConfig, ...rest });
 
     const normalizer = new Normalizer();

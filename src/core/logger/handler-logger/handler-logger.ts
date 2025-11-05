@@ -7,6 +7,7 @@ import { BaseLogger } from "@/core/logger/base-logger/base-logger";
 
 export class HandlerLogger extends BaseLogger {
   protected handlerManager: HandlerManager;
+  protected disposed = false;
 
   constructor({
     handlerManagerConfig,
@@ -42,6 +43,7 @@ export class HandlerLogger extends BaseLogger {
 
   /** Called after log payload is transported */
   protected afterTransport(rawPayload: RawPayload): void {
+    if (this.disposed) return;
     this.handlerManager.runHandlers(rawPayload);
   }
 
@@ -52,6 +54,7 @@ export class HandlerLogger extends BaseLogger {
 
   /** Dispose all handlers and resources */
   public async dispose(): Promise<void> {
+    this.disposed = true;
     await this.handlerManager.dispose();
   }
 }

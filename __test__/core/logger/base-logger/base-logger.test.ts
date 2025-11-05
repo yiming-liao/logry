@@ -66,16 +66,6 @@ describe("BaseLogger", () => {
     });
   });
 
-  describe("child", () => {
-    it("should create a new BaseLogger with merged options", () => {
-      const logger = new BaseLogger(mockOptions);
-      const childLogger = logger.child({ level: "info", id: "child-id" });
-      expect(childLogger).toBeInstanceOf(BaseLogger);
-      expect(childLogger.core.scope).toEqual(expect.any(Array));
-      expect(childLogger.core.context).toEqual(expect.any(Object));
-    });
-  });
-
   describe("log methods (trace, debug, info, warn, error, fatal)", () => {
     it("should call log method for each level", () => {
       const logger = new BaseLogger(mockOptions);

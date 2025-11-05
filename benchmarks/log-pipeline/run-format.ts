@@ -1,6 +1,6 @@
 import { Formatter } from "../../dist";
-import { normalizedPayload } from "./test-data";
 import { now } from "./now";
+import { normalizedPayload } from "./test-data";
 
 const formatter = new Formatter();
 

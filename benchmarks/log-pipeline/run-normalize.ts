@@ -1,6 +1,6 @@
 import { Normalizer } from "../../dist";
-import { rawPayload } from "./test-data";
 import { now } from "./now";
+import { rawPayload } from "./test-data";
 
 const normalizer = new Normalizer();
 

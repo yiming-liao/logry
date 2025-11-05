@@ -1,14 +1,16 @@
-import type { HandlerLoggerConstructorOptions } from "@/core/logger/handler-logger";
-import { HandlerLogger } from "@/core/logger/handler-logger";
+import {
+  ParentLogger,
+  type ParentLoggerConstructorOptions,
+} from "@/core/logger/parent-logger";
 import { Formatter } from "@/modules/formatters";
 import { Normalizer } from "@/modules/normalizers";
 import { BrowserConsoleTransporter } from "@/modules/transporters";
 
-export class BrowserLogger extends HandlerLogger {
+export class BrowserLogger extends ParentLogger {
   constructor({
     handlerManagerConfig,
     ...rest
-  }: HandlerLoggerConstructorOptions) {
+  }: ParentLoggerConstructorOptions) {
     super({ handlerManagerConfig, ...rest });
 
     const normalizer = new Normalizer();

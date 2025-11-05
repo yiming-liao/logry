@@ -1,10 +1,6 @@
-import type { BaseLoggerConstructorOptions } from "@/core/logger/base-logger/base-logger-types";
+import type { BaseLoggerConstructorOptions } from "@/core/logger/base-logger/types";
 import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
-import type {
-  ChildOptions,
-  LogOverloads,
-  LogOptions,
-} from "@/core/logger/types";
+import type { LogOverloads, LogOptions } from "@/core/logger/types";
 import type { Transporter } from "@/modules/transporters";
 import type { Level } from "@/shared/types";
 import type { RawPayload } from "@/shared/types/log-payload";
@@ -37,22 +33,6 @@ export class BaseLogger {
       formatterConfig: { ...this._core.formatterConfig },
       handlerManagerConfig: { ...this._core.handlerManagerConfig },
     };
-  }
-
-  /** Create a child logger */
-  child({
-    id,
-    level,
-    handlerManagerConfig,
-    ...rest
-  }: ChildOptions = {}): BaseLogger {
-    const mergedOptions = this.mergeOptions({ ...rest });
-    return new BaseLogger({
-      ...mergedOptions,
-      id,
-      level,
-      handlerManagerConfig,
-    });
   }
 
   // Log methods for every levels (Exclude "silent")
