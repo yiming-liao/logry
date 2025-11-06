@@ -27,8 +27,9 @@ export class ParentLogger extends HandlerLogger {
     const child = this.createInstance({
       ...mergedOptions,
       id: id ?? this.core.id,
-      level,
-      handlerManagerConfig,
+      level: level ?? this.core.level,
+      handlerManagerConfig:
+        handlerManagerConfig ?? this.core.handlerManagerConfig,
     });
     return child;
   }

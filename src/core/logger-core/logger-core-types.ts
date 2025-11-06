@@ -9,7 +9,7 @@ export type LoggerCoreOptions = {
   level?: Level;
   scope?: RawScope | string; // String or array of strings
   context?: RawContext;
-  formatterConfig?: FormatterConfig;
   normalizerConfig?: NormalizerConfig;
+  formatterConfig?: FormatterConfig;
   handlerManagerConfig?: HandlerManagerConfig;
 };
