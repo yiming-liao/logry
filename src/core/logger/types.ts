@@ -29,5 +29,4 @@ export interface LogOverloads {
   (message: string, options?: LogRuntimeOptions): void; // message + options
   (meta: RawMeta, options?: LogRuntimeOptions): void; // meta + options
   (message: string, meta: RawMeta, options?: LogRuntimeOptions): void; // message + meta + options
-  (meta: RawMeta, message: string, options?: LogRuntimeOptions): void; // meta + message + options
 }
