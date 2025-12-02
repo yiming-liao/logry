@@ -1,5 +1,4 @@
 import type { LoggerCoreOptions } from "@/core/logger-core/logger-core-types";
-import { HandlerManager } from "@/core/handler-manager/handler-manager";
 import { LoggerCore } from "@/core/logger-core/logger-core";
 import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_NAME } from "@/shared/constants";
 
@@ -14,7 +13,6 @@ describe("LoggerCore", () => {
     expect(logger.formatterConfig).toBeUndefined();
     expect(logger.normalizerConfig).toBeUndefined();
     expect(logger.handlerManagerConfig).toBeUndefined();
-    expect(logger.handlerManager).toBeInstanceOf(HandlerManager);
   });
 
   it("should accept custom options and initialize properties correctly", () => {
@@ -43,7 +41,6 @@ describe("LoggerCore", () => {
     expect(logger.formatterConfig).toBe(options.formatterConfig);
     expect(logger.normalizerConfig).toBe(options.normalizerConfig);
     expect(logger.handlerManagerConfig).toBe(options.handlerManagerConfig);
-    expect(logger.handlerManager).toBeInstanceOf(HandlerManager);
   });
 
   it("should convert single scope string into array", () => {

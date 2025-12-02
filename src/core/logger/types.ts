@@ -5,7 +5,7 @@ import type { Level } from "@/shared/types";
 import type { RawContext, RawMeta, RawScope } from "@/shared/types/log-fields";
 
 /** Options for `child` method in Logger */
-export type ChildOptions = LoggerCoreOptions;
+export type ChildOptions = Omit<LoggerCoreOptions, "handlerManagerConfig">;
 
 /** Options for `log` method in Logger */
 export type LogOptions = {

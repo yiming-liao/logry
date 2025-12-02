@@ -1,4 +1,5 @@
 import type { RawPayload } from "@/shared/types/log-payload";
+import type * as NodeOs from "node:os";
 
 /**
  * Append process ID and hostname to a RawPayload.
@@ -8,7 +9,7 @@ import type { RawPayload } from "@/shared/types/log-payload";
  * @returns New payload with pid and hostname fields
  */
 export const appendProcessFields = async (
-  getOsFn: () => Promise<typeof import("node:os") | undefined>,
+  getOsFn: () => Promise<typeof NodeOs | undefined>,
   rawPayload: RawPayload,
 ): Promise<RawPayload> => {
   const os = await getOsFn();

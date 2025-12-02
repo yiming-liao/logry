@@ -2,10 +2,8 @@ import type { LoggerCore } from "@/core/logger-core";
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { RawContext } from "@/shared/types/log-fields";
-import { mergeContexts } from "@/core/logger/base-logger/utils/merge/merge-contexts";
-import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merge-formatter-config";
-import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
-import { mergeScopes } from "@/core/logger/base-logger/utils/merge/merge-scopes";
+import { mergeScopes } from "@/core/logger/base-logger/utils/merge-scopes";
+import { deepMerge } from "@/shared/utils/deep-merge";
 
 export type AdditionOptions = {
   scope?: string | string[];
@@ -30,14 +28,11 @@ export const mergeWithCoreOptions = (
 ) => {
   return {
     scope: mergeScopes(core.scope, additions.scope),
-    context: mergeContexts(core.context, additions.context),
-    normalizerConfig: mergeNormalizerConfig(
+    context: deepMerge(core.context, additions.context),
+    normalizerConfig: deepMerge(
       core.normalizerConfig,
       additions.normalizerConfig,
     ),
-    formatterConfig: mergeFormatterConfig(
-      core.formatterConfig,
-      additions.formatterConfig,
-    ),
+    formatterConfig: deepMerge(core.formatterConfig, additions.formatterConfig),
   };
 };

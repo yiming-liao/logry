@@ -12,7 +12,7 @@ jest.mock("@/shared/utils/is-node", () => ({
 }));
 
 const rawPayload: RawPayload = {
-  timestamp: 123456,
+  timestamp: 123_456,
   id: "log-id",
   level: "info",
   scope: ["test"],

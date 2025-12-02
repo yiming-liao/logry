@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-at */
 import type { NormalizedScope, RawScope } from "@/shared/types/log-fields";
 
 export type ResolveScopeStringOptions = {

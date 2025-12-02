@@ -1,5 +1,5 @@
-import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
-import { mergeWithCoreOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
+import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge-with-core-options";
+import { mergeWithCoreOptions } from "@/core/logger/base-logger/utils/merge-with-core-options";
 import { LoggerCore } from "@/core/logger-core";
 
 describe("mergeWithCoreOptions", () => {

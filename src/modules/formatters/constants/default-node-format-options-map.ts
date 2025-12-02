@@ -4,9 +4,9 @@ import type {
 } from "@/modules/formatters/types";
 import type { FieldKey } from "@/shared/types/log-fields";
 
-export const ANSI_RESET = "\x1b[0m";
-export const ANSI_GRAY = "\x1b[38;5;245m";
-export const ANSI_CYAN = "\x1b[36m";
+export const ANSI_RESET = "\u001B[0m";
+export const ANSI_GRAY = "\u001B[38;5;245m";
+export const ANSI_CYAN = "\u001B[36m";
 
 type P = "node";
 

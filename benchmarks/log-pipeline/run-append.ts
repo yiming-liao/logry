@@ -1,7 +1,7 @@
-import { now } from "./now";
-import { rawPayload } from "./test-data";
 import { appendProcessFields } from "@/shared/utils/node/append-process-fields";
 import { getOs } from "@/shared/utils/node/lazy-modules";
+import { now } from "./now";
+import { rawPayload } from "./test-data";
 
 export const runAppend = async (count: number) => {
   const t0 = now();

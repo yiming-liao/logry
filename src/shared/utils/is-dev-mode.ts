@@ -31,7 +31,7 @@ export const isDevMode = (): boolean => {
   }
 
   // Browser fallback via global flag
-  if (typeof (globalThis as any).__LOGRY_DEV__ !== "undefined") {
+  if ((globalThis as any).__LOGRY_DEV__ !== undefined) {
     return Boolean((globalThis as any).__LOGRY_DEV__);
   }
 

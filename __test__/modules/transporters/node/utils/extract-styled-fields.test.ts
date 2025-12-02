@@ -17,8 +17,8 @@ const samplePayload: FormattedPayload = {
   formatterConfig: {},
   raw: {} as SnapshotLogFields,
   withAnsiStyle: {
-    timestamp: "\x1b[90m2025-06-22 12:00:00\x1b[0m",
-    level: "\x1b[32mINFO\x1b[0m",
+    timestamp: "\u001B[90m2025-06-22 12:00:00\u001B[0m",
+    level: "\u001B[32mINFO\u001B[0m",
   },
   cssStyles: {},
 };

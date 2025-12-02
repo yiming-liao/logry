@@ -40,7 +40,7 @@ describe("BaseHandler", () => {
     message: "test",
     level: "info",
     scope: ["test"],
-    timestamp: 123123,
+    timestamp: 123_123,
     normalizerConfig: mockConfigs.normalizerConfig,
     formatterConfig: mockConfigs.formatterConfig,
   } as RawPayload;

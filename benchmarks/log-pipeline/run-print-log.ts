@@ -1,7 +1,7 @@
-import { now } from "./now";
-import { formattedPayload } from "./test-data";
 import { LogQueue } from "@/modules/transporters/node/utils/global-log-queue";
 import { printLog } from "@/modules/transporters/node/utils/print-log";
+import { now } from "./now";
+import { formattedPayload } from "./test-data";
 
 const globalLogQueue = new LogQueue();
 

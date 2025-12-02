@@ -26,11 +26,10 @@ export const formatInternalMessage = ({
 
   let errorDetails = "";
   if (error) {
-    if (error instanceof Error) {
-      errorDetails = `\n${error.stack || error.message}`;
-    } else {
-      errorDetails = `\n${String(error)}`;
-    }
+    errorDetails =
+      error instanceof Error
+        ? `\n${error.stack || error.message}`
+        : `\n${String(error)}`;
   }
 
   return `${iconMap[type]} ${prefix} ${message}${errorDetails}`;

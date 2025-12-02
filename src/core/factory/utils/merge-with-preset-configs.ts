@@ -1,8 +1,7 @@
 import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
-import { mergeFormatterConfig } from "@/core/logger/base-logger/utils/merge/merge-formatter-config";
-import { mergeNormalizerConfig } from "@/core/logger/base-logger/utils/merge/merge-normalizer-config";
 import { logryPresets, type LoggerPreset } from "@/presets";
+import { deepMerge } from "@/shared/utils/deep-merge";
 
 export const mergeWithPresetConfigs = (
   presetName?: LoggerPreset,
@@ -12,11 +11,11 @@ export const mergeWithPresetConfigs = (
   if (!presetName) return { normalizerConfig, formatterConfig };
 
   return {
-    normalizerConfig: mergeNormalizerConfig(
+    normalizerConfig: deepMerge(
       logryPresets[presetName]?.normalizerConfig,
       normalizerConfig,
     ),
-    formatterConfig: mergeFormatterConfig(
+    formatterConfig: deepMerge(
       logryPresets[presetName]?.formatterConfig,
       formatterConfig,
     ),

@@ -45,19 +45,23 @@ export const normalizeTimestamp = (
   }
 
   switch (style) {
-    case "raw":
+    case "raw": {
       return fieldValue;
-    case "iso":
+    }
+    case "iso": {
       return new Date(fieldValue).toISOString();
-    case "epoch":
+    }
+    case "epoch": {
       return Math.floor(fieldValue / 1000);
-    case "pretty":
+    }
+    case "pretty": {
       return buildTimestampString({
         timestamp: fieldValue,
         useUTC,
         showTimeOnly,
       });
-    default:
+    }
+    default: {
       internalLog({
         type: "warn",
         message: `Unknown timestamp style "${style}", using "pretty" as fallback.`,
@@ -67,5 +71,6 @@ export const normalizeTimestamp = (
         useUTC,
         showTimeOnly,
       });
+    }
   }
 };

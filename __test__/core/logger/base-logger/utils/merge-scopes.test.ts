@@ -1,4 +1,4 @@
-import { mergeScopes } from "@/core/logger/base-logger/utils/merge/merge-scopes";
+import { mergeScopes } from "@/core/logger/base-logger/utils/merge-scopes";
 
 describe("mergeScopes", () => {
   it("should return baseScope if additionalScope is undefined", () => {

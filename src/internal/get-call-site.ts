@@ -4,6 +4,8 @@
  * @param err Optional error instance for testability. Defaults to new Error().
  * @returns A single line representing the call site, or undefined if not available.
  */
-export const getCallSite = (err: Error = new Error()): string | undefined => {
+export const getCallSite = (
+  err: Error = new Error("Unknown"),
+): string | undefined => {
   return err.stack?.split("\n").slice(2, 5).join("\n").trim();
 };

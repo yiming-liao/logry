@@ -1,11 +1,11 @@
 import type { BaseLoggerConstructorOptions } from "@/core/logger/base-logger/types";
-import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
+import type { AdditionOptions } from "@/core/logger/base-logger/utils/merge-with-core-options";
 import type { LogOverloads, LogOptions } from "@/core/logger/types";
 import type { Transporter } from "@/modules/transporters";
 import type { Level } from "@/shared/types";
 import type { RawPayload } from "@/shared/types/log-payload";
 import { logAtLevel } from "@/core/logger/base-logger/utils/log-at-level";
-import { mergeWithCoreOptions } from "@/core/logger/base-logger/utils/merge/merge-with-core-options";
+import { mergeWithCoreOptions } from "@/core/logger/base-logger/utils/merge-with-core-options";
 import { createForceMethods } from "@/core/logger/utils/create-force-methods";
 import { buildPayload } from "@/core/logger/utils/payload/build-payload";
 import { transportPayload } from "@/core/logger/utils/payload/transport-payload";

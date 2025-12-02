@@ -33,7 +33,7 @@ describe("EdgeHandler", () => {
     message: "Hello",
     level: "info",
     scope: ["core"],
-    timestamp: 123123,
+    timestamp: 123_123,
     raw: { level: "info" },
   } as RawPayload;
 

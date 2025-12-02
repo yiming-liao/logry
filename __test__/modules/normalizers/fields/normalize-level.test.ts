@@ -65,12 +65,23 @@ describe("normalizeLevel", () => {
 
     const result = normalizeLevel(rawLevel, raw);
 
-    if (DEFAULT_LEVEL_STYLE === "lower") {
-      expect(result).toBe("error");
-    } else if (DEFAULT_LEVEL_STYLE === "title") {
-      expect(result).toBe("Error");
-    } else if (DEFAULT_LEVEL_STYLE === "upper") {
-      expect(result).toBe("ERROR");
+    switch (DEFAULT_LEVEL_STYLE) {
+      case "lower": {
+        expect(result).toBe("error");
+
+        break;
+      }
+      case "title": {
+        expect(result).toBe("Error");
+
+        break;
+      }
+      case "upper": {
+        expect(result).toBe("ERROR");
+
+        break;
+      }
+      // No default
     }
   });
 });

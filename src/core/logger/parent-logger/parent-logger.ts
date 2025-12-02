@@ -22,14 +22,12 @@ export class ParentLogger extends HandlerLogger {
 
   // NOTE: child loggers share the same handlerManager (includes handlers) and transporters.
   /** Create a child logger */
-  child({ id, level, handlerManagerConfig, ...rest }: ChildOptions = {}): this {
+  child({ id, level, ...rest }: ChildOptions = {}): this {
     const mergedOptions = this.mergeOptions({ ...rest });
     const child = this.createInstance({
       ...mergedOptions,
       id: id ?? this.core.id,
       level: level ?? this.core.level,
-      handlerManagerConfig:
-        handlerManagerConfig ?? this.core.handlerManagerConfig,
     });
     return child;
   }

@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/import-style */
 import { lazyImport } from "@/shared/utils/node/lazy-import";
 
 /** Lazily import Node.js 'os' module. */

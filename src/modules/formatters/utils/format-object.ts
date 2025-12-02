@@ -16,11 +16,13 @@ export const formatObject = (
 ): Record<string, unknown> | string => {
   try {
     switch (style) {
-      case "raw":
+      case "raw": {
         return input;
+      }
 
-      case "json":
+      case "json": {
         return JSON.stringify(input);
+      }
 
       case "pretty": {
         const indentSpaces = " ".repeat(indent);
@@ -30,7 +32,7 @@ export const formatObject = (
           .join("\n")}`;
       }
 
-      case "compact":
+      case "compact": {
         if (typeof input !== "object" || input === null) {
           return "";
         }
@@ -47,13 +49,15 @@ export const formatObject = (
             return `${key}=${value}`;
           })
           .join(" ");
+      }
 
-      default:
+      default: {
         internalLog({
           type: "warn",
           message: `Unknown style "${style}", using "json" as fallback.`,
         });
-        return JSON.stringify(input); // Fallback to single-line JSON
+        return JSON.stringify(input);
+      } // Fallback to single-line JSON
     }
   } catch (error) {
     internalLog({

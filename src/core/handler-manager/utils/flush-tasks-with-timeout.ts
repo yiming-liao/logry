@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-ternary */
 import { withTimeout } from "@/core/handler-manager/utils/with-timeout";
 
 /**
@@ -10,9 +11,10 @@ export const flushTasksWithTimeout = async (
   pendingTasks: Map<Promise<unknown>, string>,
   timeout: number,
 ): Promise<void> => {
-  const tasksWithId = Array.from(pendingTasks.entries()).map(
-    ([task, handlerId]) => ({ handlerId, task }),
-  );
+  const tasksWithId = [...pendingTasks.entries()].map(([task, handlerId]) => ({
+    handlerId,
+    task,
+  }));
 
   if (timeout > 0) {
     // Wait for all tasks with timeout applied

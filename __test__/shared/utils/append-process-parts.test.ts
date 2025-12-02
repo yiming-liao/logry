@@ -1,10 +1,11 @@
 import type { RawPayload } from "@/shared/types/log-payload";
+import type * as NodeOs from "node:os";
 import { appendProcessFields } from "@/shared/utils/node/append-process-fields";
 
 describe("appendProcessFields", () => {
   it("should append pid and hostname from os module", async () => {
     const fakeOs = { hostname: () => "mock-host" };
-    const getOsFn = async () => fakeOs as typeof import("os");
+    const getOsFn = async () => fakeOs as typeof NodeOs;
 
     const input = {
       level: "info",
@@ -45,7 +46,7 @@ describe("appendProcessFields", () => {
     });
 
     const fakeOs = { hostname: () => "another-host" };
-    const getOsFn = async () => fakeOs as typeof import("os");
+    const getOsFn = async () => fakeOs as typeof NodeOs;
 
     const input = {
       level: "info",

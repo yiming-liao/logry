@@ -43,7 +43,7 @@ describe("Normalizer", () => {
 
   it("should normalize with node config", () => {
     const rawPayload: RawPayload = {
-      timestamp: 123456,
+      timestamp: 123_456,
       id: "abc",
       level: "info",
       scope: ["scope"],

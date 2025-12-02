@@ -4,7 +4,6 @@ import type { FormatterConfig } from "@/modules/formatters/types";
 import type { NormalizerConfig } from "@/modules/normalizers/types";
 import type { Level } from "@/shared/types";
 import type { RawContext, RawScope } from "@/shared/types/log-fields";
-import { HandlerManager } from "@/core/handler-manager";
 import { DEFAULT_LOGGER_LEVEL, DEFAULT_LOGGER_NAME } from "@/shared/constants";
 import { assertValidLevel } from "@/shared/utils/assert-valid-level";
 
@@ -31,8 +30,6 @@ export class LoggerCore {
   public readonly normalizerConfig?: NormalizerConfig;
   /** Optional configuration for log handlers */
   public readonly handlerManagerConfig?: HandlerManagerConfig;
-  /** Manages all log handlers */
-  public readonly handlerManager: HandlerManager;
 
   constructor({
     id = DEFAULT_LOGGER_NAME,
@@ -59,7 +56,6 @@ export class LoggerCore {
     this.formatterConfig = formatterConfig;
     // Handler
     this.handlerManagerConfig = handlerManagerConfig;
-    this.handlerManager = new HandlerManager(handlerManagerConfig);
   }
 
   /** Dynamically update the current log level. */

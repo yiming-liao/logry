@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/number-literal-case */
+/* eslint-disable unicorn/numeric-separators-style */
 import type { RawPayload } from "@/shared/types/log-payload";
 import { NodeHandler } from "@/handlers/platform-handlers/node-handler";
 

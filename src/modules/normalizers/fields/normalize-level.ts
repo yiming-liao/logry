@@ -39,17 +39,21 @@ export const normalizeLevel = (
   }
 
   switch (style) {
-    case "lower":
+    case "lower": {
       return fieldValue;
-    case "title":
+    }
+    case "title": {
       return TITLECASE_LEVELS_MAP[fieldValue];
-    case "upper":
+    }
+    case "upper": {
       return UPPERCASE_LEVELS_MAP[fieldValue];
-    default:
+    }
+    default: {
       internalLog({
         type: "warn",
         message: `Unknown level style "${style}", using "upper" as fallback.`,
       });
       return UPPERCASE_LEVELS_MAP[fieldValue];
+    }
   }
 };
