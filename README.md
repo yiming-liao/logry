@@ -24,6 +24,12 @@
 
 <div align="center">
 
+#### 🍳 Logry 2.0 has landed, but the docs are still cooking, please read gently.
+
+</div>
+
+<div align="center">
+
 [![📚 Read the Docs](https://img.shields.io/badge/📚%20Read%20the%20Docs-007477?style=for-the-badge)](https://yiming-liao.github.io/logry/docs/introduction/getting-started)
 
 </div>
@@ -358,7 +364,6 @@ The core engine responsible for managing log levels, shared identity (id), and o
 
 - Multiple logger instances can share a single core by specifying the same id, enabling centralized and synchronized log level management across instances.
 - It supports dynamic runtime control of log verbosity:
-
   - `setLevel(level)`: updates the active log level
   - `resetLevel()`: restore to the initial log level
 
@@ -889,7 +894,6 @@ This function detects whether the runtime is in development mode.
  It is primarily used to control internal logging and error reporting within the library, such as internal-log and internal-error messages.
 
 - In `Node.js`, it checks the NODE_ENV environment variable:
-
   - Returns true if `NODE_ENV` is not set to 'production'.
   - Defaults to true (development) if `NODE_ENV` is undefined.
     x
