@@ -9,8 +9,8 @@ type PlainObject = Record<string, unknown>;
 export const deepMerge = <T extends PlainObject, U extends PlainObject>(
   a?: T,
   b?: U,
-): (T & U) | T | U => {
-  if (!a && !b) return {} as T & U;
+): (T & U) | T | U | undefined => {
+  if (!a && !b) return undefined;
   if (!a) return b as U;
   if (!b) return a as T;
 

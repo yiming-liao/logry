@@ -5,9 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Logry | Basic example</title>
     <link rel="icon" type="image/x-icon" href="/logry-logo-rounded.png" />
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        background-image:
+          radial-gradient(circle at 15% 25%, rgba(199, 212, 213, 0.08) 0%),
+          radial-gradient(circle at 70% 80%, rgba(142, 173, 183, 0.12) 0%),
+          radial-gradient(circle at 85% 10%, rgba(0, 80, 120, 0.12) 0%),
+          linear-gradient(140deg, #031522 0%);
+      }
+    </style>
   </head>
 
-  <body class="bg">
+  <body>
     <script type="module">
       import {
         trace,
@@ -16,15 +28,15 @@
         warn,
         error,
         fatal,
-      } from "https://cdn.jsdelivr.net/npm/logry/dist/index.js";
+      } from "../../dist/index.js";
 
       /**
-       * 🧪 Basic Log Levels
+       * Basic Log Levels
        * ------------------------------------------------------
        * These are the six standard log levels, from least to most severe.
        */
       console.log(
-        "\n\n══════════════════════════════[ Basic Log Levels ]\n\n\n",
+        "\n\n══════════════════════════════[ Basic Log Levels ] ▼\n\n\n",
       );
 
       trace("Fetching data from cache");
@@ -35,13 +47,13 @@
       fatal("Critical: unable to connect to database");
 
       /**
-       * 📦 Logging Metadata
+       * Logging Metadata
        * ------------------------------------------------------
        * Add structured context to a log using the second parameter.
        * Great for logging objects, IDs, user actions, etc.
        */
       console.log(
-        "\n\n══════════════════════════════[ Logging Metadata ]\n\n\n",
+        "\n\n══════════════════════════════[ Logging Metadata ] ▼\n\n\n",
       );
 
       info("User login detected", {
@@ -51,12 +63,12 @@
       });
 
       /**
-       * 📂 Using Scope
+       * Using Scope
        * ------------------------------------------------------
        * Add a scope tag to group related logs — can be a string or breadcrumb-style array.
        * If you don't need to log any metadata, pass `null` or `undefined` as the second argument.
        */
-      console.log("\n\n══════════════════════════════[ Using Scope ]\n\n\n");
+      console.log("\n\n══════════════════════════════[ Using Scope ] ▼\n\n\n");
 
       debug("Fetching dashboard data", null, {
         scope: "dashboard",
@@ -67,23 +79,23 @@
       });
 
       /**
-       * 🧠 Logging an Error Object
+       * Logging an Error Object
        * ------------------------------------------------------
        * Pass an Error instance as metadata — it will automatically log the stack trace.
        */
       console.log(
-        "\n\n══════════════════════════════[ Logging an Error Object ]\n\n\n",
+        "\n\n══════════════════════════════[ Logging an Error Object ] ▼\n\n\n",
       );
 
       error("Unexpected failure", new Error("Connection timeout"));
 
       /**
-       * ⚙️ Advanced Options
+       * Advanced Options
        * ------------------------------------------------------
        * Customize formatting, normalization behavior using the third parameter.
        */
       console.log(
-        "\n\n══════════════════════════════[ Advanced Options ]\n\n\n",
+        "\n\n══════════════════════════════[ Advanced Options ] ▼\n\n\n",
       );
 
       trace(
@@ -106,31 +118,8 @@
       );
     </script>
 
-    <p
-      style="
-        color: antiquewhite;
-        font-size: larger;
-        font-family:
-          &quot;Gill Sans&quot;, &quot;Gill Sans MT&quot;, Calibri,
-          &quot;Trebuchet MS&quot;, sans-serif;
-        margin: auto;
-        padding-bottom: 240px;
-      "
-    >
+    <p style="color: antiquewhite; margin: auto; padding-bottom: 240px">
       ✨ Press F12 to view the output in DevTools
     </p>
-
-    <style>
-      .bg {
-        display: flex;
-        height: 100vh;
-        margin: 0;
-        background-image:
-          radial-gradient(circle at 15% 25%, rgba(199, 212, 213, 0.08) 0%),
-          radial-gradient(circle at 70% 80%, rgba(142, 173, 183, 0.12) 0%),
-          radial-gradient(circle at 85% 10%, rgba(0, 80, 120, 0.12) 0%),
-          linear-gradient(140deg, #031522 0%);
-      }
-    </style>
   </body>
 </html>

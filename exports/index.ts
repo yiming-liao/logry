@@ -1,87 +1,35 @@
-import { universalStandaloneLog } from "@/core/logger/standalone-log";
-import { createForceMethods } from "@/core/logger/utils/create-force-methods";
+import { standaloneLog } from "@/standalone-log";
 
-// ─────────────────────────────────────────────────────────────
-// 🚀 Entry Point
-// ─────────────────────────────────────────────────────────────
-
-export { UniversalLogger as Logger } from "@/core/logger/platform/universal-logger";
-export { createUniversalLogger as logry } from "@/core/factory/create-universal-logger";
-
-// ─────────────────────────────────────────────────────────────
-// 🕹 Handlers
-// ─────────────────────────────────────────────────────────────
-
+// logry (create-logger)
 export {
-  BaseHandler,
-  NodeHandler,
-  BrowserHandler,
-  EdgeHandler,
-} from "@/handlers";
-export { NodeDiscordHandler } from "@/handlers/integrations/node/node-discord-handler";
-export { EdgeDiscordHandler } from "@/handlers/integrations/edge/edge-discord-handler";
+  createLogger as logry,
+  type CreateLoggerOptions,
+} from "@/create-logger";
 
-// ─────────────────────────────────────────────────────────────
-// 🧬 Core Types
-// ─────────────────────────────────────────────────────────────
+// standalone log
+export const { trace, debug, info, warn, error, fatal } = standaloneLog;
 
-export type { Level, Platform } from "@/shared/types";
-export type {
-  RawPayload,
-  NormalizedPayload,
-  FormattedPayload,
-} from "@/shared/types/log-payload";
+// logger
+export type { PluginLogger as Logger } from "@/logger";
 
-// ─────────────────────────────────────────────────────────────
-// 🧱 Modules
-// ─────────────────────────────────────────────────────────────
+// pipeline
+export {
+  // normalize
+  type NormalizeConfig,
+  // format
+  type FormatConfig,
+  formatTimestamp,
+  formatLevel,
+  formatScope,
+  formatMeta,
+  formatContext,
+  // render
+  type RenderConfig,
+  type RenderOptions,
+  renderField,
+} from "@/pipeline";
 
-// --- 🧹 Normalizers ---
-export { Normalizer } from "@/modules/normalizers";
-export type {
-  NormalizerConfig,
-  NodeNormalizerConfig,
-  BrowserNormalizerConfig,
-  EdgeNormalizerConfig,
-} from "@/modules/normalizers/types";
-
-// --- 🎨 Formatters ---
-export { Formatter } from "@/modules/formatters";
-export type {
-  FormatterConfig,
-  NodeFormatterConfig,
-  BrowserFormatterConfig,
-  EdgeFormatterConfig,
-} from "@/modules/formatters/types";
-
-// ─────────────────────────────────────────────────────────────
-// 🧰 Handler Manager
-// ─────────────────────────────────────────────────────────────
-
-export { HandlerManager } from "@/core/handler-manager";
-export type {
-  HandlerManagerConfig,
-  FlushStrategy,
-  OnErrorCallback,
-  Handler,
-  HandlerFunction,
-  HandlerClass,
-} from "@/core/handler-manager";
-
-// ─────────────────────────────────────────────────────────────
-// 🎨 Presets
-// ─────────────────────────────────────────────────────────────
-export { logryPresets as presets } from "@/presets";
-export type { LoggerPreset, LoggerPresetConfig } from "@/presets";
-
-// ─────────────────────────────────────────────────────────────
-// 🎯 Force Logging Methods
-// ─────────────────────────────────────────────────────────────
-
-export const force = createForceMethods(universalStandaloneLog);
-export const trace = force.trace;
-export const debug = force.debug;
-export const info = force.info;
-export const warn = force.warn;
-export const error = force.error;
-export const fatal = force.fatal;
+// types
+export type { LogHook as LogryHook } from "@/shared/types/log-hook";
+export type { LogPlugin as LogryPlugin } from "@/shared/types/log-plugin";
+export type { LogContext as LogryContext } from "@/shared/types/log-context";

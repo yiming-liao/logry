@@ -5,10 +5,11 @@ export const format1 = {
     cssStyle: "color: #81a1c1; font-style: italic;",
   },
   id: {
+    marginAfter: 1,
     cssStyle: "color:rgb(48, 119, 201); font-weight: bold; margin:0 8px",
   },
   level: {
-    customFormatter: ({ fieldValue, raw }) => {
+    customFormatter: (fieldValue, ctx) => {
       const style =
         {
           fatal: "linear-gradient(135deg, #ff6b6b, #ee5253) ",
@@ -18,10 +19,10 @@ export const format1 = {
           debug:
             "linear-gradient(135deg,rgb(134, 161, 203),rgb(108, 134, 220))",
           trace: "linear-gradient(135deg, #dfe6e9, #b2bec3)",
-        }[raw.level] ?? "#ccc";
+        }[ctx.raw.level] ?? "#ccc";
 
       return {
-        fieldValue,
+        plain: fieldValue,
         cssStyle: `
         background: ${style};
         color: #FFF;
@@ -36,6 +37,7 @@ export const format1 = {
     },
   },
   scope: {
+    marginBefore: 0,
     cssStyle: `
       color:rgb(74, 140, 168); 
       font-weight: 500; 
@@ -71,6 +73,7 @@ export const format2 = {
   lineBreaksBefore: 1,
   lineBreaksAfter: 2,
   timestamp: {
+    marginAfter: 0,
     cssStyle: `
       background: #1e293b;
       color: #e2e8f0;
@@ -93,7 +96,7 @@ export const format2 = {
     `,
   },
   level: {
-    customFormatter: ({ fieldValue, raw }) => {
+    customFormatter: (fieldValue, ctx) => {
       const map = {
         info: ["#2563eb", "#dbeafe"],
         error: ["#dc2626", "#fee2e2"],
@@ -102,7 +105,7 @@ export const format2 = {
         trace: ["#6b7280", "#f3f4f6"],
         fatal: ["#b91c1c", "#fecaca"],
       };
-      const [bg, fg] = map[raw.level] ?? ["#4b5563", "#f1f5f9"];
+      const [bg, fg] = map[ctx.raw.level] ?? ["#4b5563", "#f1f5f9"];
 
       return {
         fieldValue: fieldValue.toUpperCase(),
@@ -120,6 +123,7 @@ export const format2 = {
     },
   },
   scope: {
+    marginBefore: 0,
     cssStyle: `
       background: #0f766e;
       color: #ccfbf1;
@@ -154,7 +158,6 @@ export const format2 = {
     `,
     format: "compact",
     indent: 0,
-    lineBreaks: 1,
     suffix: "\n",
   },
 };
@@ -165,19 +168,19 @@ export const format3 = {
   timestamp: {
     cssStyle: `
       font-style: italic;
-      background-color:rgba(75, 98, 171, 0.2);
+      background-color:rgba(162, 127, 79, 0.2);
       padding:8px;
       border-radius:6px 0 0 6px;
     `,
   },
   id: {
     cssStyle: `
-      background-color:rgba(75, 98, 171, 0.2);
+      background-color:rgba(162, 127, 79, 0.2);
       padding:8px;
     `,
   },
   level: {
-    customFormatter: ({ fieldValue, raw }) => {
+    customFormatter: (fieldValue, ctx) => {
       const woods = {
         info: "#8b5e3c",
         error: "#b91c1c",
@@ -186,29 +189,38 @@ export const format3 = {
         trace: "#6b7280",
         fatal: "#7f1d1d",
       };
-      const color = woods[raw.level] ?? "#444";
+      const color = woods[ctx.raw.level] ?? "#444";
 
       return {
-        fieldValue: fieldValue.toUpperCase(),
+        plain: fieldValue.toUpperCase(),
         cssStyle: `
           color: ${color};
-          background-color:rgba(75, 98, 171, 0.2);
+          background-color:rgba(162, 127, 79, 0.2);
           padding:8px;
         `,
       };
     },
   },
   scope: {
+    marginBefore: 0,
     cssStyle: `
-      background-color:rgba(75, 98, 171, 0.2);
+      background-color:rgba(162, 127, 79, 0.2);
       padding:8px;
     `,
   },
   message: {
     cssStyle: `
-      background-color:rgba(75, 98, 171, 0.2);
+      background-color:rgba(162, 127, 79, 0.2);
       padding:8px;
       border-radius:0 6px 6px 0;
+    `,
+  },
+  meta: {
+    cssStyle: `
+    border-left:3px dashed rgba(100,100,100,0.2);
+    margin-left:10px;
+    padding:2px 0;
+    border-radius:0 6px 6px 0;
     `,
   },
 };

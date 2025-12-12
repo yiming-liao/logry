@@ -16,6 +16,7 @@ export const unicornConfig = [
       "unicorn/no-nested-ternary": "off",
       "unicorn/no-useless-undefined": "off",
       "unicorn/consistent-function-scoping": "off",
+      "unicorn/prefer-at": "off",
     },
   },
 ];
