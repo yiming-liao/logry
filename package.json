@@ -1,7 +1,7 @@
 {
   "name": "logry",
-  "version": "2.0.2",
-  "description": "...",
+  "version": "2.1.0",
+  "description": "🌌 A consistent logging system for all JavaScript runtimes.",
   "author": "Yiming Liao",
   "license": "MIT",
   "homepage": "https://yiming-liao.github.io/logry/docs/introduction/getting-started/",
@@ -42,6 +42,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./plugins": {
+      "types": "./dist/plugins/index.d.ts",
+      "import": "./dist/plugins/index.js"
     }
   },
   "module": "./dist/index.js",
