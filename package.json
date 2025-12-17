@@ -1,6 +1,6 @@
 {
   "name": "logry",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "🌌 A consistent logging system for all JavaScript runtimes.",
   "author": "Yiming Liao",
   "license": "MIT",
