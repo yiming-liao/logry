@@ -16,46 +16,36 @@
     "logger",
     "logging",
     "typescript",
-    "nodejs",
-    "browser",
+    "console",
+    "structured-logging",
+    "modular",
+    "pipeline",
+    "universal",
     "isomorphic",
-    "lightweight",
-    "custom logger",
-    "modular logger",
-    "scoped logger",
-    "log handler",
-    "log formatter",
-    "log normalizer",
-    "log levels",
-    "structured logging",
-    "console logger",
-    "logger factory",
-    "full-stack logging",
-    "nextjs",
-    "frontend",
-    "backend",
-    "cross-platform",
-    "customizable logging",
-    "universal logger"
+    "browser",
+    "nodejs"
   ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./plugins": {
       "types": "./dist/plugins/index.d.ts",
-      "import": "./dist/plugins/index.js"
+      "import": "./dist/plugins/index.js",
+      "require": "./dist/plugins/index.cjs"
     }
   },
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "type": "module",
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-  "type": "module",
   "scripts": {
     "type": "tsc --noEmit",
     "lint": "eslint",
@@ -63,18 +53,17 @@
     "test": "vitest",
     "knip": "knip --config .config/knip.config.ts",
     "clean": "rm -rf dist",
-    "build": "yarn clean && rollup -c .config/rollup/rollup.config.js",
+    "build": "tsup",
     "prepublishOnly": "yarn build"
   },
   "sideEffects": false,
   "engines": {
     "node": ">=16.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "rura": "1.0.7"
+  },
   "devDependencies": {
-    "@rollup/plugin-alias": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-typescript": "^12.3.0",
     "@sentry/node": "^9.29.0",
     "@vitest/coverage-v8": "^4.0.15",
     "chalk": "^5.4.1",
@@ -88,13 +77,11 @@
     "eslint-plugin-unused-imports": "^4.3.0",
     "knip": "^5.71.0",
     "prettier": "^3.5.3",
-    "rollup": "^4.53.3",
-    "rollup-plugin-dts": "^6.3.0",
-    "rura": "^1.0.7",
     "string-width": "^7.2.0",
     "strip-ansi": "^7.1.0",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
+    "tsup": "^8.5.1",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
