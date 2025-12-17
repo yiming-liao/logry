@@ -31,10 +31,16 @@ export class BaseLogger {
     normalizeConfig,
     formatConfig,
     renderConfig,
+    printConfig,
     ...options
   }: BaseLoggerConstructorOptions = {}) {
     this._core = new LoggerCore(options); // Create LoggerCore
-    this.configs = { normalizeConfig, formatConfig, renderConfig } as const;
+    this.configs = {
+      normalizeConfig,
+      formatConfig,
+      renderConfig,
+      printConfig,
+    } as const;
   }
 
   /** Read-only access to the internal logger core. */
