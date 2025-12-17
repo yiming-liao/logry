@@ -1,6 +1,5 @@
+/** @type {import("logry").RenderConfig} */
 export const format1 = {
-  lineBreaksBefore: 1,
-  lineBreaksAfter: 3,
   timestamp: {
     cssStyle: "color: #81a1c1; font-style: italic;",
   },
@@ -9,7 +8,7 @@ export const format1 = {
     cssStyle: "color:rgb(48, 119, 201); font-weight: bold; margin:0 8px",
   },
   level: {
-    customFormatter: (fieldValue, ctx) => {
+    customRenderer: (fieldValue, ctx) => {
       const style =
         {
           fatal: "linear-gradient(135deg, #ff6b6b, #ee5253) ",
@@ -66,9 +65,11 @@ export const format1 = {
     format: "pretty",
     indent: 2,
     lineBreaks: 0,
+    lineBreaksBefore: 1,
   },
 };
 
+/** @type {import("logry").RenderConfig} */
 export const format2 = {
   lineBreaksBefore: 1,
   lineBreaksAfter: 2,
@@ -96,7 +97,7 @@ export const format2 = {
     `,
   },
   level: {
-    customFormatter: (fieldValue, ctx) => {
+    customRenderer: (fieldValue, ctx) => {
       const map = {
         info: ["#2563eb", "#dbeafe"],
         error: ["#dc2626", "#fee2e2"],
@@ -146,6 +147,7 @@ export const format2 = {
     `,
   },
   meta: {
+    lineBreaksBefore: 1,
     cssStyle: `
       color: #e2e8f0;
       background:rgba(43, 75, 118, 0.66);
@@ -162,6 +164,7 @@ export const format2 = {
   },
 };
 
+/** @type {import("logry").RenderConfig} */
 export const format3 = {
   lineBreaksBefore: 1,
   lineBreaksAfter: 2,
@@ -180,7 +183,7 @@ export const format3 = {
     `,
   },
   level: {
-    customFormatter: (fieldValue, ctx) => {
+    customRenderer: (fieldValue, ctx) => {
       const woods = {
         info: "#8b5e3c",
         error: "#b91c1c",
@@ -216,6 +219,7 @@ export const format3 = {
     `,
   },
   meta: {
+    lineBreaksBefore: 1,
     cssStyle: `
     border-left:3px dashed rgba(100,100,100,0.2);
     margin-left:10px;

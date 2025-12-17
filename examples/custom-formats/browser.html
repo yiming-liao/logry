@@ -21,7 +21,7 @@
 
   <body>
     <script type="module">
-      import { logry } from "../../dist/index.js";
+      import { logry } from "https://cdn.jsdelivr.net/npm/logry/+esm";
       import { format1, format2, format3 } from "./browser-custom-formats.js";
 
       const meta = {
@@ -38,13 +38,13 @@
 
       logger
         .child({ id: 1 })
-        .info("🚀 Launching app...", meta, { formatConfig: format1 });
+        .info("🚀 Launching app...", meta, { renderConfig: format1 });
       logger
         .child({ id: 2 })
-        .info("🚀 Launching app...", meta, { formatConfig: format2 });
+        .info("🚀 Launching app...", meta, { renderConfig: format2 });
       logger
         .child({ id: 3 })
-        .info("🚀 Launching app...", meta, { formatConfig: format3 });
+        .info("🚀 Launching app...", meta, { renderConfig: format3 });
     </script>
 
     <p style="color: antiquewhite; margin: auto; padding-bottom: 240px">

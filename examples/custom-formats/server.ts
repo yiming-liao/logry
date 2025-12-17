@@ -6,7 +6,6 @@ tsx examples/custom-formats/server.ts
 ---------------------------------------
 */
 
-import type { FormatConfig } from "logry";
 import chalk from "chalk";
 import { logry } from "logry";
 import stringWidth from "string-width";
@@ -34,55 +33,54 @@ const getCardStyle = (
   return [top, ...coloredLines, bottom].join("\n") + "\n";
 };
 
-export const cardsFormatConfig: FormatConfig = {
-  timestamp: {
-    customFormatter: (fieldValue) => ({
-      plain: String(fieldValue),
-      ansi: getCardStyle("TIMESTAMP", chalk.hex("#81A1C1")(fieldValue)),
-    }),
-  },
-  id: {
-    customFormatter: (fieldValue) => ({
-      plain: fieldValue,
-      ansi: getCardStyle("ID", chalk.hex("#88C0D0")(fieldValue)),
-    }),
-  },
-  level: {
-    customFormatter: (fieldValue) => ({
-      plain: fieldValue,
-      ansi: getCardStyle(
-        "LEVEL",
-        chalk.hex("#EBCB8B")(fieldValue.toUpperCase()),
-      ),
-    }),
-  },
-  scope: {
-    customFormatter: (fieldValue) => ({
-      plain: fieldValue.join(" > "),
-      ansi: getCardStyle("SCOPE", chalk.hex("#81A1C1")(fieldValue)),
-    }),
-  },
-  message: {
-    customFormatter: (fieldValue) => ({
-      plain: fieldValue,
-      ansi: getCardStyle("MESSAGE", chalk.hex("#D08770")(fieldValue)),
-    }),
-  },
-  meta: {
-    customFormatter: (fieldValue) => {
-      const json = JSON.stringify(fieldValue, null, 2)
-        .split("\n")
-        .map((line) => `  ${line}`);
-      return {
-        plain: "",
-        ansi: getCardStyle("META", json.join("\n")),
-      };
+const logger = logry({
+  formatConfig: {
+    meta: {
+      customFormatter: (fieldValue) => {
+        const json = JSON.stringify(fieldValue, null, 2)
+          .split("\n")
+          .map((line) => `  ${line}`);
+        return getCardStyle("META", json.join("\n"));
+      },
     },
   },
-  lineBreaksBefore: 2,
-};
-
-const logger = logry({ formatConfig: cardsFormatConfig });
+  renderConfig: {
+    timestamp: {
+      customRenderer: (fieldValue) => ({
+        plain: String(fieldValue),
+        ansi: getCardStyle("TIMESTAMP", chalk.hex("#81A1C1")(fieldValue)),
+      }),
+    },
+    id: {
+      customRenderer: (fieldValue) => ({
+        plain: fieldValue,
+        ansi: getCardStyle("ID", chalk.hex("#88C0D0")(fieldValue)),
+      }),
+    },
+    level: {
+      customRenderer: (fieldValue) => ({
+        plain: fieldValue,
+        ansi: getCardStyle(
+          "LEVEL",
+          chalk.hex("#EBCB8B")(fieldValue!.toUpperCase()),
+        ),
+      }),
+    },
+    scope: {
+      customRenderer: (fieldValue) => ({
+        plain: fieldValue,
+        ansi: getCardStyle("SCOPE", chalk.hex("#81A1C1")(fieldValue)),
+      }),
+    },
+    message: {
+      customRenderer: (fieldValue) => ({
+        plain: fieldValue,
+        ansi: getCardStyle("MESSAGE", chalk.hex("#D08770")(fieldValue)),
+      }),
+    },
+  },
+  printConfig: { lineBreaksBefore: 1, lineBreaksAfter: 1 },
+});
 
 logger.warn("Warning!", { method: "POST", path: "/login" });
 await setTimeout(200);
