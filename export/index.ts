@@ -27,9 +27,14 @@ export {
   type RenderConfig,
   type RenderOptions,
   renderField,
+  // print
+  type PrintConfig,
 } from "@/pipeline";
 
 // types
 export type { LogHook as LogryHook } from "@/shared/types/log-hook";
 export type { LogPlugin as LogryPlugin } from "@/shared/types/log-plugin";
 export type { LogContext as LogryContext } from "@/shared/types/log-context";
+
+// shared
+export type { Level as LogryLevel, Preset as LogryPreset } from "@/shared";
