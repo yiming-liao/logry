@@ -14,12 +14,5 @@
     },
     "noEmit": true
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "coverage",
-    "examples",
-    "benchmarks",
-    "website"
-  ]
+  "exclude": ["node_modules", "dist", "coverage", "examples"]
 }
