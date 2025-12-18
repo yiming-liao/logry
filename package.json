@@ -1,7 +1,7 @@
 {
   "name": "logry",
-  "version": "2.1.1",
-  "description": "🌌 A consistent logging system for all JavaScript runtimes.",
+  "version": "2.1.2",
+  "description": "🌌 Logging built for humans, everywhere JavaScript runs.",
   "author": "Yiming Liao",
   "license": "MIT",
   "homepage": "https://yiming-liao.github.io/logry/docs/introduction/getting-started/",
