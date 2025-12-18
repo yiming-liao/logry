@@ -95,21 +95,17 @@ export class BaseLogger {
     const Constructor = this.constructor as new (
       o: BaseLoggerConstructorOptions,
     ) => BaseLogger;
-    const normalizeConfigMerged = deepMerge(
-      this.configs.normalizeConfig,
-      options.normalizeConfig,
-    );
-    const formatConfigMerged = deepMerge(
-      this.configs.formatConfig,
-      options.formatConfig,
-    );
+    const { normalizeConfig, formatConfig, renderConfig, printConfig } =
+      this.configs;
     return new Constructor({
       id: options.id ?? this._core.id,
       level: options.level ?? this._core.level,
       scope: resolveScopes(this._core.scope, options.scope),
       context: deepMerge(this._core.context, options.context),
-      normalizeConfig: normalizeConfigMerged,
-      formatConfig: formatConfigMerged,
+      normalizeConfig: deepMerge(normalizeConfig, options.normalizeConfig),
+      formatConfig: deepMerge(formatConfig, options.formatConfig),
+      renderConfig: deepMerge(renderConfig, options.renderConfig),
+      printConfig: deepMerge(printConfig, options.printConfig),
     });
   }
 }
