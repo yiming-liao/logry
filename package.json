@@ -1,10 +1,10 @@
 {
   "name": "logry",
-  "version": "2.1.2",
+  "version": "2.1.4",
   "description": "🌌 Logging built for humans, everywhere JavaScript runs.",
   "author": "Yiming Liao",
   "license": "MIT",
-  "homepage": "https://yiming-liao.github.io/logry/docs/introduction/getting-started/",
+  "homepage": "https://github.com/yiming-liao/logry",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yiming-liao/logry.git"
