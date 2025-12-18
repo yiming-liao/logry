@@ -5,11 +5,6 @@ import { formatMeta } from "@/pipeline/hooks/format/fields";
 describe("formatMeta", () => {
   const ctx: any = { env: { isPlain: false }, configs: { formatConfig: {} } };
 
-  it("returns null when hidden", () => {
-    const result = formatMeta({ a: 1 }, ctx, { hide: true });
-    expect(result).toEqual(null);
-  });
-
   it("returns null when value is null", () => {
     const result = formatMeta(null, ctx, {});
     expect(result).toEqual(null);

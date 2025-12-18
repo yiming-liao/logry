@@ -48,23 +48,6 @@ describe("format hook", () => {
     });
   });
 
-  it("should hide id and message when hide option is enabled", () => {
-    const ctx = createCtx({
-      configs: {
-        formatConfig: {
-          id: { hide: true },
-          message: { hide: true },
-        },
-        normalizeConfig: {},
-        renderConfig: {},
-        printConfig: {},
-      },
-    });
-    format.run(ctx);
-    expect(ctx.formatted?.id).toBeNull();
-    expect(ctx.formatted?.message).toBeNull();
-  });
-
   it("should use custom formatter when provided", () => {
     const ctx = createCtx({
       configs: {

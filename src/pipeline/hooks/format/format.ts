@@ -24,10 +24,10 @@ export const format = rura.createHook<LogContext, void>(
 
     ctx.formatted = {
       timestamp: formatTimestamp(timestamp, ctx, formatConfig.timestamp),
-      id: formatConfig.id?.hide ? null : id,
+      id,
       level: formatLevel(level, ctx, formatConfig.level),
       scope: formatScope(scope, ctx, formatConfig.scope),
-      message: formatConfig.message?.hide ? null : message,
+      message,
       meta: formatMeta(meta, ctx, formatConfig.meta),
       context: formatContext(context, ctx, formatConfig.context),
     };

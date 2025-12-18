@@ -1,5 +1,5 @@
 import type { RenderOptions } from "@/pipeline/hooks/render/types";
-import type { LogContext, Rendered } from "@/shared/types/log-context";
+import type { LogContext, Raw, Rendered } from "@/shared/types/log-context";
 
 // 1. decoration
 export const addPrefixAndSuffix = (
@@ -75,11 +75,11 @@ export const addLineBreaks = (
 };
 
 /** Applies a series of text styling operations. */
-export const applyTextStyles = <Field extends keyof Rendered>(
+export const applyTextStyles = <K extends keyof Raw>(
   input: string,
   ctx: LogContext,
-  options: Omit<RenderOptions, "customFormatter"> = {},
-): Rendered[Field] => {
+  options: Omit<RenderOptions<K>, "customFormatter"> = {},
+): Rendered[K] => {
   const {
     prefix,
     suffix,

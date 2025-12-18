@@ -1,14 +1,16 @@
 import type {
   Formatted,
   LogContext,
+  Raw,
   Rendered,
 } from "@/shared/types/log-context";
 
-export type RenderOptions = {
+export type RenderOptions<K extends keyof Raw = keyof Raw> = {
+  visible?: boolean;
   customRenderer?: (
-    value: Formatted[keyof Formatted],
+    value: Formatted[K],
     ctx: LogContext,
-  ) => Rendered[keyof Rendered] | undefined;
+  ) => Rendered[K] | undefined;
   prefix?: string;
   suffix?: string;
   paddingBefore?: number;
@@ -24,11 +26,11 @@ export type RenderOptions = {
 };
 
 export type RenderConfig = {
-  timestamp?: RenderOptions;
-  id?: RenderOptions;
-  level?: RenderOptions;
-  scope?: RenderOptions;
-  message?: RenderOptions;
-  meta?: RenderOptions;
-  context?: RenderOptions;
+  timestamp?: RenderOptions<"timestamp">;
+  id?: RenderOptions<"id">;
+  level?: RenderOptions<"level">;
+  scope?: RenderOptions<"scope">;
+  message?: RenderOptions<"message">;
+  meta?: RenderOptions<"meta">;
+  context?: RenderOptions<"context">;
 };

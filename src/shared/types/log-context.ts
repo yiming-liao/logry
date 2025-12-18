@@ -28,7 +28,7 @@ export type LogContext = {
   formatted?: {
     timestamp: string | null;
     id: string | null;
-    level: string | null;
+    level: string;
     scope: string | null;
     message: string | null;
     meta: string | null;

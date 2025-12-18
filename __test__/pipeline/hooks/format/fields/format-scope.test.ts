@@ -5,11 +5,6 @@ import { formatScope } from "@/pipeline/hooks/format/fields";
 describe("formatScope", () => {
   const ctx: any = { env: { isEdge: false }, configs: { formatConfig: {} } };
 
-  it("returns null when hidden", () => {
-    const result = formatScope(["auth"], ctx, { hide: true });
-    expect(result).toEqual(null);
-  });
-
   it("returns null when scope is empty", () => {
     const result = formatScope([], ctx, {});
     expect(result).toEqual(null);

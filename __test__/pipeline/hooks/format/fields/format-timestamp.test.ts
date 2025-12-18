@@ -6,12 +6,6 @@ describe("formatTimestamp", () => {
   const ctx: any = { env: { isEdge: false }, configs: { formatConfig: {} } };
   const ts = Date.UTC(2025, 0, 2, 3, 4, 5, 123); // 2025-01-02 03:04:05.123 UTC
 
-  it("returns null when hidden", () => {
-    const result = formatTimestamp(ts, ctx, { hide: true });
-
-    expect(result).toEqual(null);
-  });
-
   it("uses customFormatter when it returns a value", () => {
     const result = formatTimestamp(ts, ctx, {
       customFormatter: () => "P",

@@ -12,14 +12,9 @@ export const formatMeta = (
   ctx: LogContext,
   options: FormatConfig["meta"] = {},
 ): Formatted["meta"] => {
-  const {
-    hide = false,
-    customFormatter,
-    format = "json",
-    indent = 0,
-  } = options;
+  const { customFormatter, format = "json", indent = 0 } = options;
 
-  if (hide || value === null) return null;
+  if (value === null) return null;
 
   // Apply custom formatter
   if (typeof customFormatter === "function") {

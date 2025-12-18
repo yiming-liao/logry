@@ -16,9 +16,7 @@ export const formatLevel = (
   ctx: LogContext,
   options: FormatConfig["level"] = {},
 ): Formatted["level"] => {
-  const { hide = false, customFormatter, format = "upper" } = options;
-
-  if (hide) return null;
+  const { customFormatter, format = "upper" } = options;
 
   // Apply custom formatter
   if (typeof customFormatter === "function") {

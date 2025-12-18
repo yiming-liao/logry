@@ -12,7 +12,6 @@ export const PRESETS: Record<
   // --- pretty
   pretty: {
     formatConfig: {
-      id: { hide: true },
       scope: { separator: " > " },
       meta: {
         format: "pretty",
@@ -22,7 +21,6 @@ export const PRESETS: Record<
           if (value && ctx.env.isPlain) return toStringWithPrefix(value);
         },
       },
-      context: { hide: true },
     },
     renderConfig: {
       timestamp: {
@@ -30,7 +28,7 @@ export const PRESETS: Record<
         ansiStyle: ansiColor(245),
         cssStyle: "color:#8a8a8a;",
       },
-      id: { marginAfter: 1 },
+      id: { visible: false, marginAfter: 1 },
       level: {
         customRenderer: (_, ctx) => {
           // [plain] add `[]`
@@ -51,6 +49,7 @@ export const PRESETS: Record<
       },
       message: { marginBefore: 1 },
       meta: { lineBreaksBefore: 1 },
+      context: { visible: false },
     },
   },
 
@@ -58,7 +57,6 @@ export const PRESETS: Record<
   minimal: {
     formatConfig: {
       timestamp: { withDate: false },
-      id: { hide: true },
       level: { format: "abbr" },
       scope: { separator: " > ", lastOnly: true },
       meta: {
@@ -67,7 +65,6 @@ export const PRESETS: Record<
           if (value) return toStringWithPrefix(value);
         },
       },
-      context: { hide: true },
     },
     renderConfig: {
       timestamp: {
@@ -75,7 +72,7 @@ export const PRESETS: Record<
         ansiStyle: ansiColor(245),
         cssStyle: "color:#8a8a8a;",
       },
-      id: { marginAfter: 1 },
+      id: { visible: false, marginAfter: 1 },
       level: {
         customRenderer: (_, ctx) => {
           // [plain] add `[]`
@@ -95,6 +92,7 @@ export const PRESETS: Record<
         cssStyle: "color:#8a8a8a;",
       },
       message: { marginBefore: 1 },
+      context: { visible: false },
     },
   },
 

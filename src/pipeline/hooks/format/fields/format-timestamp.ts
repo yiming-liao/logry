@@ -13,14 +13,11 @@ export const formatTimestamp = (
   options: FormatConfig["timestamp"] = {},
 ): Formatted["timestamp"] => {
   const {
-    hide = false,
     customFormatter,
     format = "pretty",
     useUTC = false,
     withDate = true,
   } = options;
-
-  if (hide) return null;
 
   // Apply custom formatter
   if (typeof customFormatter === "function") {

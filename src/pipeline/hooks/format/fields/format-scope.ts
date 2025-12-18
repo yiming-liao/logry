@@ -11,14 +11,9 @@ export const formatScope = (
   ctx: LogContext,
   options: FormatConfig["scope"] = {},
 ): Formatted["scope"] => {
-  const {
-    hide = false,
-    customFormatter,
-    separator = " > ",
-    lastOnly = false,
-  } = options;
+  const { customFormatter, separator = " > ", lastOnly = false } = options;
 
-  if (hide || value.length === 0) return null;
+  if (value.length === 0) return null;
 
   // Apply custom formatter
   if (typeof customFormatter === "function") {

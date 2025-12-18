@@ -51,11 +51,11 @@ describe("createLogger", () => {
   it("merges both formatConfig and renderConfig simultaneously", () => {
     createLogger({
       preset: "pretty",
-      formatConfig: { message: { color: "blue" } as any },
+      formatConfig: { level: { color: "blue" } as any },
       renderConfig: { meta: { cssStyle: "opacity: 0.5;" } },
     });
     const args = (PluginLogger as any).mock.calls[0][0];
-    expect(args.formatConfig.message.color).toBe("blue");
+    expect(args.formatConfig.level.color).toBe("blue");
     expect(args.renderConfig.meta.cssStyle).toBe("opacity: 0.5;");
   });
 

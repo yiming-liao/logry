@@ -5,11 +5,6 @@ import { formatLevel } from "@/pipeline/hooks/format/fields";
 describe("formatLevel", () => {
   const ctx: any = { env: { isEdge: false }, configs: { formatConfig: {} } };
 
-  it("returns null when hidden", () => {
-    const result = formatLevel("info", ctx, { hide: true });
-    expect(result).toEqual(null);
-  });
-
   it("uses customFormatter when it returns a value", () => {
     const result = formatLevel("info", ctx, {
       customFormatter: () => "P",

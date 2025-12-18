@@ -8,11 +8,6 @@ describe("formatContext", () => {
     configs: { formatConfig: {} },
   };
 
-  it("returns null when hidden", () => {
-    const result = formatContext({ a: 1 }, baseCtx, { hide: true });
-    expect(result).toEqual(null);
-  });
-
   it("returns null when value is null", () => {
     const result = formatContext(null, baseCtx);
     expect(result).toEqual(null);

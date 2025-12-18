@@ -12,14 +12,9 @@ export const formatContext = (
   ctx: LogContext,
   options: FormatConfig["context"] = {},
 ): Formatted["context"] => {
-  const {
-    hide = false,
-    customFormatter,
-    format = "json",
-    indent = 0,
-  } = options;
+  const { customFormatter, format = "json", indent = 0 } = options;
 
-  if (hide || value === null) return null;
+  if (value === null) return null;
 
   // Apply custom formatter
   if (typeof customFormatter === "function") {
