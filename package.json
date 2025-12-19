@@ -3,7 +3,6 @@
   "version": "2.1.5",
   "description": "🌌 Logging built for humans, everywhere JavaScript runs.",
   "author": "Yiming Liao",
-  "license": "MIT",
   "homepage": "https://github.com/yiming-liao/logry",
   "repository": {
     "type": "git",
@@ -11,6 +10,10 @@
   },
   "bugs": {
     "url": "https://github.com/yiming-liao/logry/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/yiming-liao"
   },
   "keywords": [
     "logger",
@@ -25,6 +28,8 @@
     "browser",
     "nodejs"
   ],
+  "license": "MIT",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -40,12 +45,15 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module",
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "type": "tsc --noEmit",
     "lint": "eslint",
@@ -55,10 +63,6 @@
     "clean": "rm -rf dist",
     "build": "tsup",
     "prepublishOnly": "yarn build"
-  },
-  "sideEffects": false,
-  "engines": {
-    "node": ">=16.0.0"
   },
   "dependencies": {
     "rura": "1.0.7"
