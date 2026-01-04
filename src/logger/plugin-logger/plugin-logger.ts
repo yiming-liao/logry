@@ -1,3 +1,4 @@
+import type { BaseLoggerConstructorOptions } from "@/logger/base-logger";
 import type { PluginLoggerConstructorOptions } from "@/logger/plugin-logger/types";
 import type { LogHook } from "@/shared/types/log-hook";
 import type { LogPlugin } from "@/shared/types/log-plugin";
@@ -14,7 +15,7 @@ export class PluginLogger extends BaseLogger {
   }
 
   /** Creates a child logger while inheriting and cloning the plugin pipeline. */
-  child(options = {}) {
+  child(options: BaseLoggerConstructorOptions = {}) {
     const child = super.child(options);
     child["pluginManager"] = this.pluginManager.clone(child);
     return child;
